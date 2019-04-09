@@ -21,8 +21,8 @@ int main()
 			return false;
 		}
 
-		std::regex Film_Test("<Title>");
-		std::regex Film_Test("(? <= >).*$");
+        std::regex Title_Test("<Title>");
+        std::regex Data("(? <= >).*$");
 
 		if (regex_search(str, Film_Test)) 
 		{

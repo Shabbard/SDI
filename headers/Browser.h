@@ -3,7 +3,7 @@
 class Browser
 {
     public:
-    Film Data;
+    Film data;
     Browser* next;
     Browser* previous;
     Browser* head;
@@ -12,4 +12,4 @@ class Browser
     void insert(Film new_data);
     void display();
 
-}
+};
