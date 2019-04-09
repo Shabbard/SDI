@@ -52,6 +52,7 @@ void LoadFile()
 
 	std::string values[10] = {"ID","Title", "Summary", "Genre", "Release Date", "Filming Locations", "Language", "Runtime", "Keywords", "Weekly Ticket Sales"};
 	std::vector<std::string> LineData;
+	Film Stars;
 
 	while (std::getline(infile, str))
 	{
@@ -66,5 +67,56 @@ void LoadFile()
       			LineData.push_back(data_match.str()); // loops through the values between commas (including whitespace) and adds them to a vector
     		}
 		}	
+
+		if(LineData.at(0)== "ID")
+		{
+			Stars.ID = std::stoi(LineData.at(1));
+		}
+
+		if(LineData.at(0)== "Title")
+		{
+			Stars.Title = LineData.at(1);
+		}
+
+		if(LineData.at(0)== "Summary")
+		{
+			Stars.Summary = LineData.at(1);
+		}
+
+		if(LineData.at(0)== "Genre")
+		{
+			LineData.erase(LineData.begin());
+			Stars.Genre = LineData;
+		}
+
+		if(LineData.at(0)== "Release_Date")
+		{
+			Stars.ReleaseDate = LineData.at(1);
+		}
+
+		if(LineData.at(0)== "Filming Locations")
+		{
+			Stars.Filming_Locations = LineData.at(1);
+		}
+
+		if(LineData.at(0)== "Language")
+		{
+			Stars.Languages = LineData.at(1);
+		}
+
+		if(LineData.at(0)== "Runtime")
+		{
+			Stars.Runtime = std::stoi(LineData.at(1));
+		}
+
+		if(LineData.at(0)== "Keywords")
+		{
+			Stars.KeyWords = LineData.at(1);
+		}
+
+		if(LineData.at(0)== "Weekly Ticket Sales")
+		{
+			Stars.WeeklyTicketSale = std::stoi(LineData.at(1));
+		}
 	}
-}
+} 
