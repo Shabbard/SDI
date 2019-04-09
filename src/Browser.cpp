@@ -3,21 +3,21 @@
 
 void Browser::display()
 {
-   class Browser* ptr;
-   ptr = head;
-   while (ptr != NULL) { 
-      std::cout << ptr->data.Title <<" "; 
-      ptr = ptr->next; 
-   } 
+   std::cout << current->data << std::endl;  
 }
 
-void Browser::insert(Film new_data)
+void Browser::insert(int new_data)
 {
    struct Browser* new_node = (struct Browser*) malloc(sizeof(class Browser));
    new_node->data  = new_data; 
-   new_node->previous = NULL; 
-   new_node->next = head;     
-   if(head !=  NULL) 
-      head->previous = new_node ;     
-   head = new_node; 
+
+   new_node->next = NULL; 
+   new_node->previous = tail;   
+   
+   if(tail !=  NULL)
+   {
+      tail->next = new_node ; 
+   } 
+   tail = new_node; 
+
 }
