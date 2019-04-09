@@ -52,10 +52,12 @@ OBJECTS_DIR   = ./
 
 SOURCES       = src/Browser.cpp \
 		src/Film.cpp \
-		src/main.cpp 
+		src/main.cpp \
+		src/SDI-tests.cpp 
 OBJECTS       = Browser.o \
 		Film.o \
-		main.o
+		main.o \
+		SDI-tests.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -126,7 +128,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		SDI.pro headers/Browser.h \
 		headers/Film.h src/Browser.cpp \
 		src/Film.cpp \
-		src/main.cpp
+		src/main.cpp \
+		src/SDI-tests.cpp
 QMAKE_TARGET  = main
 DESTDIR       = bin/
 TARGET        = bin/main
@@ -326,8 +329,12 @@ Browser.o: src/Browser.cpp headers/Browser.h \
 Film.o: src/Film.cpp headers/Film.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Film.o src/Film.cpp
 
-main.o: src/main.cpp headers/Film.h
+main.o: src/main.cpp headers/Browser.h \
+		headers/Film.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o src/main.cpp
+
+SDI-tests.o: src/SDI-tests.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o SDI-tests.o src/SDI-tests.cpp
 
 ####### Install
 
