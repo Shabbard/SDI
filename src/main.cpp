@@ -96,12 +96,14 @@ void LoadFile()
 
 		if(LineData.at(0)== "Filming Locations")
 		{
-			Stars.Filming_Locations = LineData.at(1);
+			LineData.erase(LineData.begin());
+			Stars.Filming_Locations = LineData;
 		}
 
 		if(LineData.at(0)== "Language")
 		{
-			Stars.Languages = LineData.at(1);
+			LineData.erase(LineData.begin());
+			Stars.Languages = LineData;
 		}
 
 		if(LineData.at(0)== "Runtime")
@@ -111,7 +113,8 @@ void LoadFile()
 
 		if(LineData.at(0)== "Keywords")
 		{
-			Stars.KeyWords = LineData.at(1);
+			LineData.erase(LineData.begin());
+			Stars.KeyWords = LineData;
 		}
 
 		if(LineData.at(0)== "Weekly Ticket Sales")
