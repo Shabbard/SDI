@@ -6,23 +6,35 @@
 
 int main()
 {
-	Browser browser;
-
-	int input = 0;
+    Browser browser;
 
 	for (int i = 0; i < 6; i++)
-	{
-		std::cin >> input;
-
-		browser.insert(input);
+    {
+        browser.insert(i);
 	}
 
-	do while(/* condition */)
-	{
-		/* code */
-	}
+	std::string strinput = "";
 
-	return 0;
+	do 
+	{
+		std::cin >> strinput;
+
+		if (strinput == "next")
+		{
+			browser.nextNode();
+            std::cout << "gone to next node" << std::endl;
+		}
+		if (strinput == "previous")
+		{
+			browser.previousNode();
+            std::cout << "gone to previous node" << std::endl;
+		}
+		if (strinput == "display")
+		{
+            browser.display();
+		}
+	} while(strinput != "exit");
+	
 }
 
 
@@ -30,6 +42,11 @@ void LoadFile()
 {
 	std::ifstream infile;
 	infile.open("Database_Data.txt");
+
+	Film starwars;
+
+	starwars.ID=2;
+	starwars.FilmingLocations;
 
 	std::string str;
 
@@ -104,7 +121,5 @@ void LoadFile()
 		{
 			Stars.WeeklyTicketSale = std::stoi(LineData.at(1));
 		}
-
-
 	}
 } 

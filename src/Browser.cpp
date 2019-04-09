@@ -8,27 +8,27 @@ void Browser::display()
 
 void Browser::insert(int new_data)
 {
-   struct Browser* new_node = (struct Browser*) malloc(sizeof(class Browser));
+   struct Node* new_node = (struct Node*) malloc(sizeof(struct Node));
    new_node->data  = new_data; 
-
    new_node->next = NULL; 
    new_node->previous = tail;   
+
    
    if(tail !=  NULL)
    {
-      tail->next = new_node ; 
+      tail->next = new_node ;
    }
    if (tail == NULL)
    {
-      head = new_node;
+       head = new_node;
        current = head;
    }
    tail = new_node; 
 }
 
-void Browser::next()
+void Browser::nextNode()
 {
-   if (!current->next == NULL)
+   if (current->next != NULL)
    {
       current = current->next;
    }
@@ -38,9 +38,9 @@ void Browser::next()
    }
 }
 
-void Browser::previous()
+void Browser::previousNode()
 {
-   if (!current->previous == NULL)
+   if (current->previous != NULL)
    {
       current = current->previous;
    }

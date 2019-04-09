@@ -1,15 +1,24 @@
 #include "Film.h"
 
+struct Node
+{
+    int data = 0;
+    Node* next;
+    Node* previous;
+};
+
 class Browser
 {
     public:
-    Film data;
-    Browser* next;
-    Browser* previous;
-    Browser* head;
-    Browser* tail;
+    Node* head = NULL;
+    Node* tail = NULL;
+    Node* current = NULL;
 
-    void insert(Film new_data);
+    void insert(int new_data);
     void display();
+    void nextNode();
+    void previousNode();
 
 };
+
+
