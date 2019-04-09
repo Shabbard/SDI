@@ -1,4 +1,4 @@
-#include "Film.h"
+#include "Browser.h"
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -6,7 +6,32 @@
 
 int main()
 {
+	Browser browser;
 
+	int input = 0;
+
+	for (int i = 0; i < 6; i++)
+	{
+		std::cin >> input;
+
+		browser.insert(input);
+	}
+
+	do while(/* condition */)
+	{
+		/* code */
+	}
+	
+
+	
+	
+
+	return 0;
+}
+
+
+void LoadFile()
+{
 	std::ifstream infile;
 	infile.open("Database_Data.txt");
 
@@ -18,7 +43,7 @@ int main()
 
 		if (!regex_search(str, Film_Test))
 		{
-			return false;
+			//return false;
 		}
 
         std::regex Title_Test("<Title>");
@@ -27,12 +52,8 @@ int main()
 		if (regex_search(str, Film_Test)) 
 		{
 						
-			return false;
+			//return false;
 		}
 	}
 
-	return 0;
 }
-
-
-
