@@ -18,6 +18,8 @@ class Browser
     void display();
     void nextNode();
     void previousNode();
+    void setHead();
+    void setTail();
     void insert_tail(Film new_data);
     void insert_head(Film new_data);
     void delete_current();

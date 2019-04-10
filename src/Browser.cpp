@@ -67,6 +67,16 @@ void Browser::insert_head(Film new_data)
    head = new_node; 
 }
 
+void Browser::setHead()
+{
+   current = head;
+}
+
+void Browser::setTail()
+{
+   current = tail;
+}
+
 void Browser::nextNode()
 {
    if (current->next != NULL)
