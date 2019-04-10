@@ -46,7 +46,7 @@ void LoadFile()
 	Film starwars;
 
 	starwars.ID=2;
-	starwars.FilmingLocations;
+	starwars.Filming_Locations;
 
 	std::string str;
 
