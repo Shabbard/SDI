@@ -10,7 +10,7 @@ class Film
     Film();
     ~Film();
     std::string Title, Summary, ReleaseDate;
-    std::vector<std::string> Genre, FilmingLocations, Langauges, KeyWords;
+    std::vector<std::string> Genre, Filming_Locations, Languages, KeyWords;
     int ID, Runtime;
     double WeeklyTicketSale;
 
