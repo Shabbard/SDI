@@ -6,7 +6,7 @@ void Browser::display()
    std::cout << current->data << std::endl;  
 }
 
-void Browser::insert(int new_data) // all of these insert functions could probably do with refactoring, will do later
+void Browser::insert(int new_data)
 {
    if(current == NULL || current->next == NULL)
    {
@@ -72,11 +72,11 @@ void Browser::nextNode()
    if (current->next != NULL)
    {
       current = current->next;
-      std::cout << "gone to next node" << std::endl;
+      std::cout << "gone to next node, current node data: " << current->data << std::endl;
    }
    else
    {
-      std::cout << "This is the last item in the list";
+      std::cout << "This is the last item in the list" << std::endl;
    }
 }
 
@@ -85,11 +85,11 @@ void Browser::previousNode()
    if (current->previous != NULL)
    {
       current = current->previous;
-      std::cout << "gone to previous node, current node data: " + current->data << std::endl;
+      std::cout << "gone to previous node, current node data: " << current->data << std::endl;
    }
    else
    {
-      std::cout << "This is the first item in the list";
+      std::cout << "This is the first item in the list" << std::endl;
    }
 }
 
