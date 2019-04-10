@@ -5,6 +5,7 @@
 #include <regex>
 
 void LoadFile(Browser* browser);
+void UpdateFile(Browser* browser);
 
 int main()
 {
@@ -147,3 +148,21 @@ void LoadFile(Browser* browser)
 		LineData.clear();
 	}
 } 
+
+
+
+void UpdateFile(Browser* browser){
+
+	browser->setHead();
+	
+	std::ofstream newfile("../Database_Data.txt");
+
+	std::string str;
+
+	while(browser->current->next != NULL)
+	{
+		newfile << "ID," << browser->current->data.ID << std::endl;
+	} 
+
+
+}
