@@ -18,6 +18,11 @@ class Browser
     void display();
     void nextNode();
     void previousNode();
+    void insert_tail(int new_data);
+    void insert_head(int new_data);
+    void delete_current();
+    // void delete_tail();
+    // void delete_head();
 
 };
 

@@ -10,28 +10,49 @@ int main()
 
 	for (int i = 0; i < 6; i++)
     {
-        browser.insert(i);
+        browser.insert_tail(i);
 	}
 
 	std::string strinput = "";
+    int input = 0;
 
 	do 
 	{
-		std::cin >> strinput;
+        std::cin >> strinput;
 
 		if (strinput == "next")
 		{
 			browser.nextNode();
-            std::cout << "gone to next node" << std::endl;
 		}
 		if (strinput == "previous")
 		{
 			browser.previousNode();
-            std::cout << "gone to previous node" << std::endl;
 		}
 		if (strinput == "display")
 		{
             browser.display();
+		}
+		if (strinput == "delete")
+		{
+			browser.delete_current();
+		}
+		if (strinput == "insert")
+		{
+			std::cout << "Please insert a number: ";
+			std::cin >> input;
+			browser.insert(input);
+		}
+		if (strinput == "insert head")
+		{
+			std::cout << "Please insert a number: ";
+			std::cin >> input;
+			browser.insert_head(input);
+		}
+		if (strinput == "insert tail")
+		{
+			std::cout << "Please insert a number: ";
+			std::cin >> input;
+			browser.insert_tail(input);
 		}
 	} while(strinput != "exit");
 	
