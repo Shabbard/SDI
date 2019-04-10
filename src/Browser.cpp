@@ -3,10 +3,10 @@
 
 void Browser::display()
 {
-   std::cout << current->data << std::endl;  
+   std::cout << current->data.Title << std::endl;  
 }
 
-void Browser::insert(int new_data)
+void Browser::insert(Film new_data)
 {
    if(current == NULL || current->next == NULL)
    {
@@ -29,7 +29,7 @@ void Browser::insert(int new_data)
 }
 
 
-void Browser::insert_tail(int new_data)
+void Browser::insert_tail(Film new_data)
 {
    struct Node* new_node = (struct Node*) malloc(sizeof(struct Node));
    new_node->data  = new_data;
@@ -48,7 +48,7 @@ void Browser::insert_tail(int new_data)
    tail = new_node; 
 }
 
-void Browser::insert_head(int new_data)
+void Browser::insert_head(Film new_data)
 {
    struct Node* new_node = (struct Node*) malloc(sizeof(struct Node));
    new_node->data  = new_data;
@@ -72,7 +72,7 @@ void Browser::nextNode()
    if (current->next != NULL)
    {
       current = current->next;
-      std::cout << "gone to next node, current node data: " << current->data << std::endl;
+      std::cout << "gone to next node, current node title: " << current->data.Title << std::endl;
    }
    else
    {
@@ -85,7 +85,7 @@ void Browser::previousNode()
    if (current->previous != NULL)
    {
       current = current->previous;
-      std::cout << "gone to previous node, current node data: " << current->data << std::endl;
+      std::cout << "gone to previous node, current node title: " << current->data.Title << std::endl;
    }
    else
    {
@@ -98,8 +98,10 @@ void Browser::delete_current()
    current->previous->next = current->next;
    current->next->previous = current->previous;
 
-   Node* temp = current;
-
+   Node* temp = NULL;
+   temp = current;
+   
+   current->data.~Film();
    delete current;
 
    if(temp->previous != NULL)
@@ -111,7 +113,7 @@ void Browser::delete_current()
       current = temp->next;
    }
 
-   std::cout << "Successfully deleted node with data: " + temp->data << std::endl;
+   //std::cout << "Successfully deleted node with title: " << temp->data.Title << std::endl;
 
    temp = NULL;  
 

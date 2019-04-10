@@ -4,17 +4,22 @@
 #include <fstream>
 #include <regex>
 
+void LoadFile(Browser* browser);
+
 int main()
 {
-    Browser browser;
+    Browser* browser = new Browser;
 
-	for (int i = 0; i < 6; i++)
-    {
-        browser.insert_tail(i);
-	}
+
+	// for (int i = 0; i < 6; i++)
+    // {
+    //     browser->insert_tail(i);
+	// }
 
 	std::string strinput = "";
-    int input = 0;
+    //int input = 0;
+
+	LoadFile(browser);
 
 	do 
 	{
@@ -22,59 +27,55 @@ int main()
 
 		if (strinput == "next")
 		{
-			browser.nextNode();
+			browser->nextNode();
 		}
 		if (strinput == "previous")
 		{
-			browser.previousNode();
+			browser->previousNode();
 		}
 		if (strinput == "display")
 		{
-            browser.display();
+            browser->display();
 		}
 		if (strinput == "delete")
 		{
-			browser.delete_current();
+			browser->delete_current();
 		}
-		if (strinput == "insert")
-		{
-			std::cout << "Please insert a number: ";
-			std::cin >> input;
-			browser.insert(input);
-		}
-		if (strinput == "insert head")
-		{
-			std::cout << "Please insert a number: ";
-			std::cin >> input;
-			browser.insert_head(input);
-		}
-		if (strinput == "insert tail")
-		{
-			std::cout << "Please insert a number: ";
-			std::cin >> input;
-			browser.insert_tail(input);
-		}
+		// if (strinput == "insert")
+		// {
+		// 	std::cout << "Please insert a number: ";
+		// 	//std::cin >> input;
+		// 	browser->insert(input);
+		// }
+		// if (strinput == "insert_head")
+		// {
+		// 	std::cout << "Please insert a number: ";
+		// 	std::cin >> input;
+		// 	browser->insert_head(input);
+		// }
+		// if (strinput == "insert_tail")
+		// {
+		// 	std::cout << "Please insert a number: ";
+		// 	std::cin >> input;
+		// 	browser->insert_tail(input);
+		// }
 	} while(strinput != "exit");
 	
 }
 
 
-void LoadFile()
+void LoadFile(Browser* browser)
 {
 	std::ifstream infile;
-	infile.open("Database_Data.txt");
+    infile.open("../Database_Data.txt");
 
-	Film starwars;
-
-	starwars.ID=2;
-	starwars.Filming_Locations;
+	Film film;
 
 	std::string str;
 
 	std::string values[10] = {"ID","Title", "Summary", "Genre", "Release Date", "Filming Locations", "Language", "Runtime", "Keywords", "Weekly Ticket Sales"};
 	std::vector<std::string> LineData;
-	Film Stars;
-
+	
 	while (std::getline(infile, str))
 	{
 		std::regex data("([^,]+)|[\s]"); // finds all of the data values between the commas and includes spaces for empty data values
@@ -91,56 +92,58 @@ void LoadFile()
 
 		if(LineData.at(0)== "ID")
 		{
-			Stars.ID = std::stoi(LineData.at(1));
+			film.ID = std::stoi(LineData.at(1));
 		}
 
 		if(LineData.at(0)== "Title")
 		{
-			Stars.Title = LineData.at(1);
+			film.Title = LineData.at(1);
 		}
 
 		if(LineData.at(0)== "Summary")
 		{
-			Stars.Summary = LineData.at(1);
+			film.Summary = LineData.at(1);
 		}
 
 		if(LineData.at(0)== "Genre")
 		{
 			LineData.erase(LineData.begin());
-			Stars.Genre = LineData;
+			film.Genre = LineData;
 		}
 
 		if(LineData.at(0)== "Release_Date")
 		{
-			Stars.ReleaseDate = LineData.at(1);
+			film.ReleaseDate = LineData.at(1);
 		}
 
-		if(LineData.at(0)== "Filming Locations")
+		if(LineData.at(0)== "Filming_Loc")
 		{
 			LineData.erase(LineData.begin());
-			Stars.Filming_Locations = LineData;
+			film.Filming_Locations = LineData;
 		}
 
 		if(LineData.at(0)== "Language")
 		{
 			LineData.erase(LineData.begin());
-			Stars.Languages = LineData;
+			film.Languages = LineData;
 		}
 
 		if(LineData.at(0)== "Runtime")
 		{
-			Stars.Runtime = std::stoi(LineData.at(1));
+			film.Runtime = std::stoi(LineData.at(1));
 		}
 
 		if(LineData.at(0)== "Keywords")
 		{
 			LineData.erase(LineData.begin());
-			Stars.KeyWords = LineData;
+			film.KeyWords = LineData;
 		}
 
 		if(LineData.at(0)== "Weekly Ticket Sales")
 		{
-			Stars.WeeklyTicketSale = std::stoi(LineData.at(1));
+			film.WeeklyTicketSale = std::stoi(LineData.at(1));
+			browser->insert_tail(film);
 		}
+		LineData.clear();
 	}
 } 
