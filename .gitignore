@@ -1,5 +1,5 @@
 .vscode/
 *.pro.user
 .qmake.stash
-bin/main
+bin/*
 *.o
