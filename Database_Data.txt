@@ -1,4 +1,5 @@
 ID,1
+Status, 0
 Title,Avatar
 Summary,This is an example summary
 Genre,Sci-Fi
@@ -9,6 +10,7 @@ Runtime,128
 Keywords,Avatar, Space, Blue Monkeys, Sick CGI
 Weekly Ticket Sales,1000
 ID,2
+Status, 2
 Title,Car Wars
 Summary,This is an example summary
 Genre,Cars
