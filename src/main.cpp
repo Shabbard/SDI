@@ -68,7 +68,7 @@ int main()
 void LoadFile(Browser* browser)
 {
 	std::ifstream infile;
-    infile.open("../test.txt");
+    infile.open("../data/test.txt");
 
 	Film film;
 
@@ -144,7 +144,7 @@ void UpdateFile(Browser* browser){
 
 	browser->setHead();
 
-	std::string filePath = "../test.txt";
+	std::string filePath = "../data/test.txt";
 	std::ofstream newfile(filePath);
 
 	while(browser->current != browser->tail)
