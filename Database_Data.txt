@@ -4,10 +4,10 @@ Title,Avatar
 Summary,This is an example summary
 Genre,Sci-Fi
 Release_Date,12/12/1212
-Filming Loc,Location 1, Location 2, Location 3
+Filming_Loc,Location 1,Location 2,Location 3
 Language,English
 Runtime,128
-Keywords,Avatar, Space, Blue Monkeys, Sick CGI
+Keywords,Avatar,Space,Blue Monkeys,Sick CGI
 Weekly Ticket Sales,1000
 ID,2
 Status, 2
@@ -15,8 +15,19 @@ Title,Car Wars
 Summary,This is an example summary
 Genre,Cars
 Release_Date,12/12/1212
-Filming Loc,Location 1, Location 2, Location 3
+Filming_Loc,Location 1,Location 2,Location 3
 Language,English
 Runtime,169
-Keywords,Cars, Yeet, More Cars, Sick CGI
+Keywords,Cars,Yeet,More Cars,Sick CGI
+Weekly Ticket Sales,2
+ID,3
+Status, 2
+Title,End Game
+Summary,This is an example summary
+Genre,Cars
+Release_Date,12/12/1212
+Filming_Loc,Location 1,Location 2,Location 3
+Language,English
+Runtime,169
+Keywords,Cars,Yeet,More Cars,Sick CGI
 Weekly Ticket Sales,2
