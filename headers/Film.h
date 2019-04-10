@@ -11,8 +11,6 @@ class Film
     ~Film();
     std::string Title, Summary, ReleaseDate;
     std::vector<std::string> Genre, Filming_Locations, Languages, KeyWords;
-    int ID, Runtime;
+    int ID, Runtime, Status;
     double WeeklyTicketSale;
-    enum Status {Unreleased, Released, Now_Playing};
-
 };
