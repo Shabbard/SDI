@@ -1,0 +1,1 @@
+qmake -makefile -unix -o Makefile "CONFIG+=test" SDI.pro
