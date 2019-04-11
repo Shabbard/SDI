@@ -3,3 +3,4 @@
 .qmake.stash
 bin/*
 *.o
+Makefile
