@@ -105,9 +105,20 @@ void Browser::previousNode()
 
 void Browser::delete_current()
 {
-   current->previous->next = current->next;
-   current->next->previous = current->previous;
-
+   if (current->previous == NULL)
+   {
+      current->next->previous == NULL;
+   }
+   if (current->next == NULL)
+   {
+      current->previous->next == NULL;
+   }
+   else
+   {
+      current->previous->next = current->next;
+      current->next->previous = current->previous;
+   }
+  
    Node* temp = NULL;
    temp = current;
    
