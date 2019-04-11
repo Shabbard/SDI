@@ -107,11 +107,11 @@ void Browser::delete_current()
 {
    if (current->previous == NULL)
    {
-      current->next->previous == NULL;
+      current->next->previous = NULL;
    }
    if (current->next == NULL)
    {
-      current->previous->next == NULL;
+      current->previous->next = NULL;
    }
    else
    {
