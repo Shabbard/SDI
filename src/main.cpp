@@ -3,7 +3,12 @@
 #include <string>
 #include <fstream>
 #include <regex>
+<<<<<<< HEAD
 #include <map>
+=======
+#include <algorithm>
+#include <stdlib.h>
+>>>>>>> 876729eb2c8aa9367df9cdcf99045dfbd1488979
 
 void LoadFile(Browser* browser);
 void UpdateFile(Browser* browser);
@@ -13,8 +18,124 @@ void GUI(std::string GUI_ID, Browser* browser);
 int main()
 {
     Browser* browser = new Browser;
+<<<<<<< HEAD
 	LoadFile(browser);
     GUI("Load_Main_Menu", browser);
+=======
+
+	std::string strinput = "";
+	system("clear");
+	GUI("Load_Main_Menu");
+	int clear(void);
+	LoadFile(browser);
+
+	do 
+	{
+        std::cin >> strinput;
+
+		std::transform(strinput.begin(), strinput.end(), strinput.begin(), ::tolower);
+		
+		if (strinput == "bm")
+		{
+			system("clear");
+			GUI("B_Mode");
+		}
+
+		if (strinput == "mm")
+		{
+			system("clear");
+			GUI("M_Mode");
+		}
+
+		if (strinput == "rtm")
+		{
+			system("clear");
+			GUI("Load_Main_Menu");
+		}
+
+		if (strinput == "next")
+		{
+			browser->nextNode();
+		}
+		if (strinput == "previous")
+		{
+			browser->previousNode();
+		}
+		if (strinput == "display")
+		{
+            browser->display();
+		}
+		if (strinput == "delete")
+		{
+			browser->delete_current();
+		}
+		// if (strinput == "load")
+		// {
+		// 	LoadFile(browser);
+		// }
+		if (strinput == "save")
+		{
+			UpdateFile(browser);
+			browser->setHead();
+		}
+		if (strinput == "insert")
+		{
+			Film* new_film = new Film;
+
+			// new_film->ID = 1;
+			// new_film->Title = "1";
+			// new_film->Status = 1;
+			// new_film->KeyWords.push_back("1");
+			// new_film->Summary = "1";
+			// new_film->Genre.push_back("1");
+			// new_film->ReleaseDate = "1";
+			// new_film->Filming_Locations.push_back("1");
+			// new_film->ReleaseDate = 1;
+			// new_film->Languages.push_back("1");
+			// new_film->WeeklyTicketSale = 1;
+            // new_film->Crew_Members_String.push_back("1");
+
+			std::cout << "Please insert a Title: ";
+			std::cin >> new_film->Title;
+			std::cout << "Please insert the Keywords: ";
+			do
+			{
+				std::cin >> strinput;
+				new_film->KeyWords.push_back(strinput);
+			} while(strinput != "exit");
+			std::cout << "Please insert a Summary: ";
+			std::cin >> new_film->Summary;
+			std::cout << "Please insert the Genres: ";
+			do
+			{
+				std::cin >> strinput;
+				new_film->Genre.push_back(strinput);
+			} while(strinput != "exit"); 
+			std::cout << "Please insert a Release Date: ";
+			std::cin >> new_film->ReleaseDate;
+			std::cout << "Please insert the Filming Locations: ";
+			do
+			{
+				std::cin >> strinput;
+				new_film->Filming_Locations.push_back(strinput);
+			} while(strinput != "exit");
+			std::cout << "Please insert the Runtime: ";
+			std::cin >> new_film->Runtime;
+			std::cout << "Please insert the Languages: ";
+			do
+			{
+				std::cin >> strinput;
+				new_film->Languages.push_back(strinput);
+			} while(strinput != "exit");
+			std::cout << "Please insert the Weekly Ticket Sale: ";
+			std::cin >> new_film->WeeklyTicketSale;
+
+			browser->insert(new_film);
+
+			new_film = nullptr;
+		}
+	} while(strinput != "exit");
+>>>>>>> 876729eb2c8aa9367df9cdcf99045dfbd1488979
 	
 }
 
@@ -164,43 +285,47 @@ void GUI(std::string GUI_ID, Browser* browser)
 {
 	if(GUI_ID == "Load_Main_Menu")
 	{
-		std::cout << "   TrekStar Production Log" << std::endl;
+		std::cout << "\n   TrekStar Production Log" << std::endl;
 		std::cout << "______________________________" << std::endl;
-		std::cout << "\nPlease Enter in a Value" << std::endl;		
-		std::cout << "\nBrowser Mode		  Enter BM" << std::endl;
-		std::cout << "Search				Enter S" << std::endl;
-		std::cout << "Maintenance Mode		Enter MM" << std::endl;
-		std::cout << "Exit		            Enter Exit\n" << std::endl;
-		std::cout << "______________________________" << std::endl;
+		std::cout << "\n  Please Enter in a Value" << std::endl;		
+		std::cout << "\nBrowser Mode          Enter BM" << std::endl;
+		std::cout << "Maintenance Mode      Enter MM\n" << std::endl;
+		std::cout << "Exit                  Enter Exit\n" << std::endl;
+		std::cout << "______________________________\n" << std::endl;
 	}
 
 	if(GUI_ID == "B_Mode")
 	{
-		std::cout << "      Welcome to Browser Mode" << std::endl;
+		std::cout << "\n      Welcome to Browser Mode" << std::endl;
 		std::cout << "___________________________________" << std::endl;		
-		std::cout << "\nPlease Enter in a Value" << std::endl;		
-		std::cout << "\nNext		          Enter Next" << std::endl;
-		std::cout << "Previous		            Enter Previous" << std::endl;
-		std::cout << "View Crew		            Enter Crew" << std::endl;
-		std::cout << "View Material Info		Enter MI" << std::endl;
-		std::cout << "Search					Enter Search" << std::endl; // Develop Search Engine to complete criteria of mojoo
-		std::cout << "Return to Menu	        Enter RTM\n" << std::endl;
-		std::cout << "___________________________________" << std::endl;
+		std::cout << "\n    Please Enter in a Value" << std::endl;		
+		std::cout << "\nNext                      Enter Next" << std::endl;
+		std::cout << "Back                      Enter Back" << std::endl;
+		std::cout << "View Crew                 Enter Crew" << std::endl;
+		std::cout << "View Material Info        Enter MI" << std::endl;
+		std::cout << "Search                    Enter Search\n" << std::endl; // Develop Search Engine to complete criteria of mojoo
+		std::cout << "Return to Menu            Enter RTM\n" << std::endl;
+		std::cout << "___________________________________\n" << std::endl;
 		
 	}
 
-	//std::cout << "Search            		Enter Search <Variable> <Variable Data> (e.g Search Actor ExampleActorName) " << std::endl;
+	//std::cout << "Search            		Enter Search <Variable> <VariableN0745180	Alexander7 Data> (e.g Search Actor ExampleActorName) " << std::endl;
 
 	if(GUI_ID == "M_Mode")
 	{
-		std::cout << "  Welcome to Maintenace Mode" << std::endl;
+		std::cout << "\n  Welcome to Maintenace Mode" << std::endl;
 		std::cout << "______________________________" << std::endl;
 		std::cout << "\nPlease Enter in a Value" << std::endl;		
-		std::cout << "\nAdd New			  Enter AN" << std::endl;
-		std::cout << "\nEdit Mode		  Enter EM" << std::endl;
-		std::cout << "Reports Mode		Enter R" << std::endl;
-		std::cout << "Return to Menu	Enter RTM\n" << std::endl;
-		std::cout << "______________________________" << std::endl;
+		std::cout << "\nNext                      Enter Next" << std::endl;
+		std::cout << "Back                      Enter Back" << std::endl;
+		std::cout << "View Crew                 Enter Crew" << std::endl;
+		std::cout << "View Material Info        Enter MI\n" << std::endl;
+		std::cout << "Create New Project        Enter CNP" << std::endl;
+		std::cout << "Edit                      Enter Edit" << std::endl;
+		std::cout << "Delete Project            Enter Edit\n" << std::endl;
+		std::cout << "Reports Mode              Enter R\n" << std::endl;
+		std::cout << "Return to Menu            Enter RTM\n" << std::endl;
+		std::cout << "______________________________\n" << std::endl;
 	}
 	std::string strinput = "";
 
