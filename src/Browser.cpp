@@ -34,7 +34,7 @@ void Browser::display()
 		std::cout << *it << ",";
 	}
 	std::cout << std::endl;
-	std::cout << "Weekly Ticket Sales," << current->data->WeeklyTicketSale << std::endl;
+	std::cout << "Weekly Ticket Sales," << current->data->WeeklyTicketSales << "\n" << std::endl;
 
 }
 
