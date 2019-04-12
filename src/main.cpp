@@ -8,13 +8,14 @@ void LoadFile(Browser* browser);
 void UpdateFile(Browser* browser);
 void WriteToFile(Browser* browser, std::ofstream& file);
 
+
+
 int main()
 {
     Browser* browser = new Browser;
 
-	LoadFile(browser);
-
 	std::string strinput = "";
+	LoadFile(browser);
 
 	do 
 	{
@@ -116,6 +117,7 @@ int main()
 	} while(strinput != "exit");
 	
 }
+
 
 void LoadFile(Browser* browser)
 {
@@ -251,11 +253,12 @@ void WriteToFile(Browser* browser, std::ofstream& file)
 }
 
 
-void UpdateFile(Browser* browser)
-{
+void UpdateFile(Browser* browser){
+
 	browser->setHead();
 	
 	std::ofstream newfile("../data/test.txt");
+
 	std::string str;
 
 	while(browser->current != nullptr)
@@ -268,5 +271,45 @@ void UpdateFile(Browser* browser)
 			WriteToFile(browser, newfile);
 		}
 	}
+}
 
+void GUI(std::string GUI_ID)
+{
+	if(GUI_ID == "Load_Main_Menu")
+	{
+		std::cout << "   TrekStar Production Log" << std::endl;
+		std::cout << "______________________________" << std::endl;
+		std::cout << "\nPlease Enter in a Value" << std::endl;		
+		std::cout << "\nBrowser Mode		  Enter BM" << std::endl;
+		std::cout << "Maintenance Mode		Enter MM" << std::endl;
+		std::cout << "Exit		            Enter Exit\n" << std::endl;
+		std::cout << "______________________________" << std::endl;
+	}
+
+	if(GUI_ID == "B_Mode")
+	{
+		std::cout << "      Welcome to Browser Mode" << std::endl;
+		std::cout << "___________________________________" << std::endl;		
+		std::cout << "\nPlease Enter in a Value" << std::endl;		
+		std::cout << "\nNext		          Enter Next" << std::endl;
+		std::cout << "Previous		            Enter Previous" << std::endl;
+		std::cout << "View Crew		            Enter Crew" << std::endl;
+		std::cout << "View Material Info		Enter MI" << std::endl;
+		std::cout << "Search            		Enter Search by (e.g Search Actor ExampleActor) " << std::endl;
+		std::cout << "Return to Menu	        Enter RTM\n" << std::endl;
+		std::cout << "___________________________________" << std::endl;
+		
+	}
+
+	if(GUI_ID == "M_Mode")
+	{
+		std::cout << "  Welcome to Maintenace Mode" << std::endl;
+		std::cout << "______________________________" << std::endl;
+		std::cout << "\nPlease Enter in a Value" << std::endl;		
+		std::cout << "\nAdd New			  Enter AN" << std::endl;
+		std::cout << "\nEdit Mode		  Enter EM" << std::endl;
+		std::cout << "Reports Mode		Enter R" << std::endl;
+		std::cout << "Return to Menu	Enter RTM\n" << std::endl;
+		std::cout << "______________________________" << std::endl;
+	}
 }
