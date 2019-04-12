@@ -3,12 +3,8 @@
 #include <string>
 #include <fstream>
 #include <regex>
-<<<<<<< HEAD
-#include <map>
-=======
 #include <algorithm>
 #include <stdlib.h>
->>>>>>> 876729eb2c8aa9367df9cdcf99045dfbd1488979
 
 void LoadFile(Browser* browser);
 void UpdateFile(Browser* browser);
@@ -18,124 +14,8 @@ void GUI(std::string GUI_ID, Browser* browser);
 int main()
 {
     Browser* browser = new Browser;
-<<<<<<< HEAD
 	LoadFile(browser);
     GUI("Load_Main_Menu", browser);
-=======
-
-	std::string strinput = "";
-	system("clear");
-	GUI("Load_Main_Menu");
-	int clear(void);
-	LoadFile(browser);
-
-	do 
-	{
-        std::cin >> strinput;
-
-		std::transform(strinput.begin(), strinput.end(), strinput.begin(), ::tolower);
-		
-		if (strinput == "bm")
-		{
-			system("clear");
-			GUI("B_Mode");
-		}
-
-		if (strinput == "mm")
-		{
-			system("clear");
-			GUI("M_Mode");
-		}
-
-		if (strinput == "rtm")
-		{
-			system("clear");
-			GUI("Load_Main_Menu");
-		}
-
-		if (strinput == "next")
-		{
-			browser->nextNode();
-		}
-		if (strinput == "previous")
-		{
-			browser->previousNode();
-		}
-		if (strinput == "display")
-		{
-            browser->display();
-		}
-		if (strinput == "delete")
-		{
-			browser->delete_current();
-		}
-		// if (strinput == "load")
-		// {
-		// 	LoadFile(browser);
-		// }
-		if (strinput == "save")
-		{
-			UpdateFile(browser);
-			browser->setHead();
-		}
-		if (strinput == "insert")
-		{
-			Film* new_film = new Film;
-
-			// new_film->ID = 1;
-			// new_film->Title = "1";
-			// new_film->Status = 1;
-			// new_film->KeyWords.push_back("1");
-			// new_film->Summary = "1";
-			// new_film->Genre.push_back("1");
-			// new_film->ReleaseDate = "1";
-			// new_film->Filming_Locations.push_back("1");
-			// new_film->ReleaseDate = 1;
-			// new_film->Languages.push_back("1");
-			// new_film->WeeklyTicketSale = 1;
-            // new_film->Crew_Members_String.push_back("1");
-
-			std::cout << "Please insert a Title: ";
-			std::cin >> new_film->Title;
-			std::cout << "Please insert the Keywords: ";
-			do
-			{
-				std::cin >> strinput;
-				new_film->KeyWords.push_back(strinput);
-			} while(strinput != "exit");
-			std::cout << "Please insert a Summary: ";
-			std::cin >> new_film->Summary;
-			std::cout << "Please insert the Genres: ";
-			do
-			{
-				std::cin >> strinput;
-				new_film->Genre.push_back(strinput);
-			} while(strinput != "exit"); 
-			std::cout << "Please insert a Release Date: ";
-			std::cin >> new_film->ReleaseDate;
-			std::cout << "Please insert the Filming Locations: ";
-			do
-			{
-				std::cin >> strinput;
-				new_film->Filming_Locations.push_back(strinput);
-			} while(strinput != "exit");
-			std::cout << "Please insert the Runtime: ";
-			std::cin >> new_film->Runtime;
-			std::cout << "Please insert the Languages: ";
-			do
-			{
-				std::cin >> strinput;
-				new_film->Languages.push_back(strinput);
-			} while(strinput != "exit");
-			std::cout << "Please insert the Weekly Ticket Sale: ";
-			std::cin >> new_film->WeeklyTicketSale;
-
-			browser->insert(new_film);
-
-			new_film = nullptr;
-		}
-	} while(strinput != "exit");
->>>>>>> 876729eb2c8aa9367df9cdcf99045dfbd1488979
 	
 }
 
