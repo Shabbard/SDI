@@ -242,5 +242,6 @@ void UpdateFile(Browser* browser)
 			browser->nextNode();
 			WriteToFile(browser, newfile);
 		}
+	}
 
 }
