@@ -189,6 +189,13 @@ void LoadFile(Browser* browser)
 			film.WeeklyTicketSale = std::stoi(LineData.at(1));
 			browser->insert_tail(film);
 		}
+
+		if(LineData.at(0)== "Crew_Members")
+		{
+			LineData.erase(LineData.begin());
+			film.Crew_Members_String = LineData;
+		}
+		
 		LineData.clear();
 	}
 } 
