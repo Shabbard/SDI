@@ -12,16 +12,7 @@ int main()
 {
     Browser* browser = new Browser;
 
-
-	// for (int i = 0; i < 6; i++)
-    // {
-    //     browser->insert_tail(i);
-	// }
-
 	std::string strinput = "";
-    //int input = 0;
-
-	LoadFile(browser);
 
 	do 
 	{
@@ -108,7 +99,6 @@ int main()
 	
 }
 
-
 void LoadFile(Browser* browser)
 {
 	std::ifstream infile;
@@ -193,34 +183,12 @@ void LoadFile(Browser* browser)
 		if(LineData.at(0)== "Crew_Members")
 		{
 			LineData.erase(LineData.begin());
-			film.Crew_Members_String = LineData;
+            //film.Crew_Members_String = LineData;
 		}
 		
 		LineData.clear();
 	}
 } 
-
-
-
-void UpdateFile(Browser* browser){
-
-	browser->setHead();
-	
-	std::ofstream newfile("../data/test.txt");
-
-	std::string str;
-
-	while(browser->current != NULL)
-	{		
-		WriteToFile(browser, newfile);
-
-		if(browser->current->next == NULL) // please find a better way of doing this
-		{
-			browser->nextNode();
-			WriteToFile(browser, newfile);
-		}
-
-}
 
 void WriteToFile(Browser* browser, std::ofstream& file)
 {
@@ -255,4 +223,24 @@ void WriteToFile(Browser* browser, std::ofstream& file)
 	}
 	file << std::endl;
 	file << "Weekly Ticket Sales," << browser->current->data.WeeklyTicketSale << std::endl;
+}
+
+
+void UpdateFile(Browser* browser)
+{
+	browser->setHead();
+	
+	std::ofstream newfile("../data/test.txt");
+	std::string str;
+
+	while(browser->current != NULL)
+	{		
+		WriteToFile(browser, newfile);
+
+		if(browser->current->next == NULL) // please find a better way of doing this
+		{
+			browser->nextNode();
+			WriteToFile(browser, newfile);
+		}
+
 }
