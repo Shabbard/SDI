@@ -39,6 +39,7 @@ int main()
 		}
 		if (strinput == "display")
 		{
+			GUI("Load_Main_Menu");
             browser->display();
 		}
 		if (strinput == "delete")
@@ -47,6 +48,7 @@ int main()
 		}
 		if (strinput == "load")
 		{
+			GUI("Load_Main_Menu");
 			LoadFile(browser);
 		}
 		if (strinput == "save")
@@ -256,7 +258,6 @@ void UpdateFile(Browser* browser){
 			WriteToFile(browser, newfile);
 		}
 	}
-<<<<<<< HEAD
 }
 
 void GUI(std::string GUI_ID)
@@ -267,12 +268,11 @@ void GUI(std::string GUI_ID)
 		std::cout << "______________________________" << std::endl;
 		std::cout << "\nPlease Enter in a Value" << std::endl;		
 		std::cout << "\nBrowser Mode		  Enter BM" << std::endl;
+		std::cout << "Search				Enter S" << std::endl;
 		std::cout << "Maintenance Mode		Enter MM" << std::endl;
 		std::cout << "Exit		            Enter Exit\n" << std::endl;
 		std::cout << "______________________________" << std::endl;
 	}
-=======
->>>>>>> 6c97df5819ce1d7e6e1b3ec16cfec66f28a3c9f7
 
 			if(GUI_ID == "B_Mode")
 	{
@@ -283,11 +283,13 @@ void GUI(std::string GUI_ID)
 		std::cout << "Previous		            Enter Previous" << std::endl;
 		std::cout << "View Crew		            Enter Crew" << std::endl;
 		std::cout << "View Material Info		Enter MI" << std::endl;
-		std::cout << "Search            		Enter Search by (e.g Search Actor ExampleActor) " << std::endl;
+		std::cout << "Search					Enter Search" << std::endl; // Develop Search Engine to complete criteria of mojoo
 		std::cout << "Return to Menu	        Enter RTM\n" << std::endl;
 		std::cout << "___________________________________" << std::endl;
 		
 	}
+
+	//std::cout << "Search            		Enter Search <Variable> <Variable Data> (e.g Search Actor ExampleActorName) " << std::endl;
 
 		if(GUI_ID == "M_Mode")
 	{
@@ -300,8 +302,4 @@ void GUI(std::string GUI_ID)
 		std::cout << "Return to Menu	Enter RTM\n" << std::endl;
 		std::cout << "______________________________" << std::endl;
 	}
-
-	
-
-
 }
