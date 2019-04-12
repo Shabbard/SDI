@@ -50,70 +50,58 @@ int main()
 		{
 			Film* new_film = new Film;
 
-			new_film->ID = 1;
-			new_film->Title = "1";
-			new_film->Status = 1;
-			new_film->KeyWords.push_back("1");
-			new_film->Summary = "1";
-			new_film->Genre.push_back("1");
-			new_film->ReleaseDate = "1";
-			new_film->Filming_Locations.push_back("1");
-			new_film->ReleaseDate = 1;
-			new_film->Languages.push_back("1");
-			new_film->WeeklyTicketSale = 1;
-            new_film->Crew_Members_String.push_back("1");
+			// new_film->ID = 1;
+			// new_film->Title = "1";
+			// new_film->Status = 1;
+			// new_film->KeyWords.push_back("1");
+			// new_film->Summary = "1";
+			// new_film->Genre.push_back("1");
+			// new_film->ReleaseDate = "1";
+			// new_film->Filming_Locations.push_back("1");
+			// new_film->ReleaseDate = 1;
+			// new_film->Languages.push_back("1");
+			// new_film->WeeklyTicketSale = 1;
+            // new_film->Crew_Members_String.push_back("1");
 
-			// std::cout << "Please insert a Title: ";
-			// std::cin >> new_film->Title;
-			// std::cout << "Please insert the Keywords: ";
-			// do
-			// {
-			// 	std::cin >> strinput;
-			// 	new_film->KeyWords.push_back(strinput);
-			// } while(strinput != "exit");
-			// std::cout << "Please insert a Summary: ";
-			// std::cin >> new_film->Summary;
-			// std::cout << "Please insert the Genres: ";
-			// do
-			// {
-			// 	std::cin >> strinput;
-			// 	new_film->Genre.push_back(strinput);
-			// } while(strinput != "exit"); 
-			// std::cout << "Please insert a Release Date: ";
-			// std::cin >> new_film->ReleaseDate;
-			// std::cout << "Please insert the Filming Locations: ";
-			// do
-			// {
-			// 	std::cin >> strinput;
-			// 	new_film->Filming_Locations.push_back(strinput);
-			// } while(strinput != "exit");
-			// std::cout << "Please insert the Runtime: ";
-			// std::cin >> new_film->Runtime;
-			// std::cout << "Please insert the Languages: ";
-			// do
-			// {
-			// 	std::cin >> strinput;
-			// 	new_film->Languages.push_back(strinput);
-			// } while(strinput != "exit");
-			// std::cout << "Please insert the Weekly Ticket Sale: ";
-			// std::cin >> new_film->WeeklyTicketSale;
+			std::cout << "Please insert a Title: ";
+			std::cin >> new_film->Title;
+			std::cout << "Please insert the Keywords: ";
+			do
+			{
+				std::cin >> strinput;
+				new_film->KeyWords.push_back(strinput);
+			} while(strinput != "exit");
+			std::cout << "Please insert a Summary: ";
+			std::cin >> new_film->Summary;
+			std::cout << "Please insert the Genres: ";
+			do
+			{
+				std::cin >> strinput;
+				new_film->Genre.push_back(strinput);
+			} while(strinput != "exit"); 
+			std::cout << "Please insert a Release Date: ";
+			std::cin >> new_film->ReleaseDate;
+			std::cout << "Please insert the Filming Locations: ";
+			do
+			{
+				std::cin >> strinput;
+				new_film->Filming_Locations.push_back(strinput);
+			} while(strinput != "exit");
+			std::cout << "Please insert the Runtime: ";
+			std::cin >> new_film->Runtime;
+			std::cout << "Please insert the Languages: ";
+			do
+			{
+				std::cin >> strinput;
+				new_film->Languages.push_back(strinput);
+			} while(strinput != "exit");
+			std::cout << "Please insert the Weekly Ticket Sale: ";
+			std::cin >> new_film->WeeklyTicketSale;
 
 			browser->insert(new_film);
 
 			new_film = nullptr;
 		}
-		// if (strinput == "insert_head")
-		// {
-		// 	std::cout << "Please insert a number: ";
-		// 	std::cin >> input;
-		// 	browser->insert_head(input);
-		// }
-		// if (strinput == "insert_tail")
-		// {
-		// 	std::cout << "Please insert a number: ";
-		// 	std::cin >> input;
-		// 	browser->insert_tail(input);
-		// }
 	} while(strinput != "exit");
 	
 }
@@ -251,7 +239,6 @@ void WriteToFile(Browser* browser, std::ofstream& file)
 	file << std::endl;
 	file << "Weekly Ticket Sales," << browser->current->data->WeeklyTicketSale << std::endl;
 }
-
 
 void UpdateFile(Browser* browser){
 
