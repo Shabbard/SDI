@@ -256,6 +256,7 @@ void UpdateFile(Browser* browser){
 			WriteToFile(browser, newfile);
 		}
 	}
+<<<<<<< HEAD
 }
 
 void GUI(std::string GUI_ID)
@@ -270,6 +271,8 @@ void GUI(std::string GUI_ID)
 		std::cout << "Exit		            Enter Exit\n" << std::endl;
 		std::cout << "______________________________" << std::endl;
 	}
+=======
+>>>>>>> 6c97df5819ce1d7e6e1b3ec16cfec66f28a3c9f7
 
 			if(GUI_ID == "B_Mode")
 	{
