@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <regex>
+#include <algorithm>
 
 void LoadFile(Browser* browser);
 void UpdateFile(Browser* browser);
@@ -21,6 +22,8 @@ int main()
 	{
         std::cin >> strinput;
 
+		std::transform(strinput.begin(), strinput.end(), strinput.begin(), ::tolower);
+		
 		if (strinput == "next")
 		{
 			browser->nextNode();
@@ -264,42 +267,41 @@ void GUI(std::string GUI_ID)
 {
 	if(GUI_ID == "Load_Main_Menu")
 	{
-		std::cout << "   TrekStar Production Log" << std::endl;
+		std::cout << "\n   TrekStar Production Log" << std::endl;
 		std::cout << "______________________________" << std::endl;
-		std::cout << "\nPlease Enter in a Value" << std::endl;		
-		std::cout << "\nBrowser Mode		  Enter BM" << std::endl;
-		std::cout << "Search				Enter S" << std::endl;
-		std::cout << "Maintenance Mode		Enter MM" << std::endl;
-		std::cout << "Exit		            Enter Exit\n" << std::endl;
-		std::cout << "______________________________" << std::endl;
+		std::cout << "\n  Please Enter in a Value" << std::endl;		
+		std::cout << "\nBrowser Mode        Enter BM" << std::endl;
+		std::cout << "Maintenance Mode      Enter MM" << std::endl;
+		std::cout << "Exit                  Enter Exit\n" << std::endl;
+		std::cout << "______________________________\n" << std::endl;
 	}
 
 	if(GUI_ID == "B_Mode")
 	{
 		std::cout << "      Welcome to Browser Mode" << std::endl;
 		std::cout << "___________________________________" << std::endl;		
-		std::cout << "\nPlease Enter in a Value" << std::endl;		
-		std::cout << "\nNext		          Enter Next" << std::endl;
-		std::cout << "Previous		            Enter Previous" << std::endl;
+		std::cout << "\n    Please Enter in a Value" << std::endl;		
+		std::cout << "\nNext		            Enter Next" << std::endl;
+		std::cout << "Back		                Enter Back" << std::endl;
 		std::cout << "View Crew		            Enter Crew" << std::endl;
 		std::cout << "View Material Info		Enter MI" << std::endl;
 		std::cout << "Search					Enter Search" << std::endl; // Develop Search Engine to complete criteria of mojoo
 		std::cout << "Return to Menu	        Enter RTM\n" << std::endl;
-		std::cout << "___________________________________" << std::endl;
+		std::cout << "___________________________________\n" << std::endl;
 		
 	}
 
-	//std::cout << "Search            		Enter Search <Variable> <Variable Data> (e.g Search Actor ExampleActorName) " << std::endl;
+	//std::cout << "Search            		Enter Search <Variable> <VariableN0745180	Alexander7 Data> (e.g Search Actor ExampleActorName) " << std::endl;
 
 		if(GUI_ID == "M_Mode")
 	{
 		std::cout << "  Welcome to Maintenace Mode" << std::endl;
 		std::cout << "______________________________" << std::endl;
 		std::cout << "\nPlease Enter in a Value" << std::endl;		
-		std::cout << "\nAdd New			  Enter AN" << std::endl;
-		std::cout << "\nEdit Mode		  Enter EM" << std::endl;
+		std::cout << "\nAdd New			Enter AN" << std::endl;
+		std::cout << "\nEdit Mode		Enter EM" << std::endl;
 		std::cout << "Reports Mode		Enter R" << std::endl;
 		std::cout << "Return to Menu	Enter RTM\n" << std::endl;
-		std::cout << "______________________________" << std::endl;
+		std::cout << "______________________________\n" << std::endl;
 	}
 }
