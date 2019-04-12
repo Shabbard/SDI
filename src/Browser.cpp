@@ -3,16 +3,17 @@
 
 void Browser::display()
 {
-   std::cout << current->data.Title << std::endl;  
+   //std::cout << current->data.Title << std::endl;  
+   std::cout << current->data->Title << std::endl;  
 }
 
-void Browser::insert(Film new_data)
+void Browser::insert(Film* new_data)
 {
-   if(current == NULL || current->next == NULL)
+   if(current == nullptr || current->next == nullptr)
    {
       insert_tail(new_data);
    }
-   else if(current->previous == NULL)
+   else if(current->previous == nullptr)
    {
       insert_head(new_data);
    }
@@ -28,18 +29,18 @@ void Browser::insert(Film new_data)
    }
 }
 
-void Browser::insert_tail(Film new_data)
+void Browser::insert_tail(Film* new_data)
 {
    struct Node* new_node = (struct Node*) malloc(sizeof(struct Node));
    new_node->data  = new_data;
-   new_node->next = NULL; 
+   new_node->next = nullptr; 
    new_node->previous = tail;   
    
-   if(tail !=  NULL)
+   if(tail !=  nullptr)
    {
       tail->next = new_node ;
    }
-   if (tail == NULL)
+   if (tail == nullptr)
    {
        head = new_node;
        current = head;
@@ -47,18 +48,18 @@ void Browser::insert_tail(Film new_data)
    tail = new_node; 
 }
 
-void Browser::insert_head(Film new_data)
+void Browser::insert_head(Film* new_data)
 {
    struct Node* new_node = (struct Node*) malloc(sizeof(struct Node));
    new_node->data  = new_data;
    new_node->next = head; 
-   new_node->previous = NULL;   
+   new_node->previous = nullptr;   
    
-   if(head !=  NULL)
+   if(head !=  nullptr)
    {
       head->previous = new_node ;
    }
-   if (head == NULL)
+   if (head == nullptr)
    {
        tail = new_node;
        current = head;
@@ -78,10 +79,10 @@ void Browser::setTail()
 
 void Browser::nextNode()
 {
-   if (current->next != NULL)
+   if (current->next != nullptr)
    {
       current = current->next;
-      std::cout << "gone to next node, current node title: " << current->data.Title << std::endl;
+      std::cout << "gone to next node, current node title: " << current->data->Title << std::endl;
    }
    else
    {
@@ -91,10 +92,10 @@ void Browser::nextNode()
 
 void Browser::previousNode()
 {
-   if (current->previous != NULL)
+   if (current->previous != nullptr)
    {
       current = current->previous;
-      std::cout << "gone to previous node, current node title: " << current->data.Title << std::endl;
+      std::cout << "gone to previous node, current node title: " << current->data->Title << std::endl;
    }
    else
    {
@@ -104,13 +105,13 @@ void Browser::previousNode()
 
 void Browser::delete_current()
 {
-   if (current->previous == NULL)
+   if (current->previous == nullptr)
    {
-      current->next->previous = NULL;
+      current->next->previous = nullptr;
    }
-   else if (current->next == NULL)
+   else if (current->next == nullptr)
    {
-      current->previous->next = NULL;
+      current->previous->next = nullptr;
    }
    else
    {
@@ -118,9 +119,9 @@ void Browser::delete_current()
       current->next->previous = current->previous;
    }
   
-   delete current;
+   delete current->data;
 
-   if(current->previous != NULL)
+   if(current->previous != nullptr)
    {
       current = current->previous;
    }

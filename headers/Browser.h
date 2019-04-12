@@ -2,7 +2,7 @@
 
 struct Node
 {
-    Film data;
+    Film* data;
     Node* next;
     Node* previous;
 };
@@ -10,20 +10,20 @@ struct Node
 class Browser
 {
     private:
-    Node* head = NULL;
-    Node* tail = NULL;
+    Node* head = nullptr;
+    Node* tail = nullptr;
 
     public:
-    Node* current = NULL;
+    Node* current = nullptr;
 
-    void insert(Film new_data);
+    void insert(Film* new_data);
     void display();
     void nextNode();
     void previousNode();
     void setHead();
     void setTail();
-    void insert_tail(Film new_data);
-    void insert_head(Film new_data);
+    void insert_tail(Film* new_data);
+    void insert_head(Film* new_data);
     void delete_current();
 };
 
