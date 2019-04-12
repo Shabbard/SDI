@@ -28,7 +28,6 @@ void Browser::insert(Film new_data)
    }
 }
 
-
 void Browser::insert_tail(Film new_data)
 {
    struct Node* new_node = (struct Node*) malloc(sizeof(struct Node));
@@ -119,23 +118,14 @@ void Browser::delete_current()
       current->next->previous = current->previous;
    }
   
-   Node* temp = NULL;
-   temp = current;
-   
-   current->data.~Film();
    delete current;
 
-   if(temp->previous != NULL)
+   if(current->previous != NULL)
    {
-      current = temp->previous;
+      current = current->previous;
    }
    else
    {
-      current = temp->next;
+      current = current->next;
    }
-
-   //std::cout << "Successfully deleted node with title: " << temp->data.Title << std::endl;
-
-   temp = NULL;  
-
 }

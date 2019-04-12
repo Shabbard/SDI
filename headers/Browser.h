@@ -9,9 +9,11 @@ struct Node
 
 class Browser
 {
-    public:
+    private:
     Node* head = NULL;
     Node* tail = NULL;
+
+    public:
     Node* current = NULL;
 
     void insert(Film new_data);
@@ -23,9 +25,6 @@ class Browser
     void insert_tail(Film new_data);
     void insert_head(Film new_data);
     void delete_current();
-    // void delete_tail();
-    // void delete_head();
-
 };
 
 

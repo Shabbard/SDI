@@ -43,12 +43,46 @@ int main()
 			UpdateFile(browser);
 			browser->setHead();
 		}
-		// if (strinput == "insert")
-		// {
-		// 	std::cout << "Please insert a number: ";
-		// 	//std::cin >> input;
-		// 	browser->insert(input);
-		// }
+		if (strinput == "insert")
+		{
+			Film new_film;
+			std::cout << "Please insert a Title: ";
+			std::cin >> new_film.Title;
+			std::cout << "Please insert the Keywords: ";
+			do
+			{
+				std::cin >> strinput;
+				new_film.KeyWords.push_back(strinput);
+			} while(strinput != "exit");
+			std::cout << "Please insert a Summary: ";
+			std::cin >> new_film.Summary;
+			std::cout << "Please insert the Genres: ";
+			do
+			{
+				std::cin >> strinput;
+				new_film.Genre.push_back(strinput);
+			} while(strinput != "exit"); 
+			std::cout << "Please insert a Release Date: ";
+			std::cin >> new_film.ReleaseDate;
+			std::cout << "Please insert the Filming Locations: ";
+			do
+			{
+				std::cin >> strinput;
+				new_film.Filming_Locations.push_back(strinput);
+			} while(strinput != "exit");
+			std::cout << "Please insert the Runtime: ";
+			std::cin >> new_film.Runtime;
+			std::cout << "Please insert the Languages: ";
+			do
+			{
+				std::cin >> strinput;
+				new_film.Languages.push_back(strinput);
+			} while(strinput != "exit");
+			std::cout << "Please insert the Weekly Ticket Sale: ";
+			std::cin >> new_film.WeeklyTicketSale;
+
+			browser->insert(new_film);
+		}
 		// if (strinput == "insert_head")
 		// {
 		// 	std::cout << "Please insert a number: ";
@@ -147,11 +181,11 @@ void UpdateFile(Browser* browser){
 	std::string filePath = "../data/test.txt";
 	std::ofstream newfile(filePath);
 
-	while(browser->current != browser->tail)
+	while(browser->current != NULL)
 	{		
 		WriteToFile(browser, newfile);
 
-		if(browser->current->next == browser->tail) // please find a better way of doing this
+		if(browser->current->next == NULL) // please find a better way of doing this
 		{
 			browser->nextNode();
 			WriteToFile(browser, newfile);
@@ -166,6 +200,12 @@ void WriteToFile(Browser* browser, std::ofstream& file)
 	file << "ID," << browser->current->data.ID << std::endl;
 	file << "Status," << browser->current->data.Status << std::endl;
 	file << "Title," << browser->current->data.Title << std::endl;
+	file << "Keywords,";
+	for(std::vector<std::string>::iterator it = browser->current->data.KeyWords.begin(); it != browser->current->data.KeyWords.end(); it++)
+	{
+		file << *it << ",";
+	}
+	file << std::endl;
 	file << "Summary," << browser->current->data.Summary << std::endl;
 	file << "Genre,";
 	for(std::vector<std::string>::iterator it = browser->current->data.Genre.begin(); it != browser->current->data.Genre.end(); it++)
@@ -180,15 +220,9 @@ void WriteToFile(Browser* browser, std::ofstream& file)
 		file << *it << ",";
 	}
 	file << std::endl;
+	file << "Runtime," << browser->current->data.Runtime << std::endl;
 	file << "Language,";
 	for(std::vector<std::string>::iterator it = browser->current->data.Languages.begin(); it != browser->current->data.Languages.end(); it++)
-	{
-		file << *it << ",";
-	}
-	file << std::endl;
-	file << "Runtime," << browser->current->data.Runtime << std::endl;
-	file << "Keywords,";
-	for(std::vector<std::string>::iterator it = browser->current->data.KeyWords.begin(); it != browser->current->data.KeyWords.end(); it++)
 	{
 		file << *it << ",";
 	}
