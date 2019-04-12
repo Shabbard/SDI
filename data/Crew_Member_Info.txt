@@ -6,7 +6,25 @@
 6,Luke Smith,Production Designer
 7,Matthew Kneale,Set decorator
 9,Stephany Prince,Costume Designer
-10,David Sheild,Actor
 11,Omar Lines,Actor
 12,Alek O'Connel,Actor
+13,Leoni Alexander,Director
+14,Marion Benson,Writer
+15,Daniaal Medina,Producer
+16,Kirby Palacios,Editor
+17,Khaleesi Jarvis,Production Designer
+18,Kaydon Buckner,Editor
+19,Rory Whitmore,Set decorator
+20,Aliyah Vasquez,Editor
+21,Adam Dickinson,Actor
+22,Saoirse O'Sullivan,Writer
+23,Lily-Rose Lozano,Producer
+24,Cecily Davison,Director
+25,Alvin Leach,Production Designer
+26,Louisa Mcneil,Costume Designer
+27,Keaton Keith,Producer
+28,Stephanie Love,Editor
+29,Jozef Ho,Editor
+30,Aleah Haley,Production Designer
+
 
