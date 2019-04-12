@@ -7,14 +7,14 @@
 void LoadFile(Browser* browser);
 void UpdateFile(Browser* browser);
 void WriteToFile(Browser* browser, std::ofstream& file);
-
-
+void GUI(std::string GUI_ID);
 
 int main()
 {
     Browser* browser = new Browser;
 
 	std::string strinput = "";
+	GUI("Load_Main_Menu");
 	LoadFile(browser);
 
 	do 
@@ -31,18 +31,16 @@ int main()
 		}
 		if (strinput == "display")
 		{
-			GUI("Load_Main_Menu");
             browser->display();
 		}
 		if (strinput == "delete")
 		{
 			browser->delete_current();
 		}
-		if (strinput == "load")
-		{
-			GUI("Load_Main_Menu");
-			LoadFile(browser);
-		}
+		// if (strinput == "load")
+		// {
+		// 	LoadFile(browser);
+		// }
 		if (strinput == "save")
 		{
 			UpdateFile(browser);
@@ -291,13 +289,9 @@ void GUI(std::string GUI_ID)
 		
 	}
 
-<<<<<<< HEAD
 	//std::cout << "Search            		Enter Search <Variable> <Variable Data> (e.g Search Actor ExampleActorName) " << std::endl;
 
 		if(GUI_ID == "M_Mode")
-=======
-	if(GUI_ID == "M_Mode")
->>>>>>> e9aad171e70d02647d27cb353f9f98e97dfbf05f
 	{
 		std::cout << "  Welcome to Maintenace Mode" << std::endl;
 		std::cout << "______________________________" << std::endl;
