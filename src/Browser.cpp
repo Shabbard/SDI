@@ -3,8 +3,39 @@
 
 void Browser::display()
 {
-   //std::cout << current->data.Title << std::endl;  
-   std::cout << current->data->Title << std::endl;  
+   
+   std::cout << "ID," << current->data->ID << std::endl;
+	std::cout << "Status," << current->data->Status << std::endl;
+	std::cout << "Title," << current->data->Title << std::endl;
+	std::cout << "Keywords,";
+	for(std::vector<std::string>::iterator it = current->data->KeyWords.begin(); it != current->data->KeyWords.end(); it++)
+	{
+		std::cout << *it << ",";
+	}
+	std::cout << std::endl;
+	std::cout << "Summary," << current->data->Summary << std::endl;
+	std::cout << "Genre,";
+	for(std::vector<std::string>::iterator it = current->data->Genre.begin(); it != current->data->Genre.end(); it++)
+	{
+		std::cout << *it << ",";
+	}
+	std::cout << std::endl;
+	std::cout << "Release_Date," << current->data->ReleaseDate << std::endl;
+	std::cout << "Filming_Loc,";
+	for(std::vector<std::string>::iterator it = current->data->Filming_Locations.begin(); it != current->data->Filming_Locations.end(); it++)
+	{
+		std::cout << *it << ",";
+	}
+	std::cout << std::endl;
+	std::cout << "Runtime," << current->data->Runtime << std::endl;
+	std::cout << "Language,";
+	for(std::vector<std::string>::iterator it = current->data->Languages.begin(); it != current->data->Languages.end(); it++)
+	{
+		std::cout << *it << ",";
+	}
+	std::cout << std::endl;
+	std::cout << "Weekly Ticket Sales," << current->data->WeeklyTicketSale << std::endl;
+
 }
 
 void Browser::insert(Film* new_data)
@@ -13,7 +44,7 @@ void Browser::insert(Film* new_data)
    {
       insert_tail(new_data);
    }
-   else if(current->previous == nullptr)
+   else if(current->back == nullptr)
    {
       insert_head(new_data);
    }
@@ -22,10 +53,10 @@ void Browser::insert(Film* new_data)
       struct Node* new_node = (struct Node*) malloc(sizeof(struct Node));
       new_node->data  = new_data;
       new_node->next = current->next; 
-      new_node->previous = current; 
+      new_node->back = current; 
 
       current->next = new_node;
-      new_node->next->previous = new_node;
+      new_node->next->back = new_node;
    }
 }
 
@@ -34,7 +65,7 @@ void Browser::insert_tail(Film* new_data)
    struct Node* new_node = (struct Node*) malloc(sizeof(struct Node));
    new_node->data  = new_data;
    new_node->next = nullptr; 
-   new_node->previous = tail;   
+   new_node->back = tail;   
    
    if(tail !=  nullptr)
    {
@@ -53,11 +84,11 @@ void Browser::insert_head(Film* new_data)
    struct Node* new_node = (struct Node*) malloc(sizeof(struct Node));
    new_node->data  = new_data;
    new_node->next = head; 
-   new_node->previous = nullptr;   
+   new_node->back = nullptr;   
    
    if(head !=  nullptr)
    {
-      head->previous = new_node ;
+      head->back = new_node ;
    }
    if (head == nullptr)
    {
@@ -82,7 +113,7 @@ void Browser::nextNode()
    if (current->next != nullptr)
    {
       current = current->next;
-      std::cout << "gone to next node, current node title: " << current->data->Title << std::endl;
+      display();
    }
    else
    {
@@ -92,10 +123,10 @@ void Browser::nextNode()
 
 void Browser::previousNode()
 {
-   if (current->previous != nullptr)
+   if (current->back != nullptr)
    {
-      current = current->previous;
-      std::cout << "gone to previous node, current node title: " << current->data->Title << std::endl;
+      current = current->back;
+      display();
    }
    else
    {
@@ -105,25 +136,25 @@ void Browser::previousNode()
 
 void Browser::delete_current()
 {
-   if (current->previous == nullptr)
+   if (current->back == nullptr)
    {
-      current->next->previous = nullptr;
+      current->next->back = nullptr;
    }
    else if (current->next == nullptr)
    {
-      current->previous->next = nullptr;
+      current->back->next = nullptr;
    }
    else
    {
-      current->previous->next = current->next;
-      current->next->previous = current->previous;
+      current->back->next = current->next;
+      current->next->back = current->back;
    }
   
    delete current->data;
 
-   if(current->previous != nullptr)
+   if(current->back != nullptr)
    {
-      current = current->previous;
+      current = current->back;
    }
    else
    {

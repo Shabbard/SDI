@@ -20,43 +20,70 @@ int main()
 	GUI("Load_Main_Menu");
 	int clear(void);
 	LoadFile(browser);
+	bool menu_restirction = true;
+	int menu_ID;
 
 	do 
 	{
         std::cin >> strinput;
 
 		std::transform(strinput.begin(), strinput.end(), strinput.begin(), ::tolower);
-		
-		if (strinput == "bm")
+
+		if ((strinput == "bm")&&(menu_restirction == true))
 		{
 			system("clear");
 			GUI("B_Mode");
+			menu_restirction = false;
+			browser->display();
+			menu_ID = 1;
 		}
 
-		if (strinput == "mm")
+		if ((strinput == "mm")&&(menu_restirction == true))
 		{
 			system("clear");
 			GUI("M_Mode");
+			menu_restirction = false;
+			browser->display();
+			menu_ID = 2;
 		}
 
 		if (strinput == "rtm")
 		{
 			system("clear");
 			GUI("Load_Main_Menu");
+			menu_restirction = true;
+			menu_ID = 0;
 		}
 
 		if (strinput == "next")
 		{
-			browser->nextNode();
+			if((menu_ID == 1)||(menu_ID == 2))
+			{
+								
+				if(menu_ID == 1)
+				{
+					system("clear");
+					GUI("B_Mode");
+					
+				}
+
+				if(menu_ID == 2)
+				{
+					system("clear");
+					GUI("M_Mode");
+					
+				}
+				
+				browser->nextNode();
+			}		
+			
 		}
-		if (strinput == "previous")
+		if (strinput == "back")
 		{
+			system("clear");
 			browser->previousNode();
 		}
-		if (strinput == "display")
-		{
-            browser->display();
-		}
+
 		if (strinput == "delete")
 		{
 			browser->delete_current();

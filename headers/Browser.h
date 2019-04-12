@@ -4,7 +4,7 @@ struct Node
 {
     Film* data;
     Node* next;
-    Node* previous;
+    Node* back;
 };
 
 class Browser
