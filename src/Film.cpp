@@ -13,7 +13,7 @@ Film::Film()
     ID = 0;
     Runtime = 0;
     Status = 0;
-    WeeklyTicketSale = 0;
+    WeeklyTicketSales = 0;
 }
 
 Film::~Film()
@@ -29,5 +29,5 @@ Film::~Film()
     ID = 0;
     Runtime = 0;
     Status = 0;
-    WeeklyTicketSale = 0;
+    WeeklyTicketSales = 0;
 }
