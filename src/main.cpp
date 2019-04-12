@@ -12,7 +12,16 @@ int main()
 {
     Browser* browser = new Browser;
 
+
+	// for (int i = 0; i < 6; i++)
+    // {
+    //     browser->insert_tail(i);
+	// }
+
 	std::string strinput = "";
+    //int input = 0;
+
+	LoadFile(browser);
 
 	do 
 	{
@@ -99,21 +108,22 @@ int main()
 	
 }
 
+
 void LoadFile(Browser* browser)
 {
 	std::ifstream infile;
-    infile.open("../data/test.txt");
+    infile.open("../Film_Info.txt");
 
 	Film film;
 
 	std::string str;
 
-	//std::string values[10] = {"ID","Title", "Summary", "Genre", "Release Date", "Filming Locations", "Language", "Runtime", "Keywords", "Weekly Ticket Sales"};
+	std::string values[10] = {"ID","Title", "Summary", "Genre", "Release Date", "Filming Locations", "Language", "Runtime", "Keywords", "Weekly Ticket Sales"};
 	std::vector<std::string> LineData;
 	
 	while (std::getline(infile, str))
 	{
-		std::regex data("([^,]+)"); // finds all of the data values between the commas and includes spaces for empty data values
+		std::regex data("([^,]+)|[\s]"); // finds all of the data values between the commas and includes spaces for empty data values
   		std::smatch data_match;
 
   		if (std::regex_search(str, data_match, data)) // if there are data values to enter
@@ -125,46 +135,55 @@ void LoadFile(Browser* browser)
     		}
 		}	
 
-		if(LineData.at(0)== "ID") // find a better way of doing this
+		if(LineData.at(0)== "ID")
 		{
 			film.ID = std::stoi(LineData.at(1));
 		}
+
 		if(LineData.at(0)== "Title")
 		{
 			film.Title = LineData.at(1);
 		}
+
 		if(LineData.at(0)== "Summary")
 		{
 			film.Summary = LineData.at(1);
 		}
+
 		if(LineData.at(0)== "Genre")
 		{
 			LineData.erase(LineData.begin());
 			film.Genre = LineData;
 		}
+
 		if(LineData.at(0)== "Release_Date")
 		{
 			film.ReleaseDate = LineData.at(1);
 		}
+
 		if(LineData.at(0)== "Filming_Loc")
 		{
 			LineData.erase(LineData.begin());
 			film.Filming_Locations = LineData;
 		}
+
 		if(LineData.at(0)== "Language")
 		{
 			LineData.erase(LineData.begin());
 			film.Languages = LineData;
 		}
+
 		if(LineData.at(0)== "Runtime")
 		{
 			film.Runtime = std::stoi(LineData.at(1));
 		}
+
 		if(LineData.at(0)== "Keywords")
 		{
 			LineData.erase(LineData.begin());
 			film.KeyWords = LineData;
 		}
+
 		if(LineData.at(0)== "Weekly Ticket Sales")
 		{
 			film.WeeklyTicketSale = std::stoi(LineData.at(1));
@@ -174,12 +193,15 @@ void LoadFile(Browser* browser)
 	}
 } 
 
+
+
 void UpdateFile(Browser* browser){
 
 	browser->setHead();
+	
+	std::ofstream newfile("../data/test.txt");
 
-	std::string filePath = "../data/test.txt";
-	std::ofstream newfile(filePath);
+	std::string str;
 
 	while(browser->current != NULL)
 	{		
@@ -191,8 +213,6 @@ void UpdateFile(Browser* browser){
 			WriteToFile(browser, newfile);
 		}
 
-		browser->nextNode();
-	}
 }
 
 void WriteToFile(Browser* browser, std::ofstream& file)
