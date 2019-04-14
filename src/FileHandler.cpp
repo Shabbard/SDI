@@ -151,21 +151,14 @@ Crew FileHandler::LoadCrew(std::string filePath, Crew CrewMember)
 void FileHandler::UpdateFile(std::string filePath)
 {
 	browser->setHead();
-	
 	std::ofstream newfile(filePath);
 
-	std::string str;
-
-	while(browser->current != nullptr)
+    while(browser->current->next != nullptr)
 	{		
-		WriteToFile(newfile);
-
-		if(browser->current->next == nullptr) // please find a better way of doing this
-		{
-			browser->nextNode();
-			WriteToFile(newfile);
-		}
+        WriteToFile(newfile);
+        browser->nextNode();
 	}
+    WriteToFile(newfile);
 }
 
 void FileHandler::WriteToFile(std::ofstream& file)
@@ -201,9 +194,11 @@ void FileHandler::WriteToFile(std::ofstream& file)
 	}
 	file << std::endl;
 	file << "Weekly Ticket Sales," << browser->current->data->WeeklyTicketSales << std::endl;
+	file << "Crew_Members,";
     for(std::vector<Crew>::iterator it = browser->current->data->CrewMembers.begin(); it != browser->current->data->CrewMembers.end(); it++)
 	{
         Crew temp = *it;
 		file << temp.ID << ",";
 	}
+	file << std::endl;
 }

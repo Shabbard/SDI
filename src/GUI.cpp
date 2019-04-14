@@ -107,12 +107,14 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 					system("clear");
 					GUI_Templates("B_Mode");
 					browser->nextNode();
+					browser->display();
 					break;
 			
 				case 2:
 					system("clear");
 					GUI_Templates("M_Mode");
 					browser->nextNode();
+					browser->display();
 					break;
 			}
 							
@@ -125,12 +127,14 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 					system("clear");
 					GUI_Templates("B_Mode");
 					browser->previousNode();
+					browser->display();
 					break;
 			
 				case 2:
 					system("clear");
 					GUI_Templates("M_Mode");
 					browser->previousNode();
+					browser->display();
 					break;
 			}
 		}
@@ -172,18 +176,13 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 		// 	LoadFile(browser);
 		// }
 		
-		if (strinput == "save")
-		{
-			
-			if (menu_ID == 0)
+		if (strinput == "save" && menu_ID == 0)
 		{
 			system("clear");
 			GUI_Templates("Load_Main_Menu");
 			std::cout << " Projects Saved   " << std::endl;
 			fileHandler.UpdateFile(filePath);
-	        browser->setHead();
-		}
-
+			browser->setHead();
 		}
 		if (strinput == "insert")
 		{
