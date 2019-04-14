@@ -158,7 +158,6 @@ void FileHandler::UpdateFile(std::string filePath)
         WriteToFile(newfile);
         browser->nextNode();
 	}
-    browser->nextNode();
     WriteToFile(newfile);
 }
 
