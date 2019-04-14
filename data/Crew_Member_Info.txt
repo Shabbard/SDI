@@ -1,10 +1,10 @@
-1,Alex Cain,SoundDesign
+1,Alex Cain,Sound Design
 2,Sam Westwood,Director
 3,Leon Winstanley,Writer
 4,James Knean,Producer
 5,Eoghain Doxen,Editor
 6,Luke Smith,Production Designer
-7,Matthew Kneale,Set decorator
+7,Matthew Kneale,Set Decorator
 9,Stephany Prince,Costume Designer
 11,Omar Lines,Actor
 12,Alek O'Connel,Actor
@@ -14,7 +14,7 @@
 16,Kirby Palacios,Editor
 17,Khaleesi Jarvis,Production Designer
 18,Kaydon Buckner,Editor
-19,Rory Whitmore,Set decorator
+19,Rory Whitmore,Set Decorator
 20,Aliyah Vasquez,Editor
 21,Adam Dickinson,Actor
 22,Saoirse O'Sullivan,Writer

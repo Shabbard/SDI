@@ -62,7 +62,8 @@ void GUI::GUI_Templates(std::string GUI_ID)
 
 void GUI::CLI(FileHandler fileHandler, std::string filePath)
 {
-		std::string strinput = "";
+		std::string strinput = "";  
+        int c = 0;
 
 		bool menu_restriction = true;
 		int menu_ID = 0;
@@ -135,7 +136,29 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 			}
 		}
 
+<<<<<<< HEAD
 		if (strinput == "dp")
+=======
+        // switch((c=getch())) {
+        // case KEY_UP:
+        //     cout << endl << "Up" << endl;//key up
+        //     break;
+        // case KEY_DOWN:
+        //     cout << endl << "Down" << endl;   // key down
+        //     break;
+        // case KEY_LEFT:
+        //     cout << endl << "Left" << endl;  // key left
+        //     break;
+        // case KEY_RIGHT:
+        //     cout << endl << "Right" << endl;  // key right
+        //     break;
+        // default:
+        //     cout << endl << "null" << endl;  // not arrow
+        //     break;
+        // }
+
+		if (strinput == "delete")
+>>>>>>> 831f55506eced14a5b3e70b50f837b2a6f671825
 		{
 			if (menu_ID == 2)
 		{

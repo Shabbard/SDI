@@ -14,6 +14,7 @@ public:
     void LoadFile(std::string filePath);
     void UpdateFile(std::string filePath);
     void WriteToFile(std::ofstream& file);
+    Crew LoadCrew(std::string filePath, Crew CrewMember);
 };
 
 
