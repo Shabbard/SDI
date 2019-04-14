@@ -5,7 +5,7 @@ void Browser::display()
 {
    
    std::cout << "ID - " << current->data->ID << std::endl;
-	std::cout << "Status - ," << current->data->Status << std::endl;
+	std::cout << "Status - " << current->data->Status << std::endl;
 	std::cout << "Title - " << current->data->Title << std::endl;
 	std::cout << "Keywords - ";
 	for(std::vector<std::string>::iterator it = current->data->KeyWords.begin(); it != current->data->KeyWords.end(); it++)
