@@ -166,7 +166,7 @@ void GUI( Browser* browser)
 {
 		std::string strinput = "";
 
-		bool menu_restirction = true;
+		bool menu_restriction = true;
 		int menu_ID;
 
 	do 
@@ -175,20 +175,20 @@ void GUI( Browser* browser)
 
 		std::transform(strinput.begin(), strinput.end(), strinput.begin(), ::tolower);
 
-		if ((strinput == "bm")&&(menu_restirction == true))
+		if ((strinput == "bm")&&(menu_restriction == true))
 		{
 			system("clear");
 			GUI_Templates("B_Mode");
-			menu_restirction = false;
+			menu_restriction = false;
 			browser->display();
 			menu_ID = 1;
 		}
 
-		if ((strinput == "mm")&&(menu_restirction == true))
+		if ((strinput == "mm")&&(menu_restriction == true))
 		{
 			system("clear");
 			GUI_Templates("M_Mode");
-			menu_restirction = false;
+			menu_restriction = false;
 			browser->display();
 			menu_ID = 2;
 		}
@@ -197,7 +197,7 @@ void GUI( Browser* browser)
 		{
 			system("clear");
 			GUI_Templates("Load_Main_Menu");
-			menu_restirction = true;
+			menu_restriction = true;
 			menu_ID = 0;
 		}
 
