@@ -123,16 +123,15 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 				case 1:
 					system("clear");
 					GUI_Templates("B_Mode");
-					browser->nextNode();
+					browser->previousNode();
 					break;
 			
 				case 2:
 					system("clear");
 					GUI_Templates("M_Mode");
-					browser->nextNode();
+					browser->previousNode();
 					break;
 			}
-			browser->previousNode();
 		}
 
 		if (strinput == "delete")
