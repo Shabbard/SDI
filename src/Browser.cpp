@@ -4,37 +4,37 @@
 void Browser::display()
 {
    
-   std::cout << "ID," << current->data->ID << std::endl;
-	std::cout << "Status," << current->data->Status << std::endl;
-	std::cout << "Title," << current->data->Title << std::endl;
-	std::cout << "Keywords,";
+   std::cout << "ID - " << current->data->ID << std::endl;
+	std::cout << "Status - " << current->data->Status << std::endl;
+	std::cout << "Title - " << current->data->Title << std::endl;
+	std::cout << "Keywords - ";
 	for(std::vector<std::string>::iterator it = current->data->KeyWords.begin(); it != current->data->KeyWords.end(); it++)
 	{
 		std::cout << *it << ",";
 	}
 	std::cout << std::endl;
-	std::cout << "Summary," << current->data->Summary << std::endl;
-	std::cout << "Genre,";
+	std::cout << "Summary - " << current->data->Summary << std::endl;
+	std::cout << "Genre - ";
 	for(std::vector<std::string>::iterator it = current->data->Genre.begin(); it != current->data->Genre.end(); it++)
 	{
 		std::cout << *it << ",";
 	}
 	std::cout << std::endl;
-	std::cout << "Release_Date," << current->data->ReleaseDate << std::endl;
-	std::cout << "Filming_Loc,";
+	std::cout << "Release_Date - " << current->data->ReleaseDate << std::endl;
+	std::cout << "Filming_Loc - ";
 	for(std::vector<std::string>::iterator it = current->data->Filming_Locations.begin(); it != current->data->Filming_Locations.end(); it++)
 	{
 		std::cout << *it << ",";
 	}
 	std::cout << std::endl;
-	std::cout << "Runtime," << current->data->Runtime << std::endl;
-	std::cout << "Language,";
+	std::cout << "Runtime - " << current->data->Runtime << std::endl;
+	std::cout << "Language - ";
 	for(std::vector<std::string>::iterator it = current->data->Languages.begin(); it != current->data->Languages.end(); it++)
 	{
 		std::cout << *it << ",";
 	}
 	std::cout << std::endl;
-	std::cout << "Weekly Ticket Sales," << current->data->WeeklyTicketSales << "\n" << std::endl;
+	std::cout << "Weekly Ticket Sales - " << current->data->WeeklyTicketSales << "\n" << std::endl;
 
 }
 
