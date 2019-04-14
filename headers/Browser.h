@@ -19,6 +19,7 @@ class Browser
 
     void insert(Film* new_data);
     void display();
+    void display_crew();
     void nextNode();
     void previousNode();
     void setHead();
