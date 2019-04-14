@@ -16,6 +16,7 @@ int main()
 {
     Browser* browser = new Browser;
 	LoadFile(browser);
+	system("clear");
 	GUI_Templates("Load_Main_Menu");
     GUI(browser);
 }
