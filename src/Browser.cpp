@@ -117,7 +117,8 @@ void Browser::nextNode()
    }
    else
    {
-      std::cout << "This is the last item in the list" << std::endl;
+      std::cout << "This is the last item in the list\n" << std::endl;
+      display();
    }
 }
 
@@ -130,7 +131,8 @@ void Browser::previousNode()
    }
    else
    {
-      std::cout << "This is the first item in the list" << std::endl;
+      std::cout << "This is the first item in the list\n" << std::endl;
+      display();
    }
 }
 

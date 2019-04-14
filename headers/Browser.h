@@ -1,4 +1,5 @@
 #include "Film.h"
+#pragma once
 
 struct Node
 {
