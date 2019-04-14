@@ -27,7 +27,7 @@ void Browser::display()
 		std::cout << *it << ",";
 	}
 	std::cout << std::endl;
-	std::cout << "Runtime" << "\t\t\t"<< current->data->Runtime << std::endl;
+	std::cout << "Runtime" << "\t\t\t"<< current->data->Runtime << " Minutes "<< std::endl;
 	std::cout << "Language"<< "\t\t";
 	for(std::vector<std::string>::iterator it = current->data->Languages.begin(); it != current->data->Languages.end(); it++)
 	{
