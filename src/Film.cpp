@@ -9,7 +9,7 @@ Film::Film()
     Filming_Locations.clear();
     Languages.clear();
     KeyWords.clear();
-    Crew_Members_String.clear();
+    CrewMembers.clear();
     ID = 0;
     Runtime = 0;
     Status = 0;
@@ -25,7 +25,7 @@ Film::~Film()
     Filming_Locations.clear();
     Languages.clear();
     KeyWords.clear();
-    Crew_Members_String.clear();
+    CrewMembers.clear();
     ID = 0;
     Runtime = 0;
     Status = 0;
