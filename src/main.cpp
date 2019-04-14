@@ -72,7 +72,7 @@ void LoadFile(Browser* browser)
 		}
 		else if(LineData.at(0)== "Filming_Loc")
 		{
-			LineData.erase(LineData.begin());
+            LineData.erase(LineData.begin());
 			film->Filming_Locations = LineData;
 		}
 		else if(LineData.at(0)== "Language")
@@ -91,13 +91,13 @@ void LoadFile(Browser* browser)
 		}
 		else if(LineData.at(0)== "Weekly Ticket Sales")
 		{
-			film->WeeklyTicketSale = std::stoi(LineData.at(1));
+			film->WeeklyTicketSales = std::stoi(LineData.at(1));
 		}
 		else if(LineData.at(0)== "Crew_Members")
 		{
 			LineData.erase(LineData.begin());
             film->Crew_Members_String = LineData;
-            browser->insert(film);
+            browser->insert_tail(film);
 			film = new Film();
 		}
 		
