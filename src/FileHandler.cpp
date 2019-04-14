@@ -92,7 +92,10 @@ void FileHandler::LoadFile(std::string filePath)
                 Crew temp;
                 temp.ID = std::stoi(*it);
                 temp = LoadCrew("../data/Crew_Member_Info.txt", temp);
-                film->CrewMembers.push_back(temp);
+                if(!temp.ID == 0)
+                {
+                   film->CrewMembers.push_back(temp);
+                }
 	        }
             browser->insert_tail(film);
 			film = new Film();
@@ -131,6 +134,11 @@ Crew FileHandler::LoadCrew(std::string filePath, Crew CrewMember)
             CrewMember.Name = LineData.at(1);
             CrewMember.Job = LineData.at(2);
 
+            return CrewMember;
+        }
+        else if (std::stoi(LineData.at(0)) > CrewMember.ID)
+        {
+            CrewMember.ID = 0;
             return CrewMember;
         }
 
@@ -193,4 +201,9 @@ void FileHandler::WriteToFile(std::ofstream& file)
 	}
 	file << std::endl;
 	file << "Weekly Ticket Sales," << browser->current->data->WeeklyTicketSales << std::endl;
+    for(std::vector<Crew>::iterator it = browser->current->data->CrewMembers.begin(); it != browser->current->data->CrewMembers.end(); it++)
+	{
+        Crew temp = *it;
+		file << temp.ID << ",";
+	}
 }
