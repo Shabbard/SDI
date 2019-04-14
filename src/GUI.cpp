@@ -19,6 +19,7 @@ void GUI::GUI_Templates(std::string GUI_ID)
 		std::cout << "\n  Please Enter in a Value" << std::endl;		
 		std::cout << "\nBrowser Mode          Enter BM" << std::endl;
 		std::cout << "Maintenance Mode      Enter MM\n" << std::endl;
+		std::cout << "Save                  Enter Save\n" << std::endl;
 		std::cout << "Exit                  Enter Exit\n" << std::endl;
 		std::cout << "______________________________\n" << std::endl;
 	}
@@ -50,8 +51,8 @@ void GUI::GUI_Templates(std::string GUI_ID)
 		std::cout << "View Crew                 Enter Crew" << std::endl;
 		std::cout << "View Material Info        Enter MI\n" << std::endl;
 		std::cout << "Create New Project        Enter CNP" << std::endl;
-		std::cout << "Edit                      Enter Edit" << std::endl;
-		std::cout << "Delete Project            Enter Edit\n" << std::endl;
+		std::cout << "Edit                      Enter EDIT" << std::endl;
+		std::cout << "Delete Project            Enter DP\n" << std::endl;
 		std::cout << "Reports Mode              Enter R\n" << std::endl;
 		std::cout << "Return to Menu            Enter RTM\n" << std::endl;
 		std::cout << "______________________________\n" << std::endl;
@@ -64,7 +65,7 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 		std::string strinput = "";
 
 		bool menu_restriction = true;
-		int menu_ID;
+		int menu_ID = 0;
 
 	do 
 	{
@@ -134,9 +135,16 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 			}
 		}
 
-		if (strinput == "delete")
+		if (strinput == "dp")
 		{
+			if (menu_ID == 2)
+		{
+			system("clear");
+			GUI_Templates("M_Mode");
+			std::cout << "Project Deleted" << std::endl;
 			browser->delete_current();
+		}
+			
 		}
 		// if (strinput == "load")
 		// {
@@ -144,8 +152,16 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 		// }
 		if (strinput == "save")
 		{
+			
+			if (menu_ID == 0)
+		{
+			system("clear");
+			GUI_Templates("Load_Main_Menu");
+			std::cout << " Projects Saved   " << std::endl;
 			fileHandler.UpdateFile(filePath);
 	        browser->setHead();
+		}
+
 		}
 		if (strinput == "insert")
 		{
