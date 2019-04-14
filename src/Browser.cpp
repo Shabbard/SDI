@@ -113,12 +113,10 @@ void Browser::nextNode()
    if (current->next != nullptr)
    {
       current = current->next;
-      display();
    }
    else
    {
       std::cout << "This is the last item in the list\n" << std::endl;
-      display();
    }
 }
 
@@ -127,12 +125,10 @@ void Browser::previousNode()
    if (current->back != nullptr)
    {
       current = current->back;
-      display();
    }
    else
    {
       std::cout << "This is the first item in the list\n" << std::endl;
-      display();
    }
 }
 

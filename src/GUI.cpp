@@ -107,12 +107,14 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 					system("clear");
 					GUI_Templates("B_Mode");
 					browser->nextNode();
+					browser->display();
 					break;
 			
 				case 2:
 					system("clear");
 					GUI_Templates("M_Mode");
 					browser->nextNode();
+					browser->display();
 					break;
 			}
 							
@@ -125,12 +127,14 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 					system("clear");
 					GUI_Templates("B_Mode");
 					browser->previousNode();
+					browser->display();
 					break;
 			
 				case 2:
 					system("clear");
 					GUI_Templates("M_Mode");
 					browser->previousNode();
+					browser->display();
 					break;
 			}
 		}
