@@ -150,6 +150,27 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 			}
 			
 		}
+
+		if (strinput == "crew")
+		{
+			switch (menu_ID)
+			{
+				case 1:
+					system("clear");
+					GUI_Templates("B_Mode");
+					browser->display();
+					browser->display_crew();
+					break;
+			
+				case 2:
+					system("clear");
+					GUI_Templates("M_Mode");
+					browser->display();
+					browser->display_crew();
+					break;
+			}
+		}
+
 		// if (strinput == "load")
 		// {
 		// 	LoadFile(browser);
