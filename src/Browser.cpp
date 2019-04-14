@@ -35,7 +35,13 @@ void Browser::display()
 	}
 	std::cout << std::endl;
 	std::cout << "Weekly Ticket Sales - " << current->data->WeeklyTicketSales << "\n" << std::endl;
-
+   std::cout << "Crew Member ID's - ";
+	for(std::vector<Crew>::iterator it = current->data->CrewMembers.begin(); it != current->data->CrewMembers.end(); it++)
+	{
+      Crew temp = *it;
+		std::cout << temp.ID << ",";
+	}
+	std::cout << std::endl;
 }
 
 void Browser::insert(Film* new_data)
