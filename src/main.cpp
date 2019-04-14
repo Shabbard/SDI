@@ -9,14 +9,15 @@
 void LoadFile(Browser* browser);
 void UpdateFile(Browser* browser);
 void WriteToFile(Browser* browser, std::ofstream& file);
-void GUI(std::string GUI_ID, Browser* browser);
+void GUI(Browser* browser);
+void GUI_Templates(std::string GUI_ID);
 
 int main()
 {
     Browser* browser = new Browser;
 	LoadFile(browser);
-    GUI("Load_Main_Menu", browser);
-	
+	GUI_Templates("Load_Main_Menu");
+    GUI(browser);
 }
 
 void LoadFile(Browser* browser)
@@ -161,70 +162,82 @@ void UpdateFile(Browser* browser){
 	}
 }
 
-void GUI(std::string GUI_ID, Browser* browser)
+void GUI( Browser* browser)
 {
-	if(GUI_ID == "Load_Main_Menu")
-	{
-		std::cout << "\n   TrekStar Production Log" << std::endl;
-		std::cout << "______________________________" << std::endl;
-		std::cout << "\n  Please Enter in a Value" << std::endl;		
-		std::cout << "\nBrowser Mode          Enter BM" << std::endl;
-		std::cout << "Maintenance Mode      Enter MM\n" << std::endl;
-		std::cout << "Exit                  Enter Exit\n" << std::endl;
-		std::cout << "______________________________\n" << std::endl;
-	}
+		std::string strinput = "";
 
-	if(GUI_ID == "B_Mode")
-	{
-		std::cout << "\n      Welcome to Browser Mode" << std::endl;
-		std::cout << "___________________________________" << std::endl;		
-		std::cout << "\n    Please Enter in a Value" << std::endl;		
-		std::cout << "\nNext                      Enter Next" << std::endl;
-		std::cout << "Back                      Enter Back" << std::endl;
-		std::cout << "View Crew                 Enter Crew" << std::endl;
-		std::cout << "View Material Info        Enter MI" << std::endl;
-		std::cout << "Search                    Enter Search\n" << std::endl; // Develop Search Engine to complete criteria of mojoo
-		std::cout << "Return to Menu            Enter RTM\n" << std::endl;
-		std::cout << "___________________________________\n" << std::endl;
-		
-	}
-
-	//std::cout << "Search            		Enter Search <Variable> <VariableN0745180	Alexander7 Data> (e.g Search Actor ExampleActorName) " << std::endl;
-
-	if(GUI_ID == "M_Mode")
-	{
-		std::cout << "\n  Welcome to Maintenace Mode" << std::endl;
-		std::cout << "______________________________" << std::endl;
-		std::cout << "\nPlease Enter in a Value" << std::endl;		
-		std::cout << "\nNext                      Enter Next" << std::endl;
-		std::cout << "Back                      Enter Back" << std::endl;
-		std::cout << "View Crew                 Enter Crew" << std::endl;
-		std::cout << "View Material Info        Enter MI\n" << std::endl;
-		std::cout << "Create New Project        Enter CNP" << std::endl;
-		std::cout << "Edit                      Enter Edit" << std::endl;
-		std::cout << "Delete Project            Enter Edit\n" << std::endl;
-		std::cout << "Reports Mode              Enter R\n" << std::endl;
-		std::cout << "Return to Menu            Enter RTM\n" << std::endl;
-		std::cout << "______________________________\n" << std::endl;
-	}
-	std::string strinput = "";
+		bool menu_restirction = true;
+		int menu_ID;
 
 	do 
 	{
         std::cin >> strinput;
 
+		std::transform(strinput.begin(), strinput.end(), strinput.begin(), ::tolower);
+
+		if ((strinput == "bm")&&(menu_restirction == true))
+		{
+			system("clear");
+			GUI_Templates("B_Mode");
+			menu_restirction = false;
+			browser->display();
+			menu_ID = 1;
+		}
+
+		if ((strinput == "mm")&&(menu_restirction == true))
+		{
+			system("clear");
+			GUI_Templates("M_Mode");
+			menu_restirction = false;
+			browser->display();
+			menu_ID = 2;
+		}
+
+		if (strinput == "rtm")
+		{
+			system("clear");
+			GUI_Templates("Load_Main_Menu");
+			menu_restirction = true;
+			menu_ID = 0;
+		}
+
 		if (strinput == "next")
 		{
-			browser->nextNode();
+			switch (menu_ID)
+			{
+				case 1:
+					system("clear");
+					GUI_Templates("B_Mode");
+					browser->nextNode();
+					break;
+			
+				case 2:
+					system("clear");
+					GUI_Templates("M_Mode");
+					browser->nextNode();
+					break;
+			}
+							
 		}
-		if (strinput == "previous")
+		if (strinput == "back")
 		{
+			switch (menu_ID)
+			{
+				case 1:
+					system("clear");
+					GUI_Templates("B_Mode");
+					browser->nextNode();
+					break;
+			
+				case 2:
+					system("clear");
+					GUI_Templates("M_Mode");
+					browser->nextNode();
+					break;
+			}
 			browser->previousNode();
 		}
-		if (strinput == "display")
-		{
-            browser->display();
-		}
+
 		if (strinput == "delete")
 		{
 			browser->delete_current();
@@ -295,4 +308,53 @@ void GUI(std::string GUI_ID, Browser* browser)
 			new_film = nullptr;
 		}
 	} while(strinput != "exit");
+}
+
+
+void GUI_Templates(std::string GUI_ID){
+	if(GUI_ID == "Load_Main_Menu")
+	{
+		std::cout << "\n   TrekStar Production Log" << std::endl;
+		std::cout << "______________________________" << std::endl;
+		std::cout << "\n  Please Enter in a Value" << std::endl;		
+		std::cout << "\nBrowser Mode          Enter BM" << std::endl;
+		std::cout << "Maintenance Mode      Enter MM\n" << std::endl;
+		std::cout << "Exit                  Enter Exit\n" << std::endl;
+		std::cout << "______________________________\n" << std::endl;
+	}
+
+	if(GUI_ID == "B_Mode")
+	{
+		std::cout << "\n      Welcome to Browser Mode" << std::endl;
+		std::cout << "___________________________________" << std::endl;		
+		std::cout << "\n    Please Enter in a Value" << std::endl;		
+		std::cout << "\nNext                      Enter Next" << std::endl;
+		std::cout << "Back                      Enter Back" << std::endl;
+		std::cout << "View Crew                 Enter Crew" << std::endl;
+		std::cout << "View Material Info        Enter MI" << std::endl;
+		std::cout << "Search                    Enter Search\n" << std::endl; // Develop Search Engine to complete criteria of mojoo
+		std::cout << "Return to Menu            Enter RTM\n" << std::endl;
+		std::cout << "___________________________________\n" << std::endl;
+		
+	}
+
+	//std::cout << "Search            		Enter Search <Variable> <VariableN0745180	Alexander7 Data> (e.g Search Actor ExampleActorName) " << std::endl;
+
+	if(GUI_ID == "M_Mode")
+	{
+		std::cout << "\n  Welcome to Maintenace Mode" << std::endl;
+		std::cout << "______________________________" << std::endl;
+		std::cout << "\nPlease Enter in a Value" << std::endl;		
+		std::cout << "\nNext                      Enter Next" << std::endl;
+		std::cout << "Back                      Enter Back" << std::endl;
+		std::cout << "View Crew                 Enter Crew" << std::endl;
+		std::cout << "View Material Info        Enter MI\n" << std::endl;
+		std::cout << "Create New Project        Enter CNP" << std::endl;
+		std::cout << "Edit                      Enter Edit" << std::endl;
+		std::cout << "Delete Project            Enter Edit\n" << std::endl;
+		std::cout << "Reports Mode              Enter R\n" << std::endl;
+		std::cout << "Return to Menu            Enter RTM\n" << std::endl;
+		std::cout << "______________________________\n" << std::endl;
+	}
+
 }
