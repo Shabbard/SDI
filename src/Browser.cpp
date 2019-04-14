@@ -34,14 +34,15 @@ void Browser::display()
 		std::cout << *it << ",";
 	}
 	std::cout << std::endl;
-	std::cout << "Weekly Ticket Sales - " << current->data->WeeklyTicketSales << "\n" << std::endl;
-   std::cout << "Crew Member ID's - ";
+	std::cout << "Weekly Ticket Sales" << "\t" << current->data->WeeklyTicketSales << std::endl;
+   	std::cout << "Crew Member ID's" << "\t";
 	for(std::vector<Crew>::iterator it = current->data->CrewMembers.begin(); it != current->data->CrewMembers.end(); it++)
 	{
       Crew temp = *it;
 		std::cout << temp.ID << ",";
 	}
 	std::cout << std::endl;
+   std::cout << std::endl;
 }
 
 void Browser::display_crew()
