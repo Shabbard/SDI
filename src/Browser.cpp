@@ -34,7 +34,6 @@ void Browser::display()
 		std::cout << *it << ",";
 	}
 	std::cout << std::endl;
-<<<<<<< HEAD
 	std::cout << "Weekly Ticket Sales - " << current->data->WeeklyTicketSales << "\n" << std::endl;
    std::cout << "Crew Member ID's - ";
 	for(std::vector<Crew>::iterator it = current->data->CrewMembers.begin(); it != current->data->CrewMembers.end(); it++)
@@ -43,10 +42,6 @@ void Browser::display()
 		std::cout << temp.ID << ",";
 	}
 	std::cout << std::endl;
-=======
-	std::cout << "Weekly Ticket Sales " << "\t" << current->data->WeeklyTicketSales << "\n" << std::endl;
-
->>>>>>> d1a57d1254802553bf2b02cfc620653f7e287152
 }
 
 void Browser::display_crew()
