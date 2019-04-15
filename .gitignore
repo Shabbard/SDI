@@ -1,5 +1,6 @@
 .vscode/
 .idea/
+*.xml
 cmake-build-debug/
 *.pro.user
 .qmake.stash
