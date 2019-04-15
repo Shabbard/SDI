@@ -101,6 +101,7 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 
 		if (strinput == "next")
 		{
+
 			switch (menu_ID)
 			{
 				case 1:
@@ -185,7 +186,19 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 			system("clear");
 			GUI_Templates("M_Mode");
 			browser->display();
-			std::cout << "Please enter the Keywords: ";
+			std::cout << "Please enter the section you would like to edit (project,crew or material)";
+			std::string edit_input = "";
+			std::cin >> edit_input;
+
+			if (edit_input == "project")
+			{
+				system("clear");
+				GUI_Templates("M_Mode");
+				browser->display();
+			}
+
+
+
 		}
 
 		if (strinput == "insert")
