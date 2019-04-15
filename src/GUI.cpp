@@ -171,11 +171,6 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 			}
 		}
 
-		// if (strinput == "load")
-		// {
-		// 	LoadFile(browser);
-		// }
-		
 		if (strinput == "save" && menu_ID == 0)
 		{
 			system("clear");
@@ -184,6 +179,15 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 			fileHandler.UpdateFile(filePath);
 			browser->setHead();
 		}
+
+		if(strinput == "edit" && menu_ID == 2)
+		{
+			system("clear");
+			GUI_Templates("M_Mode");
+			browser->display();
+			std::cout << "Please enter the Keywords: ";
+		}
+
 		if (strinput == "insert")
 		{
 			Film* new_film = new Film;

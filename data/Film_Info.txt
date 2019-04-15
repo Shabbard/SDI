@@ -10,8 +10,21 @@ Runtime,128
 Language,English,
 Weekly Ticket Sales,1000
 Crew_Members,2,3,4,5,6,7,8,9,11,12,
-Material_ID, 3
+Material_ID, 1
 ID,2
+Status,0
+Title,Avatar 2
+Keywords,Humans,Explosions!!!,Aliens,Sequel
+Summary,This is an example summary for Avatar 2
+Genre,Sci-Fi,
+Release_Date,12/12/1213
+Filming_Loc,Location 1,Location 2,Location 3,
+Runtime,160
+Language,English,
+Weekly Ticket Sales,0
+Crew_Members,2,3,4,5,6,7,8,20,17,29,9,11,12,
+Material_ID, 1
+ID,3
 Status,2
 Title,Car Wars
 Keywords,Cars,Yeet,More Cars,Sick CGI,
@@ -23,8 +36,8 @@ Runtime,169
 Language,English,
 Weekly Ticket Sales,2
 Crew_Members,16,17,18,19,20,21,22,11,
-Material_ID, 3
-ID,3
+Material_ID, 2
+ID,4
 Status,2
 Title,End Game
 Keywords,Cars,Yeet,More Cars,Sick CGI,
