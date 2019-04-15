@@ -49,11 +49,7 @@ void Browser::display()
 	}
 	std::cout << std::endl;
 	std::cout << "Weekly Ticket Sales" << "\t" << current->data->WeeklyTicketSales << std::endl;
-<<<<<<< HEAD
    std::cout << "Crew Member ID's" << "\t";
-=======
-   	std::cout << "Crew Member ID's" << "\t";
->>>>>>> 3c7ff7a6c3a85b9b2a260cd57990add0a96fdf03
 	for(std::vector<Crew>::iterator it = current->data->CrewMembers.begin(); it != current->data->CrewMembers.end(); it++)
 	{
       Crew temp = *it;
