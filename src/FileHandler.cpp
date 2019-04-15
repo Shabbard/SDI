@@ -164,7 +164,21 @@ void FileHandler::UpdateFile(std::string filePath)
 void FileHandler::WriteToFile(std::ofstream& file)
 {
 	file << "ID," << browser->current->data->ID << std::endl;
-	file << "Status," << browser->current->data->Status << std::endl;
+	switch (browser->current->data->Status)
+   {
+      case Film::Status::Unreleased:
+         file << "Status," << "0" << std::endl;
+         break;
+      case Film::Status::Now_Playing:
+         file << "Status," << "1" << std::endl;
+         break;
+      case Film::Status::Released:
+         file << "Status," << "2" << std::endl;
+         break;
+   
+      default:
+         break;
+   }
 	file << "Title," << browser->current->data->Title << std::endl;
 	file << "Keywords,";
 	for(std::vector<std::string>::iterator it = browser->current->data->KeyWords.begin(); it != browser->current->data->KeyWords.end(); it++)
