@@ -3,7 +3,9 @@
 
 void Browser::display()
 {
-   
+   std::cout << "______________________________" << std::endl;
+   std::cout << "\n        Project Data " << std::endl;
+   std::cout << "Datatype"<< "\t\t" << "Data" << std::endl;
    std::cout << "ID" << "\t\t\t"<< current->data->ID << std::endl;
 	std::cout << "Status" << "\t\t\t"<< current->data->Status << std::endl;
 	std::cout << "Title" << "\t\t\t"<< current->data->Title << std::endl;
