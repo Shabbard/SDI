@@ -190,16 +190,10 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 			browser->setHead();
 		}
 
-		if((strinput == "edit") && ((menu_ID == 2)||(menu_ID == 3)))
+		if((menu_ID == 3)||(strinput == "edit") && (menu_ID == 2))
 		{
-			GUI_Templates("edit");
-			menu_ID = 3;
-			
-			std::cout << "Please enter the section you would like to edit (project,crew or material)";
-
-			std::string edit_input = "";
-			std::cin >> edit_input;		
-			edit_data(edit_input);
+			menu_ID = 3;	
+			edit_data();
 		}
 
 		if (strinput == "insert")
@@ -261,26 +255,41 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 	} while(strinput != "exit");
 }
 
-void GUI::edit_data(std::string input)
+void GUI::edit_data()
 {
-	if (input == "project")
+
+	GUI_Templates("edit");
+
+	std::cout << "Please enter the section you would like to edit (project,crew or material)";
+
+	std::string edit_input = "";
+	std::cin >> edit_input;	
+	
+	if (edit_input == "project")
 	{
 		GUI_Templates("edit");
-		std::cout << "Please specify the field you would like to edit";
-
+		browser->display();
+		std::cout << "Please enter in the ID of the project you want to edit" << std::endl;	
+		std::cin >> edit_input;
+		int project_ID = std::stoi (edit_input);
 	}
 
-	if (input == "crew")
+	if (edit_input == "crew")
 	{
-		GUI_Templates("M_Mode");
-		std::cout << "Please specify the field you would like to edit";
+		GUI_Templates("edit");
+		browser->display_crew();
+		std::cout << "Please enter in the ID of the crew member you want to edit" << std::endl;	
+		std::cin >> edit_input;
+		int project_ID = std::stoi (edit_input);
 		
+		
+
+
 	}
 
-	if (input == "materials")
+	if (edit_input == "material")
 	{
-		GUI_Templates("M_Mode");
-		std::cout << "Please specify the field you would like to edit";
-		
+		std::cout << "Incomplete Yeet" << std::endl;
 	}
+
 }
