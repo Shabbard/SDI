@@ -2,7 +2,7 @@
 
 int main()
 {
-    Browser* browser = new Browser;
+    auto browser = new Browser;
 	FileHandler fileHandler(browser);
 	fileHandler.LoadFile("../data/Film_Info_backup.txt");
 	GUI cli(browser);

@@ -1,3 +1,4 @@
+#include "Material.h"
 #include <string>
 #include <vector>
 #pragma once
@@ -19,7 +20,9 @@ class Film
     std::string Title, Summary, ReleaseDate;
     std::vector<std::string> Genre, Filming_Locations, Languages, KeyWords;
     std::vector<Crew> CrewMembers;
+    enum Status { Unreleased, Now_Playing, Released };
     int ID, Runtime, Status;
     double WeeklyTicketSales;
+    std::vector<Material> Materials;
 };
 

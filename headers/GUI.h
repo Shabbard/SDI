@@ -1,4 +1,6 @@
 #include "FileHandler.h"
+#include "Film.h"
+#include "Browser.h"
 #include <stdlib.h>
 #include <algorithm>
 #include <string>

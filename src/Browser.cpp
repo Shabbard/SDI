@@ -5,7 +5,21 @@ void Browser::display()
 {
    
    std::cout << "ID" << "\t\t\t"<< current->data->ID << std::endl;
-	std::cout << "Status" << "\t\t\t"<< current->data->Status << std::endl;
+   switch (current->data->Status)
+   {
+      case Film::Status::Unreleased:
+         std::cout << "Status" << "\t\t\t"<< "Unreleased" << std::endl;
+         break;
+      case Film::Status::Now_Playing:
+         std::cout << "Status" << "\t\t\t"<< "Now Playing" << std::endl;
+         break;
+      case Film::Status::Released:
+         std::cout << "Status" << "\t\t\t"<< "Released" << std::endl;
+         break;
+   
+      default:
+         break;
+   }
 	std::cout << "Title" << "\t\t\t"<< current->data->Title << std::endl;
 	std::cout << "Keywords"<< "\t\t";
 	for(std::vector<std::string>::iterator it = current->data->KeyWords.begin(); it != current->data->KeyWords.end(); it++)
@@ -34,14 +48,15 @@ void Browser::display()
 		std::cout << *it << ",";
 	}
 	std::cout << std::endl;
-	std::cout << "Weekly Ticket Sales - " << current->data->WeeklyTicketSales << "\n" << std::endl;
-   std::cout << "Crew Member ID's - ";
+	std::cout << "Weekly Ticket Sales" << "\t" << current->data->WeeklyTicketSales << std::endl;
+   std::cout << "Crew Member ID's" << "\t";
 	for(std::vector<Crew>::iterator it = current->data->CrewMembers.begin(); it != current->data->CrewMembers.end(); it++)
 	{
       Crew temp = *it;
 		std::cout << temp.ID << ",";
 	}
 	std::cout << std::endl;
+   std::cout << std::endl;
 }
 
 void Browser::display_crew()
