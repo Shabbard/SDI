@@ -41,7 +41,7 @@ void Browser::display()
 		std::cout << *it << ",";
 	}
 	std::cout << std::endl;
-	std::cout << "Runtime" << "\t\t\t"<< current->data->Runtime << std::endl;
+	std::cout << "Runtime" << "\t\t\t"<< current->data->Runtime << " Minutes "<< std::endl;
 	std::cout << "Language"<< "\t\t";
 	for(std::vector<std::string>::iterator it = current->data->Languages.begin(); it != current->data->Languages.end(); it++)
 	{
@@ -49,7 +49,11 @@ void Browser::display()
 	}
 	std::cout << std::endl;
 	std::cout << "Weekly Ticket Sales" << "\t" << current->data->WeeklyTicketSales << std::endl;
+<<<<<<< HEAD
    std::cout << "Crew Member ID's" << "\t";
+=======
+   	std::cout << "Crew Member ID's" << "\t";
+>>>>>>> 3c7ff7a6c3a85b9b2a260cd57990add0a96fdf03
 	for(std::vector<Crew>::iterator it = current->data->CrewMembers.begin(); it != current->data->CrewMembers.end(); it++)
 	{
       Crew temp = *it;
