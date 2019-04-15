@@ -14,6 +14,7 @@ void GUI::GUI_Templates(std::string GUI_ID)
 {
 	if(GUI_ID == "Load_Main_Menu")
 	{
+		system("clear");
 		std::cout << "\n   TrekStar Production Log" << std::endl;
 		std::cout << "______________________________" << std::endl;
 		std::cout << "\n  Please Enter in a Value" << std::endl;		
@@ -26,6 +27,7 @@ void GUI::GUI_Templates(std::string GUI_ID)
 
 	if(GUI_ID == "B_Mode")
 	{
+		system("clear");
 		std::cout << "\n      Welcome to Browser Mode" << std::endl;
 		std::cout << "___________________________________" << std::endl;		
 		std::cout << "\n    Please Enter in a Value" << std::endl;		
@@ -36,6 +38,7 @@ void GUI::GUI_Templates(std::string GUI_ID)
 		std::cout << "Search                    Enter Search\n" << std::endl; // Develop Search Engine to complete criteria of mojoo
 		std::cout << "Return to Menu            Enter RTM\n" << std::endl;
 		std::cout << "___________________________________\n" << std::endl;
+		browser->display();
 		
 	}
 
@@ -43,6 +46,7 @@ void GUI::GUI_Templates(std::string GUI_ID)
 
 	if(GUI_ID == "M_Mode")
 	{
+		system("clear");
 		std::cout << "\n  Welcome to Maintenace Mode" << std::endl;
 		std::cout << "______________________________" << std::endl;
 		std::cout << "\nPlease Enter in a Value" << std::endl;		
@@ -56,6 +60,7 @@ void GUI::GUI_Templates(std::string GUI_ID)
 		std::cout << "Reports Mode              Enter R\n" << std::endl;
 		std::cout << "Return to Menu            Enter RTM\n" << std::endl;
 		std::cout << "______________________________\n" << std::endl;
+		browser->display();
 	}
 
 }
@@ -75,25 +80,20 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 
 		if ((strinput == "bm")&&(menu_restriction == true))
 		{
-			system("clear");
 			GUI_Templates("B_Mode");
 			menu_restriction = false;
-			browser->display();
 			menu_ID = 1;
 		}
 
 		if ((strinput == "mm")&&(menu_restriction == true))
 		{
-			system("clear");
 			GUI_Templates("M_Mode");
 			menu_restriction = false;
-			browser->display();
 			menu_ID = 2;
 		}
 
 		if (strinput == "rtm")
 		{
-			system("clear");
 			GUI_Templates("Load_Main_Menu");
 			menu_restriction = true;
 			menu_ID = 0;
@@ -105,17 +105,13 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 			switch (menu_ID)
 			{
 				case 1:
-					system("clear");
 					GUI_Templates("B_Mode");
 					browser->nextNode();
-					browser->display();
 					break;
 			
 				case 2:
-					system("clear");
 					GUI_Templates("M_Mode");
 					browser->nextNode();
-					browser->display();
 					break;
 			}
 							
@@ -125,17 +121,13 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 			switch (menu_ID)
 			{
 				case 1:
-					system("clear");
 					GUI_Templates("B_Mode");
 					browser->previousNode();
-					browser->display();
 					break;
 			
 				case 2:
-					system("clear");
 					GUI_Templates("M_Mode");
 					browser->previousNode();
-					browser->display();
 					break;
 			}
 		}
@@ -144,7 +136,6 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 		{
 			if (menu_ID == 2)
 			{
-				system("clear");
 				GUI_Templates("M_Mode");
 				std::cout << "Project Deleted" << std::endl;
 				browser->delete_current();
@@ -157,16 +148,12 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 			switch (menu_ID)
 			{
 				case 1:
-					system("clear");
 					GUI_Templates("B_Mode");
-					browser->display();
 					browser->display_crew();
 					break;
 			
 				case 2:
-					system("clear");
 					GUI_Templates("M_Mode");
-					browser->display();
 					browser->display_crew();
 					break;
 			}
@@ -174,7 +161,6 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 
 		if (strinput == "save" && menu_ID == 0)
 		{
-			system("clear");
 			GUI_Templates("Load_Main_Menu");
 			std::cout << " Projects Saved   " << std::endl;
 			fileHandler.UpdateFile(filePath);
@@ -183,18 +169,14 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 
 		if(strinput == "edit" && menu_ID == 2)
 		{
-			system("clear");
 			GUI_Templates("M_Mode");
-			browser->display();
 			std::cout << "Please enter the section you would like to edit (project,crew or material)";
 			std::string edit_input = "";
 			std::cin >> edit_input;
 
 			if (edit_input == "project")
 			{
-				system("clear");
 				GUI_Templates("M_Mode");
-				browser->display();
 			}
 
 
