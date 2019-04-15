@@ -63,6 +63,19 @@ void GUI::GUI_Templates(std::string GUI_ID)
 		browser->display();
 	}
 
+	if(GUI_ID == "edit")
+	{
+		system("clear");
+		std::cout << "\n           Welcome to Edit Mode" << std::endl;
+		std::cout << "______________________________________________" << std::endl;
+		std::cout << "\nNext                                Enter Next" << std::endl;
+		std::cout << "Back                                Enter Back\n" << std::endl;
+		std::cout << "Step 1: Enter in the database you want to edit\n" << std::endl;
+		std::cout << "Step 2: Enter in the ID you want to edit\n" << std::endl;
+		std::cout << "Step 3: Enter in the datatype you want ot edit\n " << std::endl;
+		std::cout << "______________________________________________\n" << std::endl;
+	}
+
 }
 
 void GUI::CLI(FileHandler fileHandler, std::string filePath)
@@ -101,6 +114,7 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 
 		if (strinput == "next")
 		{
+
 			switch (menu_ID)
 			{
 				case 1:
@@ -110,6 +124,11 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 			
 				case 2:
 					GUI_Templates("M_Mode");
+					browser->nextNode();
+					break;
+				
+				case 3:
+					GUI_Templates("edit");
 					browser->nextNode();
 					break;
 			}
@@ -127,6 +146,11 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 				case 2:
 					GUI_Templates("M_Mode");
 					browser->previousNode();
+					break;
+
+				case 3:
+					GUI_Templates("edit");
+					browser->nextNode();
 					break;
 			}
 		}
@@ -166,10 +190,16 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 			browser->setHead();
 		}
 
-		if(strinput == "edit" && menu_ID == 2)
+		if((strinput == "edit") && ((menu_ID == 2)||(menu_ID == 3)))
 		{
-			GUI_Templates("M_Mode");
-			std::cout << "Please enter the Keywords: ";
+			GUI_Templates("edit");
+			menu_ID = 3;
+			
+			std::cout << "Please enter the section you would like to edit (project,crew or material)";
+
+			std::string edit_input = "";
+			std::cin >> edit_input;		
+			edit_data(edit_input);
 		}
 
 		if (strinput == "insert")
@@ -229,4 +259,28 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 			new_film = nullptr;
 		}
 	} while(strinput != "exit");
+}
+
+void GUI::edit_data(std::string input)
+{
+	if (input == "project")
+	{
+		GUI_Templates("edit");
+		std::cout << "Please specify the field you would like to edit";
+
+	}
+
+	if (input == "crew")
+	{
+		GUI_Templates("M_Mode");
+		std::cout << "Please specify the field you would like to edit";
+		
+	}
+
+	if (input == "materials")
+	{
+		GUI_Templates("M_Mode");
+		std::cout << "Please specify the field you would like to edit";
+		
+	}
 }

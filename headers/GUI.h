@@ -21,5 +21,6 @@ public:
     ~GUI();
     void GUI_Templates(std::string GUI_ID);
     void CLI(FileHandler fileHandler, std::string filePath);
+    void edit_data(std::string input);
 };
 
