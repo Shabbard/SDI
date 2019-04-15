@@ -96,8 +96,24 @@ void FileHandler::LoadFile(std::string filePath)
                 {
                    film->CrewMembers.push_back(temp);
                 }
+				browser->insert_tail(film);
+				film = new Film();
 	        }
-            browser->insert_tail(film);
+		}
+		else if(LineData.at(0) == "Materials")
+		{
+			LineData.erase(LineData.begin());
+			Material* temp;
+            for(std::vector<std::string>::iterator it = LineData.begin(); it != LineData.end(); it++)
+	        {
+                temp->ID = std::stoi(*it);
+                temp = LoadMaterial("../data/Material_Data.txt", temp);
+                if(!temp->ID == 0)
+                {
+                   //film->Materials.push_back(temp);
+                }
+	        }
+			browser->insert_tail(film);
 			film = new Film();
 		}
 		
@@ -146,6 +162,138 @@ Crew FileHandler::LoadCrew(std::string filePath, Crew CrewMember)
     }
 
     return CrewMember;
+}
+
+Material* FileHandler::LoadMaterial(std::string filePath, Material* mat)
+{
+	std::ifstream MaterialData;
+    MaterialData.open(filePath);
+
+	std::ifstream FilmData;
+	FilmData.open("../data/Film_Info.txt");
+
+    std::string str;
+
+    std::vector<std::string> LineData;
+
+	int ID = 0;
+
+    while (std::getline(MaterialData, str))
+	{
+		std::regex data("([^,]+)"); // finds all of the data values between the commas and includes spaces for empty data values
+  		std::smatch data_match;
+
+  		if (std::regex_search(str, data_match, data)) // if there are data values to enter
+  		{
+    		for (std::sregex_iterator i = std::sregex_iterator(str.begin(), str.end(), data); i != std::sregex_iterator(); ++i)
+    		{
+      			data_match = *i;
+      			LineData.push_back(data_match.str()); // loops through the values between commas (including whitespace) and adds them to a vector
+    		}
+		}
+
+        if (LineData.at(0) == "ID")
+        {
+			ID = std::stoi(LineData.at(1));
+        }
+        else if (LineData.at(0) == "Type")
+        {
+            if (LineData.at(1) == "Combo")
+			{
+				mat = new ComboBox();
+			}
+			else if (LineData.at(1) == "DoubleDVD")
+			{
+				mat = new DoubleSidedDVD();
+			}
+			else if (LineData.at(1) == "SingleDVD")
+			{
+				mat = new SingleSidedDVD();
+			}
+			else if (LineData.at(1) == "VHS")
+			{
+				mat = new VHS();
+			}
+			else
+			{
+				return mat;
+			}
+			mat->ID = ID;
+        }
+		else if (LineData.at(0) == "Title")
+		{
+			mat->Title = LineData.at(1);
+		}
+		else if (LineData.at(0) == "DVD_Description")
+		{
+			mat->Description = LineData.at(1);
+		}
+		else if (LineData.at(0) == "Video_Format")
+		{
+			mat->VideoFormat = LineData.at(1);
+		}
+		else if (LineData.at(0) == "Audio_Format")
+		{
+			mat->AudioFormat = LineData.at(1);
+		}
+		else if (LineData.at(0) == "Run_Time")
+		{
+			mat->Runtime = std::stoi(LineData.at(1));
+		}
+		else if (LineData.at(0) == "Languages")
+		{
+			LineData.erase(LineData.begin());
+			if (LineData.size() > 1)
+			{
+				mat->Languages = LineData;
+			}
+			else
+			{
+			 	//mat->Languages = LineData.at(0);
+			}
+		}
+		else if (LineData.at(0) == "Retail_Price")
+		{
+			mat->RetailPrice = std::stoi(LineData.at(1));
+		}
+		else if (LineData.at(0) == "Subtitles")
+		{
+			LineData.erase(LineData.begin());
+			if (LineData.size() > 1)
+			{
+				mat->Subtitles = LineData;
+			}
+			else
+			{
+			 	//mat->Subtitles = LineData.at(0);
+			}
+		}
+		else if (LineData.at(0) == "Frame_Aspect")
+		{
+			mat->FrameAspect = LineData.at(1);
+		}
+		else if (LineData.at(0) == "Packaging")
+		{
+			mat->Packaging = LineData.at(1);
+		}
+		else if (LineData.at(0) == "Stored")
+		{
+			std::string s = typeid(mat).name();
+			if (s == "ComboBox")
+			{
+				
+				mat->DVDs.emplace_back();
+			}
+			else if(s == "DoubleSidedDVD")
+			{
+
+			}
+		}
+
+        LineData.clear();
+    }
+
+    return mat;
 }
 
 void FileHandler::UpdateFile(std::string filePath)

@@ -1,3 +1,5 @@
+#ifndef BROWSER_H
+#define BROWSER_H
 #include "Film.h"
 #pragma once
 
@@ -29,4 +31,4 @@ class Browser
     void delete_current();
 };
 
-
+#endif
