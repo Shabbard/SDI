@@ -1,3 +1,5 @@
+#ifndef FILM_H
+#define FILM_H
 #include "Material.h"
 #include <string>
 #include <vector>
@@ -23,6 +25,7 @@ class Film
     enum Status { Unreleased, Now_Playing, Released };
     int ID, Runtime, Status;
     double WeeklyTicketSales;
-    std::vector<Material> Materials;
+    //std::vector<Material*> Materials;
 };
 
+#endif

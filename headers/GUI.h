@@ -1,3 +1,5 @@
+#ifndef GUI_H
+#define GUI_H
 #include "FileHandler.h"
 #include "Film.h"
 #include "Browser.h"
@@ -24,3 +26,4 @@ public:
     void edit_data(std::string input);
 };
 
+#endif
