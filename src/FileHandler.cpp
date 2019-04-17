@@ -103,6 +103,7 @@ void FileHandler::LoadFile(std::string filePath)
 		
 		LineData.clear();
 	}
+	
 	film = nullptr;
 } 
 

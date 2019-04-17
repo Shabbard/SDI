@@ -19,7 +19,20 @@ private:
 public:
     GUI(Browser* browser);
     ~GUI();
-    void GUI_Templates(std::string GUI_ID);
-    void CLI(FileHandler fileHandler, std::string filePath);
+    void Main_Menu_Templates();
+    void BM_Templates();
+    void MM_Templates();
+    void Edit_Templates();
+    void CNP_Templates();
+
+    void Main_Menu(FileHandler fileHandler, std::string filePath);
+    void Browser_Menu();
+    void Maintenance_Menu();
+    void Edit_Menu();
+    void Create_New_Project_Menu();
+
+    int unique_id_check();
+
+    void Basic_User_Input(std::string user_input);
 };
 
