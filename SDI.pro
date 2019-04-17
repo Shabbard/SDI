@@ -10,14 +10,16 @@ SOURCES += \
     src/SDI-tests.cpp \
     src/FileHandler.cpp \
     src/GUI.cpp \
-    src/Material.cpp
+    src/Material.cpp \
+    src/FilmProject.cpp
 
 HEADERS += \
     headers/Browser.h \
     headers/Film.h \
     headers/FileHandler.h \
     headers/GUI.h \
-    headers/Material.h
+    headers/Material.h \
+    headers/FilmProject.h
 
 INCLUDEPATH += headers/
 

@@ -78,7 +78,7 @@ void GUI::GUI_Templates(std::string GUI_ID)
 
 }
 
-void GUI::CLI(FileHandler fileHandler, std::string filePath)
+void GUI::CLI(FileHandler fileHandler)
 {
 		std::string strinput = "";
 
@@ -186,7 +186,7 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 		{
 			GUI_Templates("Load_Main_Menu");
 			std::cout << " Projects Saved   " << std::endl;
-			fileHandler.UpdateFile(filePath);
+			fileHandler.UpdateFile();
 			browser->setHead();
 		}
 
@@ -204,7 +204,7 @@ void GUI::CLI(FileHandler fileHandler, std::string filePath)
 
 		if (strinput == "insert")
 		{
-			Film* new_film = new Film;
+			FilmProject* new_film = new FilmProject;
 
 			// new_film->ID = 1;
 			// new_film->Title = "1";

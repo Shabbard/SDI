@@ -1,48 +1,50 @@
+#pragma once
 #ifndef MATERIAL_H
 #define MATERIAL_H
+//#ifndef FILM_H
 #include "Film.h"
+//#endif
 #include <string>
 #include <vector>
 #include <memory>
-#pragma once
 
 class Material
 {
-private:
-    /* data */
-public:
-
-    int ID, Runtime;
-    std::string Title, VideoFormat, AudioFormat, FrameAspect, Packaging, Description; 
-    double RetailPrice;
-    std::vector<std::string> Languages, Subtitles;
-    std::vector<std::unique_ptr<Material>> DVDs;
-    std::pair<std::unique_ptr<Material>, std::unique_ptr<Material>> DVD;
-    //Film film;
-
-    Material(/* args */);
-    ~Material();
+    public:
+        virtual ~Material() {}
+        int ID, Runtime;
+        std::string Title, VideoFormat, AudioFormat, FrameAspect, Packaging, Description, Type; 
+        double RetailPrice;
+        std::vector<std::string> Languages, Subtitles;
 };
 
 class VHS : public Material
 {
     public:
      std::string Languages, Subtitles;
+     Film film;
 };
 
-class SingleSidedDVD : public Material
-{
+class DVD : public Material
+{  
     public:
+        Film film;
         const std::string Packaging = "Plastic Box";
 };
 
+// class SingleSidedDVD : public DVD
+// {
+//     public:
+        
+// };
+
 class DoubleSidedDVD : public Material
 {
-    public:
-     const std::string Packaging = "Plastic Box";        
+    public:   
+     std::pair<Film, Film> DVD;
 };
 
-class BluRay : public Material
+class BluRay : public DVD
 {
     public:
         const std::string Packaging = "Small Plastic Box";
@@ -52,6 +54,7 @@ class ComboBox : public Material
 {
     public:
         const std::string Packaging = "Cardboard Box";
+        std::vector<std::unique_ptr<Material>> DVDs;
 };
 
 #endif

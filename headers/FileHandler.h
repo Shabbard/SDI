@@ -1,3 +1,4 @@
+#pragma once
 #ifndef FILEHANDLER_H
 #define FILEHANDLER_H
 #include "Browser.h"
@@ -6,20 +7,25 @@
 #include <fstream>
 #include <regex>
 #include <typeinfo>
-#pragma once
+#include <memory>
 
 class FileHandler
 {
 private:
     Browser* browser;
+    std::string dataPrefix = "../data/";
+    std::string FilmData = dataPrefix + "Film_Info_backup.txt";
+    std::string MaterialData = dataPrefix + "Material_Data.txt";
+    std::string CrewData = dataPrefix + "Crew_Member_Info.txt";
+
 public:
     FileHandler(Browser* browser);
-    ~FileHandler();
-    void LoadFile(std::string filePath);
-    void UpdateFile(std::string filePath);
+    void LoadFile();
+    void UpdateFile();
     void WriteToFile(std::ofstream& file);
-    Crew LoadCrew(std::string filePath, Crew CrewMember);
-    Material* LoadMaterial(std::string filePath, Material* mat);
+    Crew LoadCrew(Crew CrewMember);
+    template<typename T>
+    T LoadMaterial(T mat, int currentID);
 };
 
 #endif

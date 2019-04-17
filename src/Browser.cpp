@@ -9,13 +9,13 @@ void Browser::display()
    std::cout << "ID" << "\t\t\t"<< current->data->ID << std::endl;
    switch (current->data->Status)
    {
-      case Film::Status::Unreleased:
+      case FilmProject::Status::Unreleased:
          std::cout << "Status" << "\t\t\t"<< "Unreleased" << std::endl;
          break;
-      case Film::Status::Now_Playing:
+      case FilmProject::Status::Now_Playing:
          std::cout << "Status" << "\t\t\t"<< "Now Playing" << std::endl;
          break;
-      case Film::Status::Released:
+      case FilmProject::Status::Released:
          std::cout << "Status" << "\t\t\t"<< "Released" << std::endl;
          break;
    
@@ -76,7 +76,7 @@ void Browser::display_crew()
    std::cout << "\n";
 }
 
-void Browser::insert(Film* new_data)
+void Browser::insert(FilmProject* new_data)
 {
    if(current == nullptr || current->next == nullptr)
    {
@@ -98,7 +98,7 @@ void Browser::insert(Film* new_data)
    }
 }
 
-void Browser::insert_tail(Film* new_data)
+void Browser::insert_tail(FilmProject* new_data)
 {
    struct Node* new_node = (struct Node*) malloc(sizeof(struct Node));
    new_node->data  = new_data;
@@ -117,7 +117,7 @@ void Browser::insert_tail(Film* new_data)
    tail = new_node; 
 }
 
-void Browser::insert_head(Film* new_data)
+void Browser::insert_head(FilmProject* new_data)
 {
    struct Node* new_node = (struct Node*) malloc(sizeof(struct Node));
    new_node->data  = new_data;

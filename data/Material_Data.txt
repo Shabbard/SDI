@@ -1,15 +1,41 @@
 ID,1
-Type,Combo2
-Format,DVD2,DVD1
-Title, Avatar | Avatar 2 | Avatar - The complete collection.
-DVD_Description, Original Avatar film | Directors Cut and Special Features | New Avatar Film  
-Video_Format, 1080p | 1080p | 1080p
-Audio_Format, WAV | WAV | WAV
-Run_Time, 128 | 160 | 150
-Languages, English, French, Spanish | English, French, Spanish | English, French, Spanish
-Retail_Price, 25
-Subtitles, English, French, Spanish | English, French, Spanish | English, French, Spanish
-Frame_Aspect, 16:9|16:9|16:9
-Packaging, Plastic|Plastic|Cardboard 
+Type,ComboBox
+Stored,2,3
+Title,Avatar - The complete collection.
+DVD_Description,The complete Avatar film collection.
+Video_Format,1080p
+Audio_Format,WAV
+Run_Time,438
+Languages,English,French,Spanish
+Retail_Price,25
+Subtitles,English,French,Spanish
+Frame_Aspect,16:9
+Packaging,Cardboard 
+ID,2
+Type,DoubleSidedDVD
+Stored,1,2
+Title,Avatar + Car Wars.
+DVD_Description,Car Avatar.
+Video_Format,1080p
+Audio_Format,WAV
+Run_Time,120
+Languages,English,French,Spanish
+Retail_Price,30
+Subtitles,English,French,Spanish
+Frame_Aspect,16:9
+Packaging,Plastic 
+ID,3
+Type,DVD
+Stored,3
+Title,Avatar - End Game.
+DVD_Description,Dead Avatar.
+Video_Format,1080p
+Audio_Format,WAV
+Run_Time,160
+Languages,English,French,Spanish
+Retail_Price,30
+Subtitles,English,French,Spanish
+Frame_Aspect,16:9
+Packaging,Plastic 
 
 

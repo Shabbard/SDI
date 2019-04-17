@@ -1,7 +1,7 @@
 #ifndef GUI_H
 #define GUI_H
 #include "FileHandler.h"
-#include "Film.h"
+#include "FilmProject.h"
 #include "Browser.h"
 #include <stdlib.h>
 #include <algorithm>
@@ -22,7 +22,7 @@ public:
     GUI(Browser* browser);
     ~GUI();
     void GUI_Templates(std::string GUI_ID);
-    void CLI(FileHandler fileHandler, std::string filePath);
+    void CLI(FileHandler fileHandler);
     void edit_data(std::string input);
 };
 
