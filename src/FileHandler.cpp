@@ -181,6 +181,7 @@ void FileHandler::LoadFile()
 		}
 		LineData.clear();
 	}
+	
 	film = nullptr;
 }
 

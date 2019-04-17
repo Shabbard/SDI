@@ -66,7 +66,7 @@ void Browser::display_crew()
 
    std::cout << "___________________________________\n" << std::endl;
    std::cout << "            Crew Members             " << "\n"<< std::endl;
-   std::cout << " ID             Name            Job" << std::endl;
+   std::cout << " ID             Name            Job\n" << std::endl;
    for(std::vector<Crew>::iterator it = current->data->CrewMembers.begin(); it != current->data->CrewMembers.end(); it++)
 	{
       Crew temp;
