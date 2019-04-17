@@ -204,7 +204,7 @@ void GUI::Create_New_Project_Menu()
 
 	std::string values[12] = {"Status", "Title" , "Keywords" ,"Summary", "Genre", "Release Date", "Filming Locations", "Runtime", "Language", "Weekly Ticket Sales", "Crew Members"};
 
-	Film* new_film = new Film;
+	FilmProject* new_film = new FilmProject;
 
 	new_film->ID = unique_id_check();
 

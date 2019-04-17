@@ -6,5 +6,5 @@ int main()
 	FileHandler fileHandler(browser);
 	fileHandler.LoadFile();
 	GUI cli(browser);
-    cli.Main_Menu(fileHandler, "../data/Film_Info.txt");
+    cli.Main_Menu(fileHandler);
 }
