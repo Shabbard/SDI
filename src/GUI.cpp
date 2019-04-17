@@ -193,7 +193,7 @@ void GUI::CLI(FileHandler fileHandler)
 		if((menu_ID == 3)||(strinput == "edit") && (menu_ID == 2))
 		{
 			menu_ID = 3;	
-			edit_data();
+			//edit_data();
 		}
 
 		if (strinput == "insert")
@@ -255,7 +255,7 @@ void GUI::CLI(FileHandler fileHandler)
 	} while(strinput != "exit");
 }
 
-void GUI::edit_data()
+void GUI::edit_data(std::string input)
 {
 
 	GUI_Templates("edit");

@@ -230,14 +230,14 @@ Crew FileHandler::LoadCrew(Crew CrewMember)
 template<typename T>
 T FileHandler::LoadMaterial(T mat, int currentID)
 {
-	std::ifstream MaterialData;
-	MaterialData.open(MaterialData);
+	std::ifstream MaterialFile;
+	MaterialFile.open(MaterialData);
 	std::string str;
     int currID = 0;
 
 	std::vector<std::string> LineData;
 
-	while (std::getline(MaterialData, str))
+	while (std::getline(MaterialFile, str))
 	{
 		std::regex data("([^,]+)"); // finds all of the data values between the commas and includes spaces for empty data values
 		std::smatch data_match;
@@ -320,7 +320,7 @@ T FileHandler::LoadMaterial(T mat, int currentID)
 				//std::string s = typeid(mat).name();
 				if (mat->Type == "ComboBox")
 				{
-					std::ifstream 
+					//std::ifstream 
 					// we are storing other materials
 	               //mat->DVDs.emplace_back();
 				}
