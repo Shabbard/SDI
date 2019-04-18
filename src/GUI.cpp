@@ -13,62 +13,69 @@ GUI::~GUI()
 void GUI::Main_Menu_Templates()
 {
 
-	std::cout << "\n   TrekStar Production Log" << std::endl;
-	std::cout << "______________________________" << std::endl;
-	std::cout << "\n  Please Enter in a Value" << std::endl;		
-	std::cout << "\nBrowser Mode          Enter BM" << std::endl;
-	std::cout << "Maintenance Mode      Enter MM\n" << std::endl;
-	std::cout << "Save                  Enter Save\n" << std::endl;
-	std::cout << "Exit                  Enter Exit\n" << std::endl;
-	std::cout << "______________________________\n" << std::endl;
+	std::cout << "\n           TrekStar Production Log" << std::endl;
+	std::cout << "______________________________________________" << std::endl;
+	std::cout << "\n            Please Enter in a Value" << std::endl;		
+	std::cout << "\nBrowser Mode                        Enter BM" << std::endl;
+	std::cout << "Maintenance Mode                    Enter MM\n" << std::endl;
+	std::cout << "Save                                Enter Save\n" << std::endl;
+	std::cout << "Exit                                Enter Exit\n" << std::endl;
+	std::cout << "______________________________________________\n" << std::endl;
 }
 void GUI::BM_Templates()
 {
-	std::cout << "\n      Welcome to Browser Mode" << std::endl;
-	std::cout << "___________________________________" << std::endl;		
+	std::cout << "\n          Welcome to Browser Mode" << std::endl;
+	std::cout << "______________________________________________" << std::endl;		
 	std::cout << "\n    Please Enter in a Value" << std::endl;		
-	std::cout << "\nNext                      Enter Next" << std::endl;
-	std::cout << "Back                      Enter Back" << std::endl;
-	std::cout << "View Crew                 Enter Crew" << std::endl;
-	std::cout << "View Material Info        Enter MI" << std::endl;
-	std::cout << "Search                    Enter Search\n" << std::endl; // Develop Search Engine to complete criteria of mojoo
-	std::cout << "Return to Menu            Enter RTM\n" << std::endl;
-	std::cout << "___________________________________\n" << std::endl;
+	std::cout << "\nNext                                Enter Next" << std::endl;
+	std::cout << "Back                                Enter Back" << std::endl;
+	std::cout << "View Crew                           Enter Crew" << std::endl;
+	std::cout << "View Material Info                  Enter MI" << std::endl;
+	std::cout << "Search                              Enter Search\n" << std::endl; // Develop Search Engine to complete criteria of mojoo
+	std::cout << "Return to Menu                      Enter RTM\n" << std::endl;
+	std::cout << "______________________________________________\n" << std::endl;
 	browser->display();
 		
 }
 void GUI::MM_Templates()
 {
 	std::cout << "\n     Welcome to Maintenace Mode" << std::endl;
-	std::cout << "______________________________________" << std::endl;
+	std::cout << "______________________________________________" << std::endl;
 	std::cout << "\nPlease Enter in a Value" << std::endl;		
-	std::cout << "\nNext                      Enter Next" << std::endl;
-	std::cout << "Back                      Enter Back" << std::endl;
-	std::cout << "View Crew                 Enter Crew" << std::endl;
-	std::cout << "View Material Info        Enter MI\n" << std::endl;
-	std::cout << "Create New Project        Enter CNP" << std::endl;
-	std::cout << "Edit                      Enter EDIT" << std::endl;
-	std::cout << "Delete Project            Enter DP\n" << std::endl;
-	std::cout << "Reports Mode              Enter R\n" << std::endl;
-	std::cout << "Return to Menu            Enter RTM\n" << std::endl;
-	std::cout << "______________________________\n" << std::endl;
+	std::cout << "\nNext                                 Enter Next" << std::endl;
+	std::cout << "Back                                 Enter Back" << std::endl;
+	std::cout << "View Crew                            Enter Crew" << std::endl;
+	std::cout << "View Material Info                   Enter MI\n" << std::endl;
+	std::cout << "Create New Project                   Enter CNP" << std::endl;
+	std::cout << "Edit                                 Enter EDIT" << std::endl;
+	std::cout << "Delete Project                       Enter DP\n" << std::endl;
+	std::cout << "Reports Mode                         Enter R\n" << std::endl;
+	std::cout << "Return to Menu                       Enter RTM\n" << std::endl;
+	std::cout << "______________________________________________\n" << std::endl;
 	browser->display();
 }
 
 void GUI::CNP_Templates()
 {
-	std::cout << "\n          Add New Project" << std::endl;
-	std::cout << "_______________________________________" << std::endl;
-	std::cout << "\nPlease follow the instructions below" << std::endl;
-	std::cout << "\nEnter in the values as they are listed" << std::endl;
-	std::cout << "\n      You may edit this later on" << std::endl;
-	std::cout << "_______________________________________\n" << std::endl;
+	std::cout << "\n              Add New Project" << std::endl;
+	std::cout << "______________________________________________" << std::endl;
+	std::cout << "\n   Please follow the instructions below" << std::endl;
+	std::cout << "\n  Enter in the values as they are listed" << std::endl;
+	std::cout << "\n        You may edit this later on" << std::endl;
+	std::cout << "______________________________________________\n" << std::endl;
 }
 
 
 void GUI::Edit_Templates()
 {
-
+	std::cout << "\n           Welcome to Edit Mode" << std::endl;
+	std::cout << "______________________________________________" << std::endl;
+	std::cout << "\nNext                                Enter Next" << std::endl;
+	std::cout << "Back                                Enter Back\n" << std::endl;
+	std::cout << "Step 1: Enter in the database you want to edit\n" << std::endl;
+	std::cout << "Step 2: Enter in the ID you want to edit\n" << std::endl;
+	std::cout << "Step 3: Enter in the datatype you want ot edit\n " << std::endl;
+	std::cout << "______________________________________________\n" << std::endl;
 }
 
 
@@ -293,7 +300,7 @@ void GUI::Create_New_Project_Menu()
 	std::cin >> new_film->Title;
 	std::cout << "\nPlease insert the Keywords: " << std::endl;
 	std::cout << "Type in the value then press enter to add another value" << std::endl;
-	std::cout << "When you have finihed enter in (case sensitive) - Q" << std::endl;
+	std::cout << "When you have finished enter in (case sensitive) - Q" << std::endl;
 	do
 	{
 		std::cin >> strinput;
@@ -303,7 +310,7 @@ void GUI::Create_New_Project_Menu()
 	std::cin >> new_film->Summary;
 	std::cout << "\nPlease insert the Genres: " << std::endl;
 	std::cout << "Type in the value then press enter to add another value" << std::endl;
-	std::cout << "When you have finihed enter in (case sensitive) - Q" << std::endl;
+	std::cout << "When you have finished enter in (case sensitive) - Q" << std::endl;
 	do
 	{
 		std::cin >> strinput;
@@ -313,7 +320,7 @@ void GUI::Create_New_Project_Menu()
 	std::cin >> new_film->ReleaseDate;
 	std::cout << "\nPlease insert the Filming Locations: " << std::endl;
 	std::cout << "Type in the value then press enter to add another value" << std::endl;
-	std::cout << "When you have finihed enter in (case sensitive) - Q" << std::endl;
+	std::cout << "When you have finished enter in (case sensitive) - Q" << std::endl;
 	do
 	{
 		std::cin >> strinput;
@@ -323,7 +330,7 @@ void GUI::Create_New_Project_Menu()
 	std::cin >> new_film->Runtime;
 	std::cout << "\nPlease insert the Languages: " << std::endl;
 	std::cout << "Type in the value then press enter to add another value" << std::endl;
-	std::cout << "When you have finihed enter in (case sensitive) - Q" << std::endl;
+	std::cout << "When you have finished enter in (case sensitive) - Q" << std::endl;
 	do
 	{
 		std::cin >> strinput;
@@ -333,7 +340,7 @@ void GUI::Create_New_Project_Menu()
 	std::cin >> new_film->WeeklyTicketSales;
 	std::cout << "\nPlease insert Crew Memeber IDs" << std::endl;
 	std::cout << "Type in the value then press enter to add another value" << std::endl;
-	std::cout << "When you have finihed enter in - 00" << std::endl;
+	std::cout << "When you have finished enter in - 00" << std::endl;
 	std::string tempStr;
 	do
 	{
