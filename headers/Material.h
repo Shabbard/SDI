@@ -45,7 +45,9 @@ class DVD : public Material
             Type = "DVD";
             Packaging = "Plastic Box";
         }
-        void SetFilm(Film in) override {film = in;} 
+        void SetFilm(Film in) override {film = in;}
+        void SetLanguages(std::vector<std::string> input) override {Languages = input;}
+        void SetSubtitiles(std::vector<std::string> input) override {Subtitles = input;}
 };
 
 class DoubleSidedDVD : public Material
@@ -69,7 +71,9 @@ class BluRay : public DVD
             Type = "BluRay";
             Packaging = "Small Plastic Box";
         }
-        void SetFilm(Film in) override {film = in;}        
+        void SetFilm(Film in) override {film = in;}
+        void SetLanguages(std::vector<std::string> input) override {Languages = input;}
+        void SetSubtitiles(std::vector<std::string> input) override {Subtitles = input;}     
 };
 
 class ComboBox : public Material
@@ -84,5 +88,7 @@ class ComboBox : public Material
             Packaging = "Cardboard Box";
         }
         void SetDVDVector(Material* in) override {DVDs.push_back(in);}
+        void SetLanguages(std::vector<std::string> input) override {Languages = input;}
+        void SetSubtitiles(std::vector<std::string> input) override {Subtitles = input;}
 };
 #endif
