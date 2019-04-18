@@ -7,14 +7,14 @@
 struct Crew
 {
   int ID = 0;
-  std::string Name = "";
-  std::string Job = "";
+  std::string Name;
+  std::string Job;
 };
 
 class Film
 {
   public:
-    std::string Title = "", Summary = "", ReleaseDate = "";
+    std::string Title, Summary, ReleaseDate;
     std::vector<std::string> Genre, Languages;
     int ID = 0, Runtime = 0;
 };
