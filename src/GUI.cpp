@@ -136,16 +136,15 @@ void GUI::Main_Menu(FileHandler fileHandler)
 void GUI::Browser_Menu()
 {
 	std::string strinput = "";
-	
-	system("clear");
-	BM_Templates();
-	
+		
 	do 
-	{
-		std::cin >> strinput;
-
+	{		
 		system("clear");
 		BM_Templates();
+
+		std::cin >> strinput;
+
+		
         
 		std::transform(strinput.begin(), strinput.end(), strinput.begin(), ::tolower);
 		
@@ -161,16 +160,14 @@ void GUI::Maintenance_Menu()
 {
 	std::string strinput = "";
 
-	system("clear");
-	MM_Templates();
-
 	do 
 	{
-		std::cin >> strinput;
 
 		system("clear");
 		MM_Templates();
 
+		std::cin >> strinput;
+		
 		std::transform(strinput.begin(), strinput.end(), strinput.begin(), ::tolower);
 
 		Basic_User_Input(strinput);
@@ -299,7 +296,6 @@ void GUI::Basic_User_Input(std::string user_input)
 {
 	if (user_input == "rtm")
 	{
-
 		Main_Menu_Templates();
 	}
 
