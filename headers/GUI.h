@@ -18,8 +18,9 @@ class GUI
 {
 private:
     Browser* browser;
+    FileHandler* fileHandler;
 public:
-    GUI(Browser* browser);
+    GUI(Browser* browser, FileHandler* file);
     ~GUI();
     void Main_Menu_Templates();
     void BM_Templates();
@@ -27,7 +28,7 @@ public:
     void Edit_Templates();
     void CNP_Templates();
 
-    void Main_Menu(FileHandler fileHandler);
+    void Main_Menu();
     void Browser_Menu();
     void Maintenance_Menu();
     void Edit_Menu();

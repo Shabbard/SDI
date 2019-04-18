@@ -3,8 +3,8 @@
 int main()
 {
     auto browser = new Browser;
-	FileHandler fileHandler(browser);
-	fileHandler.LoadFilmProjects();
-	GUI cli(browser);
-    cli.Main_Menu(fileHandler);
+	FileHandler* fileHandler = new FileHandler(browser);
+	fileHandler->LoadFilmProjects();
+	GUI cli(browser, fileHandler);
+    cli.Main_Menu();
 }

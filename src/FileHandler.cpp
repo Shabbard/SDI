@@ -214,14 +214,7 @@ T FileHandler::LoadMaterial(T mat, int idToLoad)
 			else if (LineData.at(0) == "Languages")
 			{
 				LineData.erase(LineData.begin());
-				if (LineData.size() > 1)
-				{
-					mat->Languages = LineData;
-				}
-				else
-				{
-					//mat->Languages = LineData.at(0);
-				}
+                mat->SetLanguages(LineData);
 			}
 			else if (LineData.at(0) == "Retail_Price")
 			{
@@ -230,14 +223,7 @@ T FileHandler::LoadMaterial(T mat, int idToLoad)
 			else if (LineData.at(0) == "Subtitles")
 			{
 				LineData.erase(LineData.begin());
-				if (LineData.size() > 1)
-				{
-					mat->Subtitles = LineData;
-				}
-				else
-				{
-					//mat->Subtitles = LineData.at(0);
-				}
+				mat->SetSubtitles(LineData);
 			}
 			else if (LineData.at(0) == "Frame_Aspect")
 			{
@@ -257,17 +243,16 @@ T FileHandler::LoadMaterial(T mat, int idToLoad)
 						auto new_mat = new Material();
 						new_mat = GetMaterialType(new_mat, std::stoi(LineData.at(i)));
 						new_mat = LoadMaterial(new_mat, std::stoi(LineData.at(i)));
-						mat->DVDs.push_back(new_mat);
+						mat->SetDVDVector(new_mat);
 					}
 				}
 				else if (mat->Type == "DoubleSidedDVD")
 				{
-					mat->DVD.first = LoadFilm(std::stoi(LineData.at(0)));
-					mat->DVD.second = LoadFilm(std::stoi(LineData.at(1)));
+					mat->SetDoubleDVD(LoadFilm(std::stoi(LineData.at(0))), LoadFilm(std::stoi(LineData.at(1))));
 				}
 				else if (mat->Type == "DVD" || mat->Type == "VHS" || mat->Type == "BluRay")
 				{
-					mat->film = LoadFilm(std::stoi(LineData.at(0)));
+					mat->SetFilm(LoadFilm(std::stoi(LineData.at(0))));
 				}
 				return mat;
 			}
