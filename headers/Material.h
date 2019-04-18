@@ -12,24 +12,33 @@ class Material
 {
     public:
         virtual ~Material() {}
-        int ID, Runtime;
+        int ID = 0, Runtime = 0;
         std::string Title, VideoFormat, AudioFormat, FrameAspect, Packaging, Description, Type; 
-        double RetailPrice;
+        double RetailPrice = 0;
         std::vector<std::string> Languages, Subtitles;
+        std::vector<Material*> DVDs;
+        std::pair<Film, Film> DVD;
+        Film film;
 };
 
 class VHS : public Material
 {
     public:
-     std::string Languages, Subtitles;
-     Film film;
+     VHS()
+     {
+         Type = "VHS";
+         std::string Languages, Subtitles;
+     }
 };
 
 class DVD : public Material
 {  
     public:
-        Film film;
-        const std::string Packaging = "Plastic Box";
+        DVD()
+        {
+            Type = "DVD";
+            Packaging = "Plastic Box";
+        }
 };
 
 // class SingleSidedDVD : public DVD
@@ -41,20 +50,29 @@ class DVD : public Material
 class DoubleSidedDVD : public Material
 {
     public:   
-     std::pair<Film, Film> DVD;
+     DoubleSidedDVD(){Type = "DoubleSidedDVD";}
 };
 
 class BluRay : public DVD
 {
     public:
-        const std::string Packaging = "Small Plastic Box";
+        BluRay()
+        {
+            Type = "BluRay";
+            Packaging = "Small Plastic Box";
+        }
+        
 };
 
 class ComboBox : public Material
 {
     public:
-        const std::string Packaging = "Cardboard Box";
-        std::vector<std::unique_ptr<Material>> DVDs;
+        ComboBox()
+        {
+            Type = "ComboBox";
+            Packaging = "Cardboard Box";
+        }
+
 };
 
 #endif
