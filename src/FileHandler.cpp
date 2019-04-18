@@ -414,6 +414,5 @@ std::vector<std::string> FileHandler::SeparateCommasIntoData(std::string input)
 			LineData.push_back(data_match.str()); // loops through the values between commas (including whitespace) and adds them to a vector
 		}
 	}
-
 	return LineData;
 }
