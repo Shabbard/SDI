@@ -98,29 +98,15 @@ void FileHandler::LoadFilmProject()
 	film = nullptr;
 }
 
-
 Crew FileHandler::LoadCrew(Crew CrewMember)
 {
 	std::ifstream infile;
 	infile.open(CrewData);
-
 	std::string str;
-
-	std::vector<std::string> LineData;
 
 	while (std::getline(infile, str))
 	{
-		std::regex data("([^,]+)"); // finds all of the data values between the commas and includes spaces for empty data values
-		std::smatch data_match;
-
-		if (std::regex_search(str, data_match, data)) // if there are data values to enter
-		{
-			for (std::sregex_iterator i = std::sregex_iterator(str.begin(), str.end(), data); i != std::sregex_iterator(); ++i)
-			{
-				data_match = *i;
-				LineData.push_back(data_match.str()); // loops through the values between commas (including whitespace) and adds them to a vector
-			}
-		}
+		std::vector<std::string> LineData = SeparateCommasIntoData(str);
 
 		if (std::stoi(LineData.at(0)) == CrewMember.ID)
 		{
@@ -134,10 +120,8 @@ Crew FileHandler::LoadCrew(Crew CrewMember)
 			CrewMember.ID = 0;
 			return CrewMember;
 		}
-
 		LineData.clear();
 	}
-
 	return CrewMember;
 }
 
