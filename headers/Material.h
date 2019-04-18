@@ -12,11 +12,12 @@ class Material
         int ID = 0, Runtime = 0;
         std::string Title, VideoFormat, AudioFormat, FrameAspect, Packaging, Description, Type; 
         double RetailPrice = 0;
-        virtual void SetLanguages(std::vector<std::string>);
-        virtual void SetSubtitiles(std::vector<std::string>);
-        virtual void SetDVDVector(Material*);
-        virtual void SetDoubleDVD(Film, Film);
-        virtual void SetFilm(Film);
+        virtual ~Material(){};
+        virtual void SetLanguages(std::vector<std::string>){};
+        virtual void SetSubtitles(std::vector<std::string>){};
+        virtual void SetDVDVector(Material*){};
+        virtual void SetDoubleDVD(Film, Film){};
+        virtual void SetFilm(Film){};
 };
 
 class VHS : public Material
@@ -30,7 +31,7 @@ class VHS : public Material
          Type = "VHS";
      }
      void SetLanguages(std::vector<std::string> input) override {Languages = input.at(0);}
-     void SetSubtitiles(std::vector<std::string> input) override {Subtitles = input.at(0);}
+     void SetSubtitles(std::vector<std::string> input) override {Subtitles = input.at(0);}
      void SetFilm(Film in) override {film = in;} 
 };
 
@@ -47,7 +48,7 @@ class DVD : public Material
         }
         void SetFilm(Film in) override {film = in;}
         void SetLanguages(std::vector<std::string> input) override {Languages = input;}
-        void SetSubtitiles(std::vector<std::string> input) override {Subtitles = input;}
+        void SetSubtitles(std::vector<std::string> input) override {Subtitles = input;}
 };
 
 class DoubleSidedDVD : public Material
@@ -57,7 +58,11 @@ class DoubleSidedDVD : public Material
         std::vector<std::string> Languages, Subtitles;
     public:   
      DoubleSidedDVD(){Type = "DoubleSidedDVD";}
-     virtual void SetDoubleDVD(Film, Film);
+     virtual void SetDoubleDVD(Film a, Film b)
+     {
+         DVD.first = a;
+         DVD.second = b;
+     }
 };
 
 class BluRay : public DVD
@@ -73,7 +78,7 @@ class BluRay : public DVD
         }
         void SetFilm(Film in) override {film = in;}
         void SetLanguages(std::vector<std::string> input) override {Languages = input;}
-        void SetSubtitiles(std::vector<std::string> input) override {Subtitles = input;}     
+        void SetSubtitles(std::vector<std::string> input) override {Subtitles = input;}     
 };
 
 class ComboBox : public Material
@@ -87,8 +92,16 @@ class ComboBox : public Material
             Type = "ComboBox";
             Packaging = "Cardboard Box";
         }
+        ~ComboBox() override
+        {
+            for (std::vector<Material*>::iterator it = DVDs.begin(); it != DVDs.end(); ++it)
+            {
+                delete *it;
+            }
+            DVDs.clear();
+        }
         void SetDVDVector(Material* in) override {DVDs.push_back(in);}
         void SetLanguages(std::vector<std::string> input) override {Languages = input;}
-        void SetSubtitiles(std::vector<std::string> input) override {Subtitles = input;}
+        void SetSubtitles(std::vector<std::string> input) override {Subtitles = input;}
 };
 #endif
