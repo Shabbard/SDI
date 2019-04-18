@@ -268,7 +268,6 @@ T FileHandler::LoadMaterial(T mat, int idToLoad)
 			else if (LineData.at(0) == "Stored")
 			{
 				LineData.erase(LineData.begin());
-				//std::string s = typeid(mat).name();
 				if (mat->Type == "ComboBox")
 				{
                     for (size_t i = 0; i != LineData.size(); i++)
@@ -278,32 +277,16 @@ T FileHandler::LoadMaterial(T mat, int idToLoad)
                         new_mat = LoadMaterial(new_mat, std::stoi(LineData.at(i)));
                         mat->DVDs.push_back(new_mat);
 					}
-					// we are storing other materials
 				}
 				else if (mat->Type == "DoubleSidedDVD")
 				{
                     mat->DVD.first = LoadFilm(std::stoi(LineData.at(0)));
                     mat->DVD.second = LoadFilm(std::stoi(LineData.at(1)));
-					// we are storing films
-					// store two a pair of films
 				}
-				else if (mat->Type == "DVD")
+				else if (mat->Type == "DVD" || mat->Type == "VHS" || mat->Type == "BluRay")
 				{
 					mat->film = LoadFilm(std::stoi(LineData.at(0)));
-					// we are storing a film
-					// store a film
-				}
-				else if (mat->Type == "VHS")
-				{
-					mat->film = LoadFilm(std::stoi(LineData.at(0)));
-					// we are storing a film
-					// store a film
-				}
-				else if (mat->Type == "BLuRay")
-				{
-					mat->film = LoadFilm(std::stoi(LineData.at(0)));
-					// we are storing a film
-					// store a film
+
 				}
 				return mat;
 			}
