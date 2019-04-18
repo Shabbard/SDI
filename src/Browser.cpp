@@ -82,6 +82,23 @@ void Browser::display_crew()
    std::cout << "\n";
 }
 
+void Browser::display_mat()
+{
+
+   std::cout << "___________________________________\n" << std::endl;
+   std::cout << "            Materials             " << "\n"<< std::endl;
+   std::cout << " DataType"<< "\t\t"<< "Datatype\n" << std::endl;
+   for(std::vector<Crew>::iterator it = current->data->CrewMembers.begin(); it != current->data->CrewMembers.end(); it++)
+	{
+      Crew temp;
+      temp = *it;
+      
+        
+      std::cout << "- " <<temp.ID<< "\t"<< temp.Name << "\t\t" << temp.Job << std::endl;
+	}
+   std::cout << "\n";
+}
+
 void Browser::insert(FilmProject* new_data)
 {
    if(current == nullptr || current->next == nullptr)
