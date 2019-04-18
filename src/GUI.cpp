@@ -118,11 +118,18 @@ void GUI::Main_Menu(FileHandler fileHandler)
 
 		if(strinput == "bm")
 		{
+			system("clear");
+			BM_Templates();
+
 			Browser_Menu();
 		}
 
 		if (strinput == "mm")
 		{
+			
+			system("clear");
+			MM_Templates();
+
 			Maintenance_Menu();
 		}
 
@@ -143,14 +150,18 @@ void GUI::Browser_Menu()
 	do 
 	{
 		std::cin >> strinput;
-
-		system("clear");
-		BM_Templates();
         
 		std::transform(strinput.begin(), strinput.end(), strinput.begin(), ::tolower);
 		
 		Basic_User_Input(strinput);
 
+		system("clear");
+		BM_Templates();
+		
+		if (strinput == "crew")
+		{
+			browser->display_crew();
+		}
 
 	} while(strinput != "rtm");
 }
@@ -161,19 +172,23 @@ void GUI::Maintenance_Menu()
 {
 	std::string strinput = "";
 
-	system("clear");
-	MM_Templates();
-
 	do 
 	{
+		
 		std::cin >> strinput;
+		
+		std::transform(strinput.begin(), strinput.end(), strinput.begin(), ::tolower);
+
+		Basic_User_Input(strinput);
 
 		system("clear");
 		MM_Templates();
 
-		std::transform(strinput.begin(), strinput.end(), strinput.begin(), ::tolower);
 
-		Basic_User_Input(strinput);
+		if (strinput == "crew")
+		{
+			browser->display_crew();
+		}
 
         if (strinput == "edit")
 		{
@@ -317,11 +332,5 @@ void GUI::Basic_User_Input(std::string user_input)
 	{
 		std::cout << "Material View";
 	}
-
-	if (user_input == "crew")
-	{
-		browser->display_crew();
-	}
-
 }
 
