@@ -9,27 +9,12 @@ void FileHandler::LoadFilmProject()
 {
 	std::ifstream infile;
 	infile.open(FilmData);
-
 	FilmProject *film = new FilmProject();
-
 	std::string str;
-
-	std::string values[10] = {"ID", "Title", "Summary", "Genre", "Release Date", "Filming Locations", "Language", "Runtime", "Keywords", "Weekly Ticket Sales"};
-	std::vector<std::string> LineData;
 
 	while (std::getline(infile, str))
 	{
-		std::regex data("([^,]+)"); // finds all of the data values between the commas and includes spaces for empty data values
-		std::smatch data_match;
-
-		if (std::regex_search(str, data_match, data)) // if there are data values to enter
-		{
-			for (std::sregex_iterator i = std::sregex_iterator(str.begin(), str.end(), data); i != std::sregex_iterator(); ++i)
-			{
-				data_match = *i;
-				LineData.push_back(data_match.str()); // loops through the values between commas (including whitespace) and adds them to a vector
-			}
-		}
+		std::vector<std::string> LineData = SeparateCommasIntoData(str);
 
 		if (LineData.at(0) == "ID")
 		{
@@ -96,19 +81,12 @@ void FileHandler::LoadFilmProject()
         else if (LineData.at(0) == "Material_ID")
 		{
 			LineData.erase(LineData.begin());
-			std::vector<int> matIDVec;
+			auto mat = new Material();
 			
 			for (std::vector<std::string>::iterator it = LineData.begin(); it != LineData.end(); ++it)
 			{
-				matIDVec.push_back(std::stoi(*it));
-			}
-
-            auto mat = new Material();
-   
-            for (size_t it = 0; it != matIDVec.size(); ++it)
-			{
-                mat = GetMaterialType(mat, matIDVec.at(it));
-				mat = LoadMaterial(mat, matIDVec.at(it));
+				mat = GetMaterialType(mat, std::stoi(*it));
+				mat = LoadMaterial(mat, std::stoi(*it));
 				film->Materials.push_back(mat);
                 mat = new Material();
 			}
@@ -176,19 +154,9 @@ T FileHandler::GetMaterialType(T mat, int idToFind)
 		std::regex type("(Type)");
 		std::regex ID("(ID)");
 		std::smatch data_match;
-		std::vector<std::string> matTypeVec;
 		if (std::regex_search(readline, data_match, type) && idToFind == currentID)
 		{
-			std::regex data("([^,]+)");
-
-			if (std::regex_search(readline, data_match, data))
-			{
-				for (std::sregex_iterator i = std::sregex_iterator(readline.begin(), readline.end(), data); i != std::sregex_iterator(); ++i)
-				{
-					data_match = *i;
-					matTypeVec.push_back(data_match.str());
-				}
-			}
+			std::vector<std::string> matTypeVec = SeparateCommasIntoData(readline);
 
 			if (matTypeVec.at(1) == "ComboBox")
 			{
@@ -217,22 +185,10 @@ T FileHandler::GetMaterialType(T mat, int idToFind)
 		}	
 		else if (std::regex_search(readline, data_match, ID))
 		{
-			std::regex data("([^,]+)");
-
-			if (std::regex_search(readline, data_match, data))
-			{
-				std::vector<std::string> temp;
-				for (std::sregex_iterator i = std::sregex_iterator(readline.begin(), readline.end(), data); i != std::sregex_iterator(); ++i)
-				{
-					data_match = *i;
-
-					temp.push_back(data_match.str());
-				}
-				currentID = std::stoi(temp.at(1));
-			}
+			std::vector<std::string> LineData = SeparateCommasIntoData(readline);
+            currentID = std::stoi(LineData.at(1));		
 		}
-	} 
-	
+	}
 }
 
 template<typename T>
@@ -243,21 +199,9 @@ T FileHandler::LoadMaterial(T mat, int idToLoad)
 	std::string str;
     int currentID = 0;
 
-	std::vector<std::string> LineData;
-
 	while (std::getline(MaterialFile, str))
 	{
-		std::regex data("([^,]+)"); // finds all of the data values between the commas and includes spaces for empty data values
-		std::smatch data_match;
-
-		if (std::regex_search(str, data_match, data)) // if there are data values to enter
-		{
-            for (std::sregex_iterator i = std::sregex_iterator(str.begin(), str.end(), data); i != std::sregex_iterator(); ++i)
-			{
-				data_match = *i;
-				LineData.push_back(data_match.str()); // loops through the values between commas (including whitespace) and adds them to a vector
-			}
-		}
+		std::vector<std::string> LineData = SeparateCommasIntoData(str);
 
         if((LineData.at(0) == "ID" && std::stoi(LineData.at(1)) == idToLoad) || currentID == idToLoad)
 		{
@@ -373,27 +317,13 @@ Film FileHandler::LoadFilm(int idToLoad)
 {
 	std::ifstream LoadFilm;
 	LoadFilm.open(FilmData);
-
 	Film film;
-
 	std::string str;
 	int currentID = 0;
-	//std::string values[10] = {"ID", "Title", "Summary", "Genre", "Release Date", "Filming Locations", "Language", "Runtime", "Keywords", "Weekly Ticket Sales"};
-	std::vector<std::string> LineData;
 
 	while (std::getline(LoadFilm, str))
 	{
-		std::regex data("([^,]+)"); // finds all of the data values between the commas and includes spaces for empty data values
-		std::smatch data_match;
-
-		if (std::regex_search(str, data_match, data)) // if there are data values to enter
-		{
-			for (std::sregex_iterator i = std::sregex_iterator(str.begin(), str.end(), data); i != std::sregex_iterator(); ++i)
-			{
-				data_match = *i;
-				LineData.push_back(data_match.str()); // loops through the values between commas (including whitespace) and adds them to a vector
-			}
-		}
+		std::vector<std::string> LineData = SeparateCommasIntoData(str);
 
 		if((LineData.at(0) == "ID" && std::stoi(LineData.at(1)) == idToLoad) || currentID == idToLoad)
 		{
@@ -504,4 +434,22 @@ void FileHandler::WriteToFile(std::ofstream &file)
 		file << temp.ID << ",";
 	}
 	file << std::endl;
+}
+
+std::vector<std::string> FileHandler::SeparateCommasIntoData(std::string input)
+{
+	std::vector<std::string> LineData;
+	std::regex data("([^,]+)"); // finds all of the data values between the commas and includes spaces for empty data values
+		std::smatch data_match;
+
+		if (std::regex_search(input, data_match, data)) // if there are data values to enter
+		{
+			for (std::sregex_iterator i = std::sregex_iterator(input.begin(), input.end(), data); i != std::sregex_iterator(); ++i)
+			{
+				data_match = *i;
+				LineData.push_back(data_match.str()); // loops through the values between commas (including whitespace) and adds them to a vector
+			}
+		}
+
+	return LineData;
 }

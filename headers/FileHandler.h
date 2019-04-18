@@ -29,6 +29,7 @@ public:
     template<typename T>
     T LoadMaterial(T mat, int currentID);
     Film LoadFilm(int currentID);
+    std::vector<std::string> SeparateCommasIntoData(std::string input);
 };
 
 #endif
