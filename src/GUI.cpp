@@ -75,7 +75,6 @@ int GUI::unique_id_check()
 {
 	int new_id = 0;
 
-	
 	browser->setHead();
 
     while(browser->current->next != nullptr)
@@ -86,7 +85,6 @@ int GUI::unique_id_check()
 		}
         
 		browser->nextNode();
-
 	}
 
 	return new_id++;
