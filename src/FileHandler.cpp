@@ -5,7 +5,7 @@ FileHandler::FileHandler(Browser *input)
 	browser = input;
 }
 
-void FileHandler::LoadFilmProject()
+void FileHandler::LoadFilmProjects()
 {
 	std::ifstream infile;
 	infile.open(FilmData);

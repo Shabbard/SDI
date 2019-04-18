@@ -4,7 +4,7 @@ int main()
 {
     auto browser = new Browser;
 	FileHandler fileHandler(browser);
-	fileHandler.LoadFilmProject();
+	fileHandler.LoadFilmProjects();
 	GUI cli(browser);
     cli.Main_Menu(fileHandler);
 }

@@ -20,7 +20,7 @@ private:
 
 public:
     FileHandler(Browser* browser);
-    void LoadFilmProject();
+    void LoadFilmProjects();
     void UpdateFile();
     void WriteToFile(std::ofstream& file);
     Crew LoadCrew(Crew CrewMember);
