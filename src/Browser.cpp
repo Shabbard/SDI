@@ -56,6 +56,13 @@ void Browser::display()
       Crew temp = *it;
 		std::cout << temp.ID << ",";
 	}
+   std::cout << std::endl;
+    std::cout << "Material ID's" << "\t\t";
+	for(std::vector<Material*>::iterator it = current->data->Materials.begin(); it != current->data->Materials.end(); it++)
+	{
+      Material* temp = *it;
+		std::cout << temp -> ID << ",";
+	}
 	std::cout << std::endl;
    std::cout << std::endl;
 }

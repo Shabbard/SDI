@@ -71,24 +71,13 @@ void GUI::Edit_Templates()
 
 }
 
-int GUI::unique_id_check()
-{
-	int new_id = 0;
 
-	browser->setHead();
 
-    while(browser->current->next != nullptr)
-	{	
-		if (new_id > browser->current->data->ID)
-		{
-			new_id = browser->current->data->ID;
-		}
-        
-		browser->nextNode();
-	}
 
-	return new_id++;
-}
+
+
+
+
 
 void GUI::Main_Menu(FileHandler fileHandler)
 {
@@ -138,12 +127,15 @@ void GUI::Main_Menu(FileHandler fileHandler)
 
 
 
+
+
+
+
+
+
 void GUI::Browser_Menu()
 {
 	std::string strinput = "";
-	
-	system("clear");
-	BM_Templates();
 	
 	do 
 	{
@@ -188,6 +180,11 @@ void GUI::Maintenance_Menu()
 			browser->display_crew();
 		}
 
+		if (strinput == "mi")
+		{
+			std::cout << "Material View";
+		}
+
         if (strinput == "edit")
 		{
 			Edit_Menu();
@@ -206,6 +203,74 @@ void GUI::Maintenance_Menu()
 		}
 	
 	} while(strinput != "rtm");
+}
+
+
+void GUI::Edit_Menu()
+{
+
+	std::string strinput = "";
+
+	do 
+	{
+		system("clear");
+		Edit_Menu();
+
+        std::cin >> strinput;
+
+		std::transform(strinput.begin(), strinput.end(), strinput.begin(), ::tolower);
+
+		Basic_User_Input(strinput);
+	
+	} while(strinput != "exit");
+}
+
+
+
+void GUI::Basic_User_Input(std::string user_input)
+{
+	if (user_input == "rtm")
+	{
+
+		Main_Menu_Templates();
+	}
+
+	if (user_input == "next")
+	{
+		browser->nextNode();
+	}
+
+	if (user_input == "back")
+	{
+		browser->previousNode();
+	}
+}
+
+
+
+
+
+
+
+
+
+int GUI::unique_id_check()
+{
+	int new_id = 0;
+
+	browser->setHead();
+
+    while(browser->current->next != nullptr)
+	{	
+		if (new_id >= browser->current->data->ID)
+		{
+			new_id = browser->current->data->ID;
+		}
+        
+		browser->nextNode();
+	}
+
+	return new_id++;
 }
 
 void GUI::Create_New_Project_Menu()
@@ -285,50 +350,3 @@ void GUI::Create_New_Project_Menu()
 
 	Maintenance_Menu();
 }
-
-
-void GUI::Edit_Menu()
-{
-
-	std::string strinput = "";
-
-	do 
-	{
-		system("clear");
-		Edit_Menu();
-
-        std::cin >> strinput;
-
-		std::transform(strinput.begin(), strinput.end(), strinput.begin(), ::tolower);
-
-		Basic_User_Input(strinput);
-	
-	} while(strinput != "exit");
-}
-
-
-
-void GUI::Basic_User_Input(std::string user_input)
-{
-	if (user_input == "rtm")
-	{
-
-		Main_Menu_Templates();
-	}
-
-	if (user_input == "next")
-	{
-		browser->nextNode();
-	}
-
-	if (user_input == "back")
-	{
-		browser->previousNode();
-	}
-
-	if (user_input == "mi")
-	{
-		std::cout << "Material View";
-	}
-}
-
