@@ -123,6 +123,10 @@ void GUI::Main_Menu(FileHandler fileHandler)
 
 		if (strinput == "mm")
 		{
+			
+			system("clear");
+			MM_Templates();
+
 			Maintenance_Menu();
 		}
 
@@ -161,19 +165,17 @@ void GUI::Maintenance_Menu()
 {
 	std::string strinput = "";
 
-	system("clear");
-	MM_Templates();
-
 	do 
 	{
+		Basic_User_Input(strinput);
+		
 		std::cin >> strinput;
+
+		std::transform(strinput.begin(), strinput.end(), strinput.begin(), ::tolower);
 
 		system("clear");
 		MM_Templates();
 
-		std::transform(strinput.begin(), strinput.end(), strinput.begin(), ::tolower);
-
-		Basic_User_Input(strinput);
 
         if (strinput == "edit")
 		{
@@ -322,6 +324,5 @@ void GUI::Basic_User_Input(std::string user_input)
 	{
 		browser->display_crew();
 	}
-
 }
 
