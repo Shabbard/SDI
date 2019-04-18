@@ -20,12 +20,15 @@ private:
 
 public:
     FileHandler(Browser* browser);
-    void LoadFile();
+    void LoadFilmProject();
     void UpdateFile();
     void WriteToFile(std::ofstream& file);
     Crew LoadCrew(Crew CrewMember);
     template<typename T>
+    T GetMaterialType(T mat, int currentID);
+    template<typename T>
     T LoadMaterial(T mat, int currentID);
+    Film LoadFilm(int currentID);
 };
 
 #endif

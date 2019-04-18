@@ -1,6 +1,5 @@
 ID,1
 Type,ComboBox
-Stored,2,3
 Title,Avatar - The complete collection.
 DVD_Description,The complete Avatar film collection.
 Video_Format,1080p
@@ -10,10 +9,10 @@ Languages,English,French,Spanish
 Retail_Price,25
 Subtitles,English,French,Spanish
 Frame_Aspect,16:9
-Packaging,Cardboard 
+Packaging,Cardboard
+Stored,2,3
 ID,2
 Type,DoubleSidedDVD
-Stored,1,2
 Title,Avatar + Car Wars.
 DVD_Description,Car Avatar.
 Video_Format,1080p
@@ -23,10 +22,10 @@ Languages,English,French,Spanish
 Retail_Price,30
 Subtitles,English,French,Spanish
 Frame_Aspect,16:9
-Packaging,Plastic 
+Packaging,Plastic
+Stored,1,2
 ID,3
 Type,DVD
-Stored,3
 Title,Avatar - End Game.
 DVD_Description,Dead Avatar.
 Video_Format,1080p
@@ -36,6 +35,5 @@ Languages,English,French,Spanish
 Retail_Price,30
 Subtitles,English,French,Spanish
 Frame_Aspect,16:9
-Packaging,Plastic 
-
-
+Packaging,Plastic
+Stored,3

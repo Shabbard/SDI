@@ -5,12 +5,12 @@ FileHandler::FileHandler(Browser *input)
 	browser = input;
 }
 
-void FileHandler::LoadFile()
+void FileHandler::LoadFilmProject()
 {
 	std::ifstream infile;
 	infile.open(FilmData);
 
-	FilmProject *film = new FilmProject;
+	FilmProject *film = new FilmProject();
 
 	std::string str;
 
@@ -87,7 +87,7 @@ void FileHandler::LoadFile()
 				Crew temp;
 				temp.ID = std::stoi(*it);
 				temp = LoadCrew(temp);
-				if (!temp.ID == 0)
+                if (temp.ID != 0)
 				{
 					film->CrewMembers.push_back(temp);
 				}
@@ -97,91 +97,26 @@ void FileHandler::LoadFile()
 		{
 			LineData.erase(LineData.begin());
 			std::vector<int> matIDVec;
-			std::vector<std::string> matTypeVec;
+			
 			for (std::vector<std::string>::iterator it = LineData.begin(); it != LineData.end(); ++it)
 			{
 				matIDVec.push_back(std::stoi(*it));
 			}
 
-			std::ifstream MatFile;
-			MatFile.open("../data/Material_Data.txt");
-			std::string readline;
             auto mat = new Material();
-            int currentID = 0;
-			
+   
             for (size_t it = 0; it != matIDVec.size(); ++it)
 			{
-				while (std::getline(MatFile, readline))
-				{
-					std::regex type("(Type)");
-					std::regex ID("(ID)");
-					std::smatch data_match;
-					if (std::regex_search(readline, data_match, type) && (std::find(matIDVec.begin(), matIDVec.end(), currentID) != matIDVec.end()))
-					{
-						std::regex data("([^,]+)");
-
-						if (std::regex_search(readline, data_match, data))
-						{
-                            for (std::sregex_iterator i = std::sregex_iterator(readline.begin(), readline.end(), data); i != std::sregex_iterator(); ++i)
-							{
-								data_match = *i;
-								matTypeVec.push_back(data_match.str());
-							}
-						}
-
-						if (matTypeVec.at(1) == "ComboBox")
-						{
-							mat = new ComboBox();
-						}
-						else if (matTypeVec.at(1) == "VHS")
-						{
-							mat = new VHS();
-						}
-						else if (matTypeVec.at(1) == "DVD")
-						{
-							mat = new DVD();
-						}
-						else if (matTypeVec.at(1) == "DoubleSidedDVD")
-						{
-							mat = new DoubleSidedDVD();
-						}
-						else if (matTypeVec.at(1) == "BluRay")
-						{
-							mat = new BluRay();
-						}
-
-						mat->ID = matIDVec.at(it);
-                		mat->Type = matTypeVec.at(1);
-                        mat = LoadMaterial(mat, currentID);
-						film->Materials.push_back(mat);
-                		mat = new Material();
-                        matTypeVec.clear();
-								
-					}	
-					else if (std::regex_search(readline, data_match, ID))
-					{
-						std::regex data("([^,]+)");
-
-						if (std::regex_search(readline, data_match, data))
-						{
-                            std::vector<std::string> temp;
-                            for (std::sregex_iterator i = std::sregex_iterator(readline.begin(), readline.end(), data); i != std::sregex_iterator(); ++i)
-							{
-								data_match = *i;
-
-                                temp.push_back(data_match.str());
-							}
-                            currentID = std::stoi(temp.at(1));
-						}
-					}
-				}   
+                mat = GetMaterialType(mat, matIDVec.at(it));
+				mat = LoadMaterial(mat, matIDVec.at(it));
+				film->Materials.push_back(mat);
+                mat = new Material();
 			}
 			browser->insert_tail(film);
 			film = new FilmProject();
 		}
 		LineData.clear();
 	}
-	
 	film = nullptr;
 }
 
@@ -229,12 +164,84 @@ Crew FileHandler::LoadCrew(Crew CrewMember)
 }
 
 template<typename T>
-T FileHandler::LoadMaterial(T mat, int currentID)
+T FileHandler::GetMaterialType(T mat, int idToFind)
+{
+	std::ifstream MatFile;
+	MatFile.open("../data/Material_Data.txt");
+	std::string readline;
+	int currentID = 0;
+
+	while (std::getline(MatFile, readline))
+	{
+		std::regex type("(Type)");
+		std::regex ID("(ID)");
+		std::smatch data_match;
+		std::vector<std::string> matTypeVec;
+		if (std::regex_search(readline, data_match, type) && idToFind == currentID)
+		{
+			std::regex data("([^,]+)");
+
+			if (std::regex_search(readline, data_match, data))
+			{
+				for (std::sregex_iterator i = std::sregex_iterator(readline.begin(), readline.end(), data); i != std::sregex_iterator(); ++i)
+				{
+					data_match = *i;
+					matTypeVec.push_back(data_match.str());
+				}
+			}
+
+			if (matTypeVec.at(1) == "ComboBox")
+			{
+				mat = new ComboBox();
+			}
+			else if (matTypeVec.at(1) == "VHS")
+			{
+				mat = new VHS();
+			}
+			else if (matTypeVec.at(1) == "DVD")
+			{
+				mat = new DVD();
+			}
+			else if (matTypeVec.at(1) == "DoubleSidedDVD")
+			{
+				mat = new DoubleSidedDVD();
+			}
+			else if (matTypeVec.at(1) == "BluRay")
+			{
+				mat = new BluRay();
+			}
+
+			mat->ID = idToFind;
+			return mat;
+					
+		}	
+		else if (std::regex_search(readline, data_match, ID))
+		{
+			std::regex data("([^,]+)");
+
+			if (std::regex_search(readline, data_match, data))
+			{
+				std::vector<std::string> temp;
+				for (std::sregex_iterator i = std::sregex_iterator(readline.begin(), readline.end(), data); i != std::sregex_iterator(); ++i)
+				{
+					data_match = *i;
+
+					temp.push_back(data_match.str());
+				}
+				currentID = std::stoi(temp.at(1));
+			}
+		}
+	} 
+	
+}
+
+template<typename T>
+T FileHandler::LoadMaterial(T mat, int idToLoad)
 {
 	std::ifstream MaterialFile;
 	MaterialFile.open(MaterialData);
 	std::string str;
-    int currID = 0;
+    int currentID = 0;
 
 	std::vector<std::string> LineData;
 
@@ -252,13 +259,12 @@ T FileHandler::LoadMaterial(T mat, int currentID)
 			}
 		}
 
-        if((LineData.at(0) == "ID" && std::stoi(LineData.at(1)) == currentID) || currID == currentID)
+        if((LineData.at(0) == "ID" && std::stoi(LineData.at(1)) == idToLoad) || currentID == idToLoad)
 		{
-            if (LineData.at(0) == "ID" && std::stoi(LineData.at(1)) == currentID)
+            if (LineData.at(0) == "ID" && std::stoi(LineData.at(1)) == idToLoad)
             {
-               currID = std::stoi(LineData.at(1));
+               currentID = std::stoi(LineData.at(1));
             }
-
 			if (LineData.at(0) == "Title")
 			{
 				mat->Title = LineData.at(1);
@@ -314,29 +320,118 @@ T FileHandler::LoadMaterial(T mat, int currentID)
 			else if (LineData.at(0) == "Packaging")
 			{
 				mat->Packaging = LineData.at(1);
-				return mat;
 			}
 			else if (LineData.at(0) == "Stored")
 			{
+				LineData.erase(LineData.begin());
 				//std::string s = typeid(mat).name();
 				if (mat->Type == "ComboBox")
 				{
-					//std::ifstream 
+                    for (size_t i = 0; i != LineData.size(); i++)
+					{
+						auto new_mat = new Material();
+                        new_mat = GetMaterialType(new_mat, std::stoi(LineData.at(i)));
+                        new_mat = LoadMaterial(new_mat, std::stoi(LineData.at(i)));
+                        mat->DVDs.push_back(new_mat);
+					}
 					// we are storing other materials
-	               //mat->DVDs.emplace_back();
 				}
 				else if (mat->Type == "DoubleSidedDVD")
 				{
-					// we are storing other materials
-					// store two DVD's that each have films
+                    mat->DVD.first = LoadFilm(std::stoi(LineData.at(0)));
+                    mat->DVD.second = LoadFilm(std::stoi(LineData.at(1)));
+					// we are storing films
+					// store two a pair of films
 				}
+				else if (mat->Type == "DVD")
+				{
+					mat->film = LoadFilm(std::stoi(LineData.at(0)));
+					// we are storing a film
+					// store a film
+				}
+				else if (mat->Type == "VHS")
+				{
+					mat->film = LoadFilm(std::stoi(LineData.at(0)));
+					// we are storing a film
+					// store a film
+				}
+				else if (mat->Type == "BLuRay")
+				{
+					mat->film = LoadFilm(std::stoi(LineData.at(0)));
+					// we are storing a film
+					// store a film
+				}
+				return mat;
+			}
+		}
+		LineData.clear();
+	}
+	return mat;
+}
+
+Film FileHandler::LoadFilm(int idToLoad)
+{
+	std::ifstream LoadFilm;
+	LoadFilm.open(FilmData);
+
+	Film film;
+
+	std::string str;
+	int currentID = 0;
+	//std::string values[10] = {"ID", "Title", "Summary", "Genre", "Release Date", "Filming Locations", "Language", "Runtime", "Keywords", "Weekly Ticket Sales"};
+	std::vector<std::string> LineData;
+
+	while (std::getline(LoadFilm, str))
+	{
+		std::regex data("([^,]+)"); // finds all of the data values between the commas and includes spaces for empty data values
+		std::smatch data_match;
+
+		if (std::regex_search(str, data_match, data)) // if there are data values to enter
+		{
+			for (std::sregex_iterator i = std::sregex_iterator(str.begin(), str.end(), data); i != std::sregex_iterator(); ++i)
+			{
+				data_match = *i;
+				LineData.push_back(data_match.str()); // loops through the values between commas (including whitespace) and adds them to a vector
 			}
 		}
 
-		LineData.clear();
+		if((LineData.at(0) == "ID" && std::stoi(LineData.at(1)) == idToLoad) || currentID == idToLoad)
+		{
+			if (LineData.at(0) == "ID")
+			{
+				currentID = std::stoi(LineData.at(1));
+				film.ID = idToLoad;
+			}
+			else if (LineData.at(0) == "Title")
+			{
+				film.Title = LineData.at(1);
+			}
+			else if (LineData.at(0) == "Summary")
+			{
+				film.Summary = LineData.at(1);
+			}
+			else if (LineData.at(0) == "Genre")
+			{
+				LineData.erase(LineData.begin());
+				film.Genre = LineData;
+			}
+			else if (LineData.at(0) == "Language")
+			{
+				LineData.erase(LineData.begin());
+				film.Languages = LineData;
+				return film;
+			}
+			else if (LineData.at(0) == "Release_Date")
+			{
+				film.ReleaseDate = LineData.at(1);
+			}
+			else if (LineData.at(0) == "Runtime")
+			{
+				film.Runtime = std::stoi(LineData.at(1));
+			}
+		}
+        LineData.clear();
 	}
-
-	return mat;
 }
 
 void FileHandler::UpdateFile()
