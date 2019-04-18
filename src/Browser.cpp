@@ -3,8 +3,8 @@
 
 void Browser::display()
 {
-   std::cout << "\n        Project Data " << std::endl;
-   std::cout << "Datatype"<< "\t\t" << "Data" << std::endl;
+   std::cout << "        Project Data " << std::endl;
+   std::cout << "Datatype"<< "\t\t" << "Data\n" << std::endl;
    std::cout << "ID" << "\t\t\t"<< current->data->ID << std::endl;
    switch (current->data->Status)
    {
