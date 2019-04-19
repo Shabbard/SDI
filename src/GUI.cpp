@@ -8,6 +8,7 @@ GUI::GUI(Browser *input, FileHandler* file)
 
 GUI::~GUI()
 {
+
 }
 
 void GUI::Main_Menu_Templates()
@@ -138,6 +139,7 @@ void GUI::Browser_Menu()
 		{
 			browser->display_crew();
 		}
+		
 
 	} while (strinput != "rtm");
 }
@@ -165,7 +167,7 @@ void GUI::Maintenance_Menu()
 
 		if (strinput == "mi")
 		{
-			std::cout << "Material View";
+			browser->display_mat();
 		}
 
 		if (strinput == "edit")
