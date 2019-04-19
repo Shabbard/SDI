@@ -91,12 +91,10 @@ void FileHandler::LoadFilmProjects()
 				mat = new Material();
 			}
 			browser->insert_tail(film);
-			delete film;
 			film = new FilmProject();
 		}
 		LineData.clear();
 	}
-	delete film;
 	film = nullptr;
 }
 
