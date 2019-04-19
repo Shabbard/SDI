@@ -1,6 +1,17 @@
 #include "Browser.h"
 #include <iostream>
 
+Browser::~Browser()
+{
+   setHead();
+   while (current->next != nullptr)
+	{
+		delete_current();
+		//nextNode();
+	}
+
+}
+
 void Browser::display()
 {
    std::cout << "        Project Data " << std::endl;
