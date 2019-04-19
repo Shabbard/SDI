@@ -5,13 +5,10 @@ CONFIG -= qt
 
 SOURCES += \
     src/Browser.cpp \
-    src/Film.cpp \
     src/main.cpp \
     src/SDI-tests.cpp \
     src/FileHandler.cpp \
     src/GUI.cpp \
-    src/Material.cpp \
-    src/FilmProject.cpp
 
 HEADERS += \
     headers/Browser.h \
