@@ -9,6 +9,9 @@ SOURCES += \
     src/SDI-tests.cpp \
     src/FileHandler.cpp \
     src/GUI.cpp \
+    src/FIlm.cpp \
+    src/FilmProject.cpp \
+    src/Material.cpp
 
 HEADERS += \
     headers/Browser.h \
