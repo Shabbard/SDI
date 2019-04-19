@@ -4,12 +4,37 @@
 Browser::~Browser()
 {
    setHead();
+   Node* temp;
    while (current->next != nullptr)
 	{
-		delete_current();
-		//nextNode();
-	}
-
+      temp = current;
+      delete temp->data;
+      temp->data  = nullptr;
+      nextNode();
+      if (temp->back)
+      {
+         temp->back = nullptr;
+      }
+      if (temp->next)
+      {
+         temp->next = nullptr;
+      }
+    }
+   temp = current;
+   delete temp->data;
+   temp->data  = nullptr;
+   nextNode();
+   if (temp->back)
+   {
+      temp->back = nullptr;
+   }
+   if (temp->next)
+   {
+      temp->next = nullptr;
+   }
+   current = nullptr;
+   head = nullptr;
+   tail = nullptr;
 }
 
 void Browser::display()
@@ -121,7 +146,7 @@ void Browser::insert(FilmProject* new_data)
    }
    else
    {
-      struct Node* new_node = (struct Node*) malloc(sizeof(struct Node));
+      struct Node* new_node = new Node();
       new_node->data  = new_data;
       new_node->next = current->next; 
       new_node->back = current; 
@@ -133,8 +158,8 @@ void Browser::insert(FilmProject* new_data)
 
 void Browser::insert_tail(FilmProject* new_data)
 {
-   struct Node* new_node = (struct Node*) malloc(sizeof(struct Node));
-   new_node->data  = new_data;
+   struct Node* new_node = new Node();
+   new_node->data = new_data;
    new_node->next = nullptr; 
    new_node->back = tail;   
    
@@ -152,7 +177,7 @@ void Browser::insert_tail(FilmProject* new_data)
 
 void Browser::insert_head(FilmProject* new_data)
 {
-   struct Node* new_node = (struct Node*) malloc(sizeof(struct Node));
+   struct Node* new_node = new Node();
    new_node->data  = new_data;
    new_node->next = head; 
    new_node->back = nullptr;   
