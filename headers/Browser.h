@@ -18,7 +18,7 @@ class Browser
 
     public:
     Node* current = nullptr;
-
+    ~Browser();
     void insert(FilmProject* new_data);
     void display();
     void display_crew();

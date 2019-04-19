@@ -91,10 +91,12 @@ void FileHandler::LoadFilmProjects()
 				mat = new Material();
 			}
 			browser->insert_tail(film);
+			delete film;
 			film = new FilmProject();
 		}
 		LineData.clear();
 	}
+	delete film;
 	film = nullptr;
 }
 
@@ -171,6 +173,7 @@ T FileHandler::GetMaterialType(T mat, int idToFind)
 			currentID = std::stoi(LineData.at(1));
 		}
 	}
+	return mat;
 }
 
 template <typename T>
@@ -311,6 +314,7 @@ Film FileHandler::LoadFilm(int idToLoad)
 		}
 		LineData.clear();
 	}
+	return film;
 }
 
 void FileHandler::UpdateFile()

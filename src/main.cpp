@@ -2,9 +2,11 @@
 
 int main()
 {
-    auto browser = new Browser;
-	FileHandler* fileHandler = new FileHandler(browser);
+    auto browser = new Browser();
+	auto fileHandler = new FileHandler(browser);
 	fileHandler->LoadFilmProjects();
 	GUI cli(browser, fileHandler);
     cli.Main_Menu();
+	delete fileHandler;
+	delete browser;	
 }
