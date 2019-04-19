@@ -10,7 +10,7 @@ Browser::~Browser()
       temp = current;
       delete temp->data;
       temp->data  = nullptr;
-      nextNode();
+      current = current->next;
       if (temp->back)
       {
          temp->back = nullptr;
@@ -19,6 +19,7 @@ Browser::~Browser()
       {
          temp->next = nullptr;
       }
+      delete temp;
     }
    temp = current;
    delete temp->data;
@@ -32,6 +33,7 @@ Browser::~Browser()
    {
       temp->next = nullptr;
    }
+   delete temp;
    current = nullptr;
    head = nullptr;
    tail = nullptr;

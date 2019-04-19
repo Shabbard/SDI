@@ -9,7 +9,7 @@ void FileHandler::LoadFilmProjects()
 {
 	std::ifstream infile;
 	infile.open(FilmData);
-	FilmProject film; // = new FilmProject();
+	FilmProject* film = new FilmProject();
 	std::string str;
 
 	while (std::getline(infile, str))
@@ -18,83 +18,99 @@ void FileHandler::LoadFilmProjects()
 
 		if (LineData.at(0) == "ID")
 		{
-			film.ID = std::stoi(LineData.at(1));
+			film->ID = std::stoi(LineData.at(1));
 		}
 		else if (LineData.at(0) == "Status")
 		{
-			film.Status = std::stoi(LineData.at(1));
+			film->Status = std::stoi(LineData.at(1));
 		}
 		else if (LineData.at(0) == "Title")
 		{
-			film.Title = LineData.at(1);
+			film->Title = LineData.at(1);
 		}
 		else if (LineData.at(0) == "Summary")
 		{
-			film.Summary = LineData.at(1);
+			film->Summary = LineData.at(1);
 		}
 		else if (LineData.at(0) == "Genre")
 		{
 			LineData.erase(LineData.begin());
-			film.Genre = LineData;
+			film->Genre = LineData;
 		}
 		else if (LineData.at(0) == "Release_Date")
 		{
-			film.ReleaseDate = LineData.at(1);
+			film->ReleaseDate = LineData.at(1);
 		}
 		else if (LineData.at(0) == "Filming_Loc")
 		{
 			LineData.erase(LineData.begin());
-			film.Filming_Locations = LineData;
+			film->Filming_Locations = LineData;
 		}
 		else if (LineData.at(0) == "Language")
 		{
 			LineData.erase(LineData.begin());
-			film.Languages = LineData;
+			film->Languages = LineData;
 		}
 		else if (LineData.at(0) == "Runtime")
 		{
-			film.Runtime = std::stoi(LineData.at(1));
+			film->Runtime = std::stoi(LineData.at(1));
 		}
 		else if (LineData.at(0) == "Keywords")
 		{
 			LineData.erase(LineData.begin());
-			film.KeyWords = LineData;
+			film->KeyWords = LineData;
 		}
 		else if (LineData.at(0) == "Weekly Ticket Sales")
 		{
-			film.WeeklyTicketSales = std::stoi(LineData.at(1));
+			film->WeeklyTicketSales = std::stoi(LineData.at(1));
 		}
 		else if (LineData.at(0) == "Crew_Members")
 		{
 			LineData.erase(LineData.begin());
 			for (std::vector<std::string>::iterator it = LineData.begin(); it != LineData.end(); it++)
 			{
+				if (!film->CrewMembers.empty())
+				{
+					film->CrewMembers.clear();
+				}
 				Crew temp;
 				temp.ID = std::stoi(*it);
 				temp = LoadCrew(temp);
 				if (temp.ID != 0)
 				{
-					film.CrewMembers.push_back(temp);
+					film->CrewMembers.push_back(temp);
 				}
 			}
 		}
 		else if (LineData.at(0) == "Material_ID")
 		{
 			LineData.erase(LineData.begin());
+
+			if (!film->Materials.empty())
+			{
+				for (std::vector<Material*>::iterator it = film->Materials.begin(); it != film->Materials.end(); ++it)
+            	{
+                	delete *it;
+				}
+				film->Materials.clear();
+			}
+
 			auto mat = new Material();
 
 			for (std::vector<std::string>::iterator it = LineData.begin(); it != LineData.end(); ++it)
 			{
                 mat = GetMaterialType(mat, std::stoi(*it));
 				LoadMaterial(mat, std::stoi(*it));
-				film.Materials.push_back(mat);
+				film->Materials.push_back(mat);
 				mat = nullptr;
 			}
-			FilmProject* filmToPass = &film;
-			browser->insert_tail(filmToPass);
+			//FilmProject* filmToPass = &film;
+			browser->insert_tail(film);
+			//film = new FilmProject();
 		}
 		LineData.clear();
 	}
+	film = nullptr;
 }
 
 Crew FileHandler::LoadCrew(Crew CrewMember)
