@@ -146,7 +146,7 @@ void Browser::insert(FilmProject* new_data)
    }
    else
    {
-      struct Node* new_node = new Node();
+      auto new_node = new Node();
       new_node->data  = new_data;
       new_node->next = current->next; 
       new_node->back = current; 
@@ -158,7 +158,7 @@ void Browser::insert(FilmProject* new_data)
 
 void Browser::insert_tail(FilmProject* new_data)
 {
-   struct Node* new_node = new Node();
+   auto new_node = new Node();
    new_node->data = new_data;
    new_node->next = nullptr; 
    new_node->back = tail;   
@@ -177,7 +177,7 @@ void Browser::insert_tail(FilmProject* new_data)
 
 void Browser::insert_head(FilmProject* new_data)
 {
-   struct Node* new_node = new Node();
+   auto new_node = new Node();
    new_node->data  = new_data;
    new_node->next = head; 
    new_node->back = nullptr;   

@@ -92,12 +92,9 @@ void FileHandler::LoadFilmProjects()
 			}
 			FilmProject* filmToPass = &film;
 			browser->insert_tail(filmToPass);
-			// film = nullptr;//new FilmProject();
-            // film = new FilmProject();
 		}
 		LineData.clear();
 	}
-	// film = nullptr;
 }
 
 Crew FileHandler::LoadCrew(Crew CrewMember)

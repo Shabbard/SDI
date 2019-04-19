@@ -261,55 +261,55 @@ void GUI::Create_New_Project_Menu()
 
 	std::string values[12] = {"Status", "Title", "Keywords", "Summary", "Genre", "Release Date", "Filming Locations", "Runtime", "Language", "Weekly Ticket Sales", "Crew Members"};
 
-	FilmProject *new_film = new FilmProject;
+	FilmProject new_film;
 
-	new_film->ID = unique_id_check();
+	new_film.ID = unique_id_check();
 
 	std::cout << "Unreleased 1, Now_Playing 2, Released 3\n";
 	std::cout << "\nPlease insert a Status Number: ";
-	std::cin >> new_film->Status;
+	std::cin >> new_film.Status;
 	std::cout << "\nPlease insert a Title: ";
-	std::cin >> new_film->Title;
+	std::cin >> new_film.Title;
 	std::cout << "\nPlease insert the Keywords: " << std::endl;
 	std::cout << "Type in the value then press enter to add another value" << std::endl;
 	std::cout << "When you have finished enter in (case sensitive) - Q" << std::endl;
 	do
 	{
 		std::cin >> strinput;
-		new_film->KeyWords.push_back(strinput);
+		new_film.KeyWords.push_back(strinput);
 	} while (strinput != "Q");
 	std::cout << "\nPlease insert a Summary: ";
-	std::cin >> new_film->Summary;
+	std::cin >> new_film.Summary;
 	std::cout << "\nPlease insert the Genres: " << std::endl;
 	std::cout << "Type in the value then press enter to add another value" << std::endl;
 	std::cout << "When you have finished enter in (case sensitive) - Q" << std::endl;
 	do
 	{
 		std::cin >> strinput;
-		new_film->Genre.push_back(strinput);
+		new_film.Genre.push_back(strinput);
 	} while (strinput != "Q");
 	std::cout << "\nPlease insert a Release Date: ";
-	std::cin >> new_film->ReleaseDate;
+	std::cin >> new_film.ReleaseDate;
 	std::cout << "\nPlease insert the Filming Locations: " << std::endl;
 	std::cout << "Type in the value then press enter to add another value" << std::endl;
 	std::cout << "When you have finished enter in (case sensitive) - Q" << std::endl;
 	do
 	{
 		std::cin >> strinput;
-		new_film->Filming_Locations.push_back(strinput);
+		new_film.Filming_Locations.push_back(strinput);
 	} while (strinput != "Q");
 	std::cout << "\nPlease insert the Runtime: ";
-	std::cin >> new_film->Runtime;
+	std::cin >> new_film.Runtime;
 	std::cout << "\nPlease insert the Languages: " << std::endl;
 	std::cout << "Type in the value then press enter to add another value" << std::endl;
 	std::cout << "When you have finished enter in (case sensitive) - Q" << std::endl;
 	do
 	{
 		std::cin >> strinput;
-		new_film->Languages.push_back(strinput);
+		new_film.Languages.push_back(strinput);
 	} while (strinput != "Q");
 	std::cout << "\nPlease insert the Weekly Ticket Sale: ";
-	std::cin >> new_film->WeeklyTicketSales;
+	std::cin >> new_film.WeeklyTicketSales;
 	std::cout << "\nPlease insert Crew Memeber IDs" << std::endl;
 	std::cout << "Type in the value then press enter to add another value" << std::endl;
 	std::cout << "When you have finihed enter in - Q" << std::endl;
@@ -322,7 +322,7 @@ void GUI::Create_New_Project_Menu()
 		{
 			temp.ID = std::stoi(tempStr);
 			temp = fileHandler->LoadCrew(temp);
-			new_film->CrewMembers.push_back(temp);
+			new_film.CrewMembers.push_back(temp);
 		}
 	} while (tempStr != "Q");
 	std::cout << "\nPlease insert the Material IDs" << std::endl;
@@ -337,14 +337,11 @@ void GUI::Create_New_Project_Menu()
 		{
 			temp = fileHandler->GetMaterialType(temp, std::stoi(tempStr));
 			temp = fileHandler->LoadMaterial(temp, temp->ID);
-			new_film->Materials.push_back(temp);
+			new_film.Materials.push_back(temp);
 		}
 	} while (tempStr != "Q");
-
-	browser->insert_tail(new_film);
-
-	new_film = nullptr;
-
+	FilmProject* filmToPass = &new_film;
+	browser->insert_tail(filmToPass);
 	system("clear");
 	MM_Templates();
 
