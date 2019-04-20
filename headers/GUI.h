@@ -34,6 +34,10 @@ public:
     void Edit_Menu();
     void Create_New_Project_Menu();
 
+    void project_edit();
+    void crew_edit();
+    void material_edit();
+
     int unique_id_check();
 
     void Basic_User_Input(std::string user_input);

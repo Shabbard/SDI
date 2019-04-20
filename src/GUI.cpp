@@ -68,9 +68,7 @@ void GUI::CNP_Templates()
 void GUI::Edit_Templates()
 {
 	std::cout << "\n           Welcome to Edit Mode" << std::endl;
-	std::cout << "______________________________________________" << std::endl;
-	std::cout << "\nNext                                Enter Next" << std::endl;
-	std::cout << "Back                                Enter Back\n" << std::endl;
+	std::cout << "______________________________________________\n" << std::endl;
 	std::cout << "Step 1: Enter in the database you want to edit\n" << std::endl;
 	std::cout << "Step 2: Enter in the ID you want to edit\n" << std::endl;
 	std::cout << "Step 3: Enter in the datatype you want ot edit\n " << std::endl;
@@ -198,22 +196,78 @@ void GUI::Edit_Menu()
 	do
 	{
 		system("clear");
-		Edit_Menu();
+		Edit_Templates();
 
+		std::cout << "Please enter the section you would like to edit " << std::endl;
+		std::cout << "          (project,crew or material)            \n" << std::endl;
+		std::cout << "- ";
+		
 		std::cin >> strinput;
-
 		std::transform(strinput.begin(), strinput.end(), strinput.begin(), ::tolower);
+	
+		if (strinput == "project")
+		{
+			project_edit();
+		}
 
-		Basic_User_Input(strinput);
+		if (strinput == "crew")
+		{
+			crew_edit();
+		}
 
-	} while (strinput != "exit");
+		if (strinput == "material"||strinput == "materials")
+		{
+			material_edit();
+		}
+		
+
+	} while (strinput != "rtm");
+}
+
+void GUI::project_edit()
+{
+	std::string edit_input = "";
+
+	do
+	{
+		system("clear");
+		Edit_Templates();
+		std::cout << "\nNext                                Enter Next" << std::endl;
+		std::cout << "Back                                Enter Back\n" << std::endl;
+		std::cout << "Return to Menu                       Enter RTM\n" << std::endl;
+		std::cout << "________________________________________________" << std::endl;	
+		browser->display();
+		
+		std::cout << "Please enter in the ID of the project you want to edit\n" << std::endl;	
+
+		std::cin >> edit_input;
+		std::transform(edit_input.begin(), edit_input.end(), edit_input.begin(), ::tolower);
+
+		if( edit_input.find_first_of("0987654321")!=std::string::npos )
+		{
+			Basic_User_Input(edit_input);
+		}else{
+			int project_ID = std::stoi (edit_input);
+		}
+
+
+	} while (edit_input != "rtm");
+}
+
+void GUI::crew_edit()
+{
+	system("clear");
+}
+
+void GUI::material_edit()
+{
+	system("clear");
 }
 
 void GUI::Basic_User_Input(std::string user_input)
 {
 	if (user_input == "rtm")
 	{
-
 		Main_Menu_Templates();
 	}
 
@@ -323,7 +377,7 @@ void GUI::Create_New_Project_Menu()
 			temp.ID = std::stoi(tempStr);
 			temp = fileHandler->LoadCrew(temp);
 			new_film->CrewMembers.push_back(temp);
-		}
+		}     
 	} while (tempStr != "Q");
 	std::cout << "\nPlease insert the Material IDs" << std::endl;
 	std::cout << "Type in the value then press enter to add another value" << std::endl;
