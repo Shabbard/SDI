@@ -104,9 +104,9 @@ void FileHandler::LoadFilmProjects()
 				film->Materials.push_back(mat);
 				mat = nullptr;
 			}
-			//FilmProject* filmToPass = &film;
 			browser->insert_tail(film);
-			//film = new FilmProject();
+            film = nullptr;
+			film = new FilmProject();
 		}
 		LineData.clear();
 	}
