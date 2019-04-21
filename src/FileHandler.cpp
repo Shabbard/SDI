@@ -110,6 +110,7 @@ void FileHandler::LoadFilmProjects()
 		}
 		LineData.clear();
 	}
+	delete film;
 	film = nullptr;
 }
 
