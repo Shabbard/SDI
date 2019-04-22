@@ -376,13 +376,8 @@ void GUI::Create_New_Project_Menu()
 		{
 			temp.ID = std::stoi(tempStr);
 			temp = fileHandler->LoadCrew(temp);
-<<<<<<< HEAD
-			new_film->CrewMembers.push_back(temp);
-		}     
-=======
 			new_film.CrewMembers.push_back(temp);
 		}
->>>>>>> 519e7851e3df310df5579d389394b4b2f9c082ad
 	} while (tempStr != "Q");
 	std::cout << "\nPlease insert the Material IDs" << std::endl;
 	std::cout << "Type in the value then press enter to add another value" << std::endl;
