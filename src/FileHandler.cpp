@@ -69,10 +69,10 @@ void FileHandler::LoadFilmProjects()
 			LineData.erase(LineData.begin());
 			for (std::vector<std::string>::iterator it = LineData.begin(); it != LineData.end(); it++)
 			{
-				if (!film->CrewMembers.empty())
-				{
-					film->CrewMembers.clear();
-				}
+				// if (!film->CrewMembers.empty())
+				// {
+				// 	film->CrewMembers.clear();
+				// }
 				Crew temp;
 				temp.ID = std::stoi(*it);
 				temp = LoadCrew(temp);
@@ -86,14 +86,14 @@ void FileHandler::LoadFilmProjects()
 		{
 			LineData.erase(LineData.begin());
 
-			if (!film->Materials.empty())
-			{
-				for (std::vector<Material*>::iterator it = film->Materials.begin(); it != film->Materials.end(); ++it)
-            	{
-                	delete *it;
-				}
-				film->Materials.clear();
-			}
+			// if (!film->Materials.empty())
+			// {
+			// 	for (std::vector<Material*>::iterator it = film->Materials.begin(); it != film->Materials.end(); ++it)
+            // 	{
+            //     	delete *it;
+			// 	}
+			// 	film->Materials.clear();
+			// }
 
 			auto mat = new Material();
 

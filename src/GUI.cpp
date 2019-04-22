@@ -178,6 +178,8 @@ void GUI::Maintenance_Menu()
 			MM_Templates();
 			std::cout << "\nProject Deleted" << std::endl;
 			browser->delete_current();
+			system("clear");
+			MM_Templates();
 		}
 
 		if (strinput == "cnp")
