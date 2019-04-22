@@ -240,7 +240,7 @@ void GUI::project_edit()
 		Edit_Templates();
 		
 		std::cout << "\nNext                                Enter Next" << std::endl;
-		std::cout << "Back                                Enter Back\n" << std::endl;
+		std::cout << "Back                                En=0r Back\n" << std::endl;
 		std::cout << "Return to Menu                       Enter RTM\n" << std::endl;
 		std::cout << "________________________________________________" << std::endl;	
 		
