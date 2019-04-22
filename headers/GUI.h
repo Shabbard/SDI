@@ -33,6 +33,8 @@ public:
     void Maintenance_Menu();
     void Edit_Menu();
     void Create_New_Project_Menu();
+    void DisplayMaterials();
+    void LoadMatData(Material* mat);
 
     void project_edit();
     void user_project_edit(int project_ID);

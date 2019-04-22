@@ -137,6 +137,10 @@ void GUI::Browser_Menu()
 		{
 			browser->display_crew();
 		}
+		else if (strinput == "materials")
+		{
+			DisplayMaterials();
+		}
 		
 
 	} while (strinput != "rtm");
@@ -293,6 +297,84 @@ void GUI::user_project_edit(int project_id)
 
 }
 
+void GUI::LoadMatData(Material* mat)
+{
+	std::cout << "ID" << "\t" << mat->ID << std::endl;
+	std::cout << "Type" << "\t" << mat->Type << std::endl;
+	std::cout << "Title" << "\t" << mat->Title << std::endl;
+	std::cout << "DVD Description" << "\t" << mat->Description << std::endl;
+	std::cout << "Video Format" << "\t" << mat->VideoFormat << std::endl;
+	std::cout << "Audio Format" << "\t" << mat->AudioFormat << std::endl;
+	std::cout << "Runtime" << "\t" << mat->Runtime << std::endl;
+	std::cout << "Languages" << "\t";
+	if (mat->Type == "VHS")
+	{
+		std::cout << mat->GetLanguage(0);
+	}
+	else
+	{
+		for(size_t i = 0; i != mat->GetNumLanguages(); i++)
+		{
+			std::cout << mat->GetLanguage(i) << ",";
+		}
+		std::cout << std::endl;
+	}
+	std::cout << "Retail Price" << "\t" << mat->RetailPrice << std::endl;
+	if (mat->Type == "VHS")
+	{
+		std::cout << mat->GetSubtitle(0);
+	}
+	else
+	{
+		for(size_t i = 0; i != mat->GetNumSubtitles(); i++)
+		{
+			std::cout << mat->GetSubtitle(i) << ",";
+		}
+		std::cout << std::endl;
+	}
+	std::cout << "Frame Aspect" << "\t" << mat->FrameAspect << std::endl;
+	std::cout << "Packaging" << "\t" << mat->Packaging << std::endl;
+
+	if(mat->Type != "ComboBox")
+	{
+//		for(size_t i = 0; i != mat->(); i++)
+//		{
+//			std::cout << mat->GetSubtitle(i) << ",";
+//		}
+//		std::cout << std::endl;
+	}
+}
+
+void GUI::DisplayMaterials()
+{
+	std::cout << "___________________________________\n" << std::endl;
+   	std::cout << "              Materials              " << "\n"<< std::endl;
+	
+   	for(std::vector<Material*>::iterator it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); it++)
+	{
+	
+		LoadMatData(*it);
+		Material* mat = *it;
+		if (mat->Type == "ComboBox")
+		{
+			std::vector<Material*> ComboBoxStored = mat->GetDVDs();
+			for (size_t i = 0; i != ComboBoxStored.size(); ++i)
+			{
+				LoadMatData(ComboBoxStored.at(i));
+
+			}
+			
+		}
+    
+		
+	}
+
+
+
+
+   std::cout << "\n";
+}
+
 void GUI::crew_edit()
 {
 	system("clear");
@@ -402,7 +484,7 @@ void GUI::Create_New_Project_Menu()
 		new_film.Languages.push_back(strinput);
 	} while (strinput != "Q");
 	std::cout << "\nPlease insert the Weekly Ticket Sale: ";
-	std::cin >> new_film.WeeklyTicketSales;
+//	std::cin >> new_film.WeeklyTicketSales;
 	std::cout << "\nPlease insert Crew Memeber IDs" << std::endl;
 	std::cout << "Type in the value then press enter to add another value" << std::endl;
 	std::cout << "When you have finihed enter in - Q" << std::endl;
