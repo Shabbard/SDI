@@ -9,7 +9,7 @@ void FileHandler::LoadFilmProjects()
 {
 	std::ifstream infile;
 	infile.open(FilmData);
-	FilmProject *film = new FilmProject();
+	FilmProject* film = new FilmProject();
 	std::string str;
 
 	while (std::getline(infile, str))
@@ -69,6 +69,10 @@ void FileHandler::LoadFilmProjects()
 			LineData.erase(LineData.begin());
 			for (std::vector<std::string>::iterator it = LineData.begin(); it != LineData.end(); it++)
 			{
+				if (!film->CrewMembers.empty())
+				{
+					film->CrewMembers.clear();
+				}
 				Crew temp;
 				temp.ID = std::stoi(*it);
 				temp = LoadCrew(temp);
@@ -81,17 +85,28 @@ void FileHandler::LoadFilmProjects()
 		else if (LineData.at(0) == "Material_ID")
 		{
 			LineData.erase(LineData.begin());
+
+			if (!film->Materials.empty())
+			{
+				for (std::vector<Material*>::iterator it = film->Materials.begin(); it != film->Materials.end(); ++it)
+            	{
+                	delete *it;
+				}
+				film->Materials.clear();
+			}
+
 			auto mat = new Material();
 
 			for (std::vector<std::string>::iterator it = LineData.begin(); it != LineData.end(); ++it)
 			{
-				mat = GetMaterialType(mat, std::stoi(*it));
-				mat = LoadMaterial(mat, std::stoi(*it));
+                mat = GetMaterialType(mat, std::stoi(*it));
+				LoadMaterial(mat, std::stoi(*it));
 				film->Materials.push_back(mat);
-				mat = new Material();
+				mat = nullptr;
 			}
+			//FilmProject* filmToPass = &film;
 			browser->insert_tail(film);
-			film = new FilmProject();
+			//film = new FilmProject();
 		}
 		LineData.clear();
 	}
@@ -144,22 +159,27 @@ T FileHandler::GetMaterialType(T mat, int idToFind)
 
 			if (matTypeVec.at(1) == "ComboBox")
 			{
+				delete mat;
 				mat = new ComboBox();
 			}
 			else if (matTypeVec.at(1) == "VHS")
 			{
+				delete mat;
 				mat = new VHS();
 			}
 			else if (matTypeVec.at(1) == "DVD")
 			{
+				delete mat;
 				mat = new DVD();
 			}
 			else if (matTypeVec.at(1) == "DoubleSidedDVD")
 			{
+				delete mat;
 				mat = new DoubleSidedDVD();
 			}
 			else if (matTypeVec.at(1) == "BluRay")
 			{
+				delete mat;
 				mat = new BluRay();
 			}
 			mat->ID = idToFind;
@@ -243,8 +263,9 @@ T FileHandler::LoadMaterial(T mat, int idToLoad)
 					{
 						auto new_mat = new Material();
 						new_mat = GetMaterialType(new_mat, std::stoi(LineData.at(i)));
-						new_mat = LoadMaterial(new_mat, std::stoi(LineData.at(i)));
+						LoadMaterial(new_mat, std::stoi(LineData.at(i)));
 						mat->SetDVDVector(new_mat);
+						new_mat = nullptr;
 					}
 				}
 				else if (mat->Type == "DoubleSidedDVD")
