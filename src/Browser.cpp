@@ -89,7 +89,13 @@ void Browser::display()
 		std::cout << *it << ",";
 	}
 	std::cout << std::endl;
-	std::cout << "Weekly Ticket Sales" << "\t" << "£ " << current->data->WeeklyTicketSales << std::endl;
+	//std::cout << "Weekly Ticket Sales" << "\t" << "£ " << current->data->WeeklyTicketSales << std::endl;
+   std::cout << "Weekly Ticket Sales,";
+	for (std::vector<double>::iterator it = current->data->WeeklyTicketSales.begin(); it != current->data->WeeklyTicketSales.end(); it++)
+	{
+		std::cout << *it << ",";
+	}
+	std::cout << std::endl;
    std::cout << "Crew Member ID's" << "\t";
 	for(std::vector<Crew>::iterator it = current->data->CrewMembers.begin(); it != current->data->CrewMembers.end(); it++)
 	{
