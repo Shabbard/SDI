@@ -35,6 +35,7 @@ public:
     void Create_New_Project_Menu();
 
     void project_edit();
+    void user_project_edit(int project_ID);
     void crew_edit();
     void material_edit();
 

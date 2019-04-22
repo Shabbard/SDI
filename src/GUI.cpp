@@ -234,26 +234,63 @@ void GUI::project_edit()
 	{
 		system("clear");
 		Edit_Templates();
+		
 		std::cout << "\nNext                                Enter Next" << std::endl;
 		std::cout << "Back                                Enter Back\n" << std::endl;
 		std::cout << "Return to Menu                       Enter RTM\n" << std::endl;
 		std::cout << "________________________________________________" << std::endl;	
+		
 		browser->display();
 		
 		std::cout << "Please enter in the ID of the project you want to edit\n" << std::endl;	
 
 		std::cin >> edit_input;
-		std::transform(edit_input.begin(), edit_input.end(), edit_input.begin(), ::tolower);
+	
+		std::string user_input = edit_input;
 
-		if( edit_input.find_first_of("0987654321")!=std::string::npos )
+
+		if( edit_input.find_first_of("1234567890") == std::string::npos )
 		{
+			std::transform(edit_input.begin(), edit_input.end(), edit_input.begin(), ::tolower);
+			std::cout << "no ints";
 			Basic_User_Input(edit_input);
-		}else{
-			int project_ID = std::stoi (edit_input);
+		}
+		
+		else if( edit_input.find_first_of("1234567890") != std::string::npos )
+		{
+			std::cout << "int convert";
+			int project_ID = std::stoi(user_input);
+			user_project_edit(project_ID);
 		}
 
-
 	} while (edit_input != "rtm");
+}
+
+void GUI::user_project_edit(int project_id)
+{
+	system("clear");
+	Edit_Templates();
+
+	int new_id;
+
+	browser->setHead();
+
+	while (new_id != project_id)
+	{
+		new_id = browser->current->data->ID;
+		browser->nextNode();
+	}
+
+
+	// selected display project
+	// ask to edit section
+	// id status title keywords summary genre release date filming locatios runtim language wekkly box office crew members ID materials ID 
+	// restrict ID and Materials??
+	// edit 
+	// update
+	// return to mm
+	
+
 }
 
 void GUI::crew_edit()
