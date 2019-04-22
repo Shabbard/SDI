@@ -62,7 +62,11 @@ void FileHandler::LoadFilmProjects()
 		}
 		else if (LineData.at(0) == "Weekly Ticket Sales")
 		{
-			film->WeeklyTicketSales = std::stoi(LineData.at(1));
+			LineData.erase(LineData.begin());
+			for (size_t i = 0; i != LineData.size(); ++i)
+			{
+				film->WeeklyTicketSales.push_back(std::stoi(LineData.at(i)));
+			}
 		}
 		else if (LineData.at(0) == "Crew_Members")
 		{
@@ -399,7 +403,12 @@ void FileHandler::WriteToFile(std::ofstream &file)
 		file << *it << ",";
 	}
 	file << std::endl;
-	file << "Weekly Ticket Sales," << browser->current->data->WeeklyTicketSales << std::endl;
+	file << "Weekly Ticket Sales,";
+	for (std::vector<double>::iterator it = browser->current->data->WeeklyTicketSales.begin(); it != browser->current->data->WeeklyTicketSales.end(); it++)
+	{
+		file << *it << ",";
+	}
+	file << std::endl;
 	file << "Crew_Members,";
 	for (std::vector<Crew>::iterator it = browser->current->data->CrewMembers.begin(); it != browser->current->data->CrewMembers.end(); it++)
 	{
