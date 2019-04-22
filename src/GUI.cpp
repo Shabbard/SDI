@@ -287,7 +287,7 @@ void GUI::project_edit()
 				}
 
 				counter;
-				std::cout << counter <<  " - "<< "Enter in this number to add a new value " << "\n" ;
+				std::cout << counter <<  " - " << "Enter in this number to add a new value " << "\n" ;
 				
 				std::cout <<"\nPlease Enter in a keywords number you want to edit\n";
 				
