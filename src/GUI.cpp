@@ -139,7 +139,7 @@ void GUI::Browser_Menu()
 		}
 		else if (strinput == "materials")
 		{
-			DisplayMaterials();
+			//DisplayMaterials();
 		}
 		
 
@@ -169,7 +169,7 @@ void GUI::Maintenance_Menu()
 
 		if (strinput == "mi")
 		{
-			browser->display_mat();
+			//browser->display_mat();
 		}
 
 		if (strinput == "edit")
@@ -290,7 +290,6 @@ void GUI::project_edit()
 					
 				}
 
-				counter;
 				std::cout << "\n" <<counter <<  " - " << "Enter in this number to add a new value " << std::endl;
 				std::cout << "000" <<  " - " << "Enter in this number to delete a value " << std::endl;
 				
@@ -338,9 +337,52 @@ void GUI::project_edit()
 				browser->current->data->Summary = summary;
 			}
 
-			if(edit_input == "genre")
+			if(edit_input == "genres")
 			{
+				std::cout << "\n";
+				int counter = 0;
+				
+				for(std::vector<std::string>::iterator it = browser->current->data->Genre.begin(); it != browser->current->data->Genre.end(); it++)
+				{
+					std::cout << counter << " - " << *it << "\n" ;
+					counter++;
+				}
 
+				std::cout << "\n" <<counter <<  " - " << "Enter in this number to add a new value " << std::endl;
+				std::cout << "000" <<  " - " << "Enter in this number to delete a value " << std::endl;
+				
+				std::cout <<"\nPlease Enter in a Genre number you want to edit\n";
+				
+				int Genre = 0;
+				std::cin >> Genre;
+
+				if( Genre == counter)
+				{
+					std::cout <<"\nPlease enter in the new Genre\n";
+
+					std::string new_val;
+					std::cin >> new_val;
+
+					browser->current->data->Genre.push_back(new_val);
+
+
+				}if(Genre == 000){
+
+					std::cout <<"\nPlease enter in the Genre number you want to delete\n";
+
+					int new_val;
+					std::cin >> new_val;
+
+					browser->current->data->Genre.erase (browser->current->data->Genre.begin()+new_val);
+
+				}else{
+					std::cout <<"\nPlease enter in the edited Genre\n";
+
+					std::string replace;
+					std::cin >> replace;
+
+					browser->current->data->Genre.at(Genre) = replace;
+				}
 			}
 
 			if(edit_input == "release date")
@@ -354,7 +396,50 @@ void GUI::project_edit()
 
 			if(edit_input == "filming locations")
 			{
+				std::cout << "\n";
+				int counter = 0;
+				
+				for(std::vector<std::string>::iterator it = browser->current->data->Filming_Locations.begin(); it != browser->current->data->Filming_Locations.end(); it++)
+				{
+					std::cout << counter << " - " << *it << "\n" ;
+					counter++;
+				}
 
+				std::cout << "\n" <<counter <<  " - " << "Enter in this number to add a new value " << std::endl;
+				std::cout << "000" <<  " - " << "Enter in this number to delete a value " << std::endl;
+				
+				std::cout <<"\nPlease Enter in a Location number you want to edit\n";
+				
+				int Location = 0;
+				std::cin >> Location;
+
+				if( Location == counter)
+				{
+					std::cout <<"\nPlease enter in the new keyword\n";
+
+					std::string new_val;
+					std::cin >> new_val;
+
+					browser->current->data->Filming_Locations.push_back(new_val);
+
+
+				}if(Location == 000){
+
+					std::cout <<"\nPlease enter in the keyword number you want to delete\n";
+
+					int new_val;
+					std::cin >> new_val;
+
+					browser->current->data->Filming_Locations.erase (browser->current->data->Filming_Locations.begin()+new_val);
+
+				}else{
+					std::cout <<"\nPlease enter in the edited keyword\n";
+
+					std::string replace;
+					std::cin >> replace;
+
+					browser->current->data->Filming_Locations.at(Location) = replace;
+				}
 			}
 
 			if(edit_input == "runtime")
@@ -368,7 +453,52 @@ void GUI::project_edit()
 
 			if(edit_input == "languages")
 			{
+							
+				std::cout << "\n";
+				int counter = 0;
+				
+				for(std::vector<std::string>::iterator it = browser->current->data->Languages.begin(); it != browser->current->data->Languages.end(); it++)
+				{
+					std::cout << counter << " - " << *it << "\n" ;
+					counter++;
+				}
 
+				std::cout << "\n" <<counter <<  " - " << "Enter in this number to add a new value " << std::endl;
+				std::cout << "000" <<  " - " << "Enter in this number to delete a value " << std::endl;
+				
+				std::cout <<"\nPlease Enter in a Location number you want to edit\n";
+				
+				int Languages = 0;
+				std::cin >> Languages;
+
+				if( Languages == counter)
+				{
+					std::cout <<"\nPlease enter in the new keyword\n";
+
+					std::string new_val;
+					std::cin >> new_val;
+
+					browser->current->data->Languages.push_back(new_val);
+
+
+				}if(Languages == 000){
+
+					std::cout <<"\nPlease enter in the keyword number you want to delete\n";
+
+					int new_val;
+					std::cin >> new_val;
+
+					browser->current->data->Languages.erase (browser->current->data->Languages.begin()+new_val);
+
+				}else{
+					std::cout <<"\nPlease enter in the edited keyword\n";
+
+					std::string replace;
+					std::cin >> replace;
+
+					browser->current->data->Languages.at(Languages) = replace;
+				}
+			
 			}
 
 			if(edit_input == "weekly box office")
@@ -389,92 +519,81 @@ void GUI::project_edit()
 	} while (edit_input != "rtm");
 }
 
-	// selected display project
-	// ask to edit section
-	// id status title keywords summary genre release date filming locatios runtim language wekkly box office crew members ID materials ID 
-	// restrict ID and Materials??
-	// edit 
-	// update
-	// return to mm
+// void GUI::LoadMatData(Material* mat)
+// {
+// 	std::cout << "ID" << "\t" << mat->ID << std::endl;
+// 	std::cout << "Type" << "\t" << mat->Type << std::endl;
+// 	std::cout << "Title" << "\t" << mat->Title << std::endl;
+// 	std::cout << "DVD Description" << "\t" << mat->Description << std::endl;
+// 	std::cout << "Video Format" << "\t" << mat->VideoFormat << std::endl;
+// 	std::cout << "Audio Format" << "\t" << mat->AudioFormat << std::endl;
+// 	std::cout << "Runtime" << "\t" << mat->Runtime << std::endl;
+// 	std::cout << "Languages" << "\t";
+// 	if (mat->Type == "VHS")
+// 	{
+// 		std::cout << mat->GetLanguage(0);
+// 	}
+// 	else
+// 	{
+// 		for(size_t i = 0; i != mat->GetNumLanguages(); i++)
+// 		{
+// 			std::cout << mat->GetLanguage(i) << ",";
+// 		}
+// 		std::cout << std::endl;
+// 	}
+// 	std::cout << "Retail Price" << "\t" << mat->RetailPrice << std::endl;
+// 	if (mat->Type == "VHS")
+// 	{
+// 		std::cout << mat->GetSubtitle(0);
+// 	}
+// 	else
+// 	{
+// 		for(size_t i = 0; i != mat->GetNumSubtitles(); i++)
+// 		{
+// 			std::cout << mat->GetSubtitle(i) << ",";
+// 		}
+// 		std::cout << std::endl;
+// 	}
+// 	std::cout << "Frame Aspect" << "\t" << mat->FrameAspect << std::endl;
+// 	std::cout << "Packaging" << "\t" << mat->Packaging << std::endl;
 
+// 	if(mat->Type != "ComboBox")
+// 	{
+// //		for(size_t i = 0; i != mat->(); i++)
+// //		{
+// //			std::cout << mat->GetSubtitle(i) << ",";
+// //		}
+// //		std::cout << std::endl;
+// 	}
+// }
 
-void GUI::LoadMatData(Material* mat)
-{
-	std::cout << "ID" << "\t" << mat->ID << std::endl;
-	std::cout << "Type" << "\t" << mat->Type << std::endl;
-	std::cout << "Title" << "\t" << mat->Title << std::endl;
-	std::cout << "DVD Description" << "\t" << mat->Description << std::endl;
-	std::cout << "Video Format" << "\t" << mat->VideoFormat << std::endl;
-	std::cout << "Audio Format" << "\t" << mat->AudioFormat << std::endl;
-	std::cout << "Runtime" << "\t" << mat->Runtime << std::endl;
-	std::cout << "Languages" << "\t";
-	if (mat->Type == "VHS")
-	{
-		std::cout << mat->GetLanguage(0);
-	}
-	else
-	{
-		for(size_t i = 0; i != mat->GetNumLanguages(); i++)
-		{
-			std::cout << mat->GetLanguage(i) << ",";
-		}
-		std::cout << std::endl;
-	}
-	std::cout << "Retail Price" << "\t" << mat->RetailPrice << std::endl;
-	if (mat->Type == "VHS")
-	{
-		std::cout << mat->GetSubtitle(0);
-	}
-	else
-	{
-		for(size_t i = 0; i != mat->GetNumSubtitles(); i++)
-		{
-			std::cout << mat->GetSubtitle(i) << ",";
-		}
-		std::cout << std::endl;
-	}
-	std::cout << "Frame Aspect" << "\t" << mat->FrameAspect << std::endl;
-	std::cout << "Packaging" << "\t" << mat->Packaging << std::endl;
-
-	if(mat->Type != "ComboBox")
-	{
-//		for(size_t i = 0; i != mat->(); i++)
-//		{
-//			std::cout << mat->GetSubtitle(i) << ",";
-//		}
-//		std::cout << std::endl;
-	}
-}
-
-void GUI::DisplayMaterials()
-{
-	std::cout << "___________________________________\n" << std::endl;
-   	std::cout << "              Materials              " << "\n"<< std::endl;
+// void GUI::DisplayMaterials()
+// {
+// 	std::cout << "___________________________________\n" << std::endl;
+//    	std::cout << "              Materials              " << "\n"<< std::endl;
 	
-   	for(std::vector<Material*>::iterator it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); it++)
-	{
+//    	for(std::vector<Material*>::iterator it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); it++)
+// 	{
 	
-		LoadMatData(*it);
-		Material* mat = *it;
-		if (mat->Type == "ComboBox")
-		{
-			std::vector<Material*> ComboBoxStored = mat->GetDVDs();
-			for (size_t i = 0; i != ComboBoxStored.size(); ++i)
-			{
-				LoadMatData(ComboBoxStored.at(i));
+// 		LoadMatData(*it);
+// 		Material* mat = *it;
+// 		if (mat->Type == "ComboBox")
+// 		{
+// 			std::vector<Material*> ComboBoxStored = mat->GetDVDs();
+// 			for (size_t i = 0; i != ComboBoxStored.size(); ++i)
+// 			{
+// 				LoadMatData(ComboBoxStored.at(i));
 
-			}
+// 			}
 			
-		}
+// 		}
     
 		
-	}
+// 	}
 
 
-
-
-   std::cout << "\n";
-}
+//    std::cout << "\n";
+// }
 
 void GUI::crew_edit()
 {

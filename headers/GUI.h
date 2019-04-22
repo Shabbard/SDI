@@ -34,7 +34,7 @@ public:
     void Edit_Menu();
     void Create_New_Project_Menu();
     void DisplayMaterials();
-    void LoadMatData(Material* mat);
+    // void LoadMatData(Material* mat);
 
     void project_edit();
     void crew_edit();
