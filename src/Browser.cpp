@@ -24,7 +24,7 @@ Browser::~Browser()
    temp = current;
    delete temp->data;
    temp->data  = nullptr;
-   nextNode();
+   current = current->next;
    if (temp->back)
    {
       temp->back = nullptr;
@@ -238,10 +238,12 @@ void Browser::delete_current()
    if (current->back == nullptr)
    {
       current->next->back = nullptr;
+      head = current->next;
    }
    else if (current->next == nullptr)
    {
       current->back->next = nullptr;
+      tail = current->back;
    }
    else
    {
