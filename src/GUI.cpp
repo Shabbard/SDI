@@ -287,7 +287,8 @@ void GUI::project_edit()
 				}
 
 				counter;
-				std::cout << counter <<  " - " << "Enter in this number to add a new value " << "\n" ;
+				std::cout << "\n" <<counter <<  " - " << "Enter in this number to add a new value " << std::endl;
+				std::cout << "000" <<  " - " << "Enter in this number to delete a value " << std::endl;
 				
 				std::cout <<"\nPlease Enter in a keywords number you want to edit\n";
 				
@@ -303,6 +304,15 @@ void GUI::project_edit()
 
 					browser->current->data->KeyWords.push_back(new_val);
 
+
+				}if(counter == 000){
+
+					std::cout <<"\nPlease enter in the keyword number you want to delete\n";
+
+					int new_val;
+					std::cin >> new_val;
+
+					browser->current->data->KeyWords.erase (browser->current->data->KeyWords.begin()+new_val);
 
 				}else{
 					std::cout <<"\nPlease enter in the edited keyword\n";
