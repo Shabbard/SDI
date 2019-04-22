@@ -33,7 +33,9 @@ Browser::~Browser()
    {
       temp->next = nullptr;
    }
-   delete temp;
+   delete current;
+   delete tail;
+   delete head;
    current = nullptr;
    head = nullptr;
    tail = nullptr;
@@ -170,7 +172,7 @@ void Browser::insert_tail(FilmProject* new_data)
    
    if(tail !=  nullptr)
    {
-      tail->next = new_node ;
+      tail->next = new_node;
    }
    if (tail == nullptr)
    {
@@ -238,12 +240,11 @@ void Browser::delete_current()
    if (current->back == nullptr)
    {
       current->next->back = nullptr;
-      head = current->next;
+      
    }
    else if (current->next == nullptr)
    {
       current->back->next = nullptr;
-      tail = current->back;
    }
    else
    {
@@ -253,9 +254,15 @@ void Browser::delete_current()
   
    delete current->data;
 
-   if(current->back != nullptr)
+   if(current->back == nullptr)
+   {
+      current = current->next;
+      head = current;
+   }
+   else if(current->next == nullptr)
    {
       current = current->back;
+      tail = current;
    }
    else
    {
