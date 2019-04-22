@@ -245,7 +245,7 @@ void GUI::project_edit()
 		std::cout << "Please enter in the ID of the project you want to edit\n" << std::endl;	
 
 		std::cin >> edit_input;
-
+	
 		std::string user_input = edit_input;
 
 
