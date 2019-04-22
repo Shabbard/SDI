@@ -246,45 +246,148 @@ void GUI::project_edit()
 		
 		browser->display();
 		
-		std::cout << "Please enter in the ID of the project you want to edit\n" << std::endl;	
+		std::cout << "Please enter in the datatype you want to edit\n" << std::endl;	
 
 		std::cin >> edit_input;
 	
-		std::string user_input = edit_input;
+		std::transform(edit_input.begin(), edit_input.end(), edit_input.begin(), ::tolower);
 
-
-		if( edit_input.find_first_of("1234567890") == std::string::npos )
+		if( edit_input == "next" ||  edit_input == "previous" ||  edit_input == "rtm" )
 		{
-			std::transform(edit_input.begin(), edit_input.end(), edit_input.begin(), ::tolower);
-			std::cout << "no ints";
 			Basic_User_Input(edit_input);
-		}
-		
-		else if( edit_input.find_first_of("1234567890") != std::string::npos )
+		}else
 		{
-			std::cout << "int convert";
-			int project_ID = std::stoi(user_input);
-			user_project_edit(project_ID);
+
+			if(edit_input == "status")
+			{
+				std::cout << "\nUnreleased 1, Now_Playing 2, Released 3";
+				std::cout << "\nPlease insert a Status Number : ";
+				int status = 0;
+				std::cin >> status;
+
+				browser->current->data->Status = status;
+
+			}
+
+			if(edit_input == "title")
+			{
+				std::cout << "\nPlease Insert a project title : ";
+				std::string title  = "";
+				std::cin >> title;
+
+				browser->current->data->Title = title;
+			}
+
+			if(edit_input == "keywords")
+			{
+				std::cout << "\n";
+				int counter = 0;
+				
+				for(std::vector<std::string>::iterator it = browser->current->data->KeyWords.begin(); it != browser->current->data->KeyWords.end(); it++)
+				{
+					std::cout << counter << " - " << *it << "\n" ;
+					counter++;
+					
+				}
+
+				counter;
+				std::cout << "\n" <<counter <<  " - " << "Enter in this number to add a new value " << std::endl;
+				std::cout << "000" <<  " - " << "Enter in this number to delete a value " << std::endl;
+				
+				std::cout <<"\nPlease Enter in a keywords number you want to edit\n";
+				
+				int keywords = 0;
+				std::cin >> keywords;
+
+				if( keywords == counter)
+				{
+					std::cout <<"\nPlease enter in the new keyword\n";
+
+					std::string new_val;
+					std::cin >> new_val;
+
+					browser->current->data->KeyWords.push_back(new_val);
+
+
+				}if(counter == 000){
+
+					std::cout <<"\nPlease enter in the keyword number you want to delete\n";
+
+					int new_val;
+					std::cin >> new_val;
+
+					browser->current->data->KeyWords.erase (browser->current->data->KeyWords.begin()+new_val);
+
+				}else{
+					std::cout <<"\nPlease enter in the edited keyword\n";
+
+					std::string replace;
+					std::cin >> replace;
+
+					browser->current->data->KeyWords.at(keywords) = replace;
+				}
+
+			}
+
+			if(edit_input == "summary")
+			{
+				std::cout << "\nPlease Insert a project summary : ";
+				std::string summary  = "";
+				std::cin >> summary;
+
+				browser->current->data->Summary = summary;
+			}
+
+			if(edit_input == "genre")
+			{
+
+			}
+
+			if(edit_input == "release date")
+			{
+				std::cout << "\nPlease Insert a project release date : ";
+				std::string title  = "";
+				std::cin >> title;
+
+				browser->current->data->ReleaseDate = title;
+			}
+
+			if(edit_input == "filming locations")
+			{
+
+			}
+
+			if(edit_input == "runtime")
+			{
+				std::cout << "\nPlease insert a runtime : ";
+				int runtime = 0;
+				std::cin >> runtime;
+
+				browser->current->data->Runtime = runtime;
+			}
+
+			if(edit_input == "languages")
+			{
+
+			}
+
+			if(edit_input == "weekly box office")
+			{
+				std::cout << "\nPlease insert a runtime : ";
+				int WeeklyTicketSales = 0;
+				std::cin >> WeeklyTicketSales;
+
+				browser->current->data->WeeklyTicketSales.push_back(WeeklyTicketSales);
+			}
+
+			if(edit_input == "crew member ID")
+			{
+
+			}
 		}
 
 	} while (edit_input != "rtm");
 }
-
-void GUI::user_project_edit(int project_id)
-{
-	system("clear");
-	Edit_Templates();
-
-	int new_id;
-
-	browser->setHead();
-
-	while (new_id != project_id)
-	{
-		new_id = browser->current->data->ID;
-		browser->nextNode();
-	}
-
 
 	// selected display project
 	// ask to edit section
@@ -293,9 +396,7 @@ void GUI::user_project_edit(int project_id)
 	// edit 
 	// update
 	// return to mm
-	
 
-}
 
 void GUI::LoadMatData(Material* mat)
 {
@@ -389,7 +490,10 @@ void GUI::Basic_User_Input(std::string user_input)
 {
 	if (user_input == "rtm")
 	{
+		GUI::Main_Menu();
+		system("clear");
 		Main_Menu_Templates();
+
 	}
 
 	if (user_input == "next")

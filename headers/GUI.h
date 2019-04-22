@@ -37,7 +37,6 @@ public:
     void LoadMatData(Material* mat);
 
     void project_edit();
-    void user_project_edit(int project_ID);
     void crew_edit();
     void material_edit();
 
