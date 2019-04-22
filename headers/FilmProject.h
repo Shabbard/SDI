@@ -15,7 +15,7 @@ class FilmProject : public Film
             }
             Materials.clear();
         }
-        double WeeklyTicketSales = 0;
+        std::vector<double> WeeklyTicketSales;
         std::vector<Material*> Materials;
         std::vector<Crew> CrewMembers;
         enum Status { Unreleased, Now_Playing, Released };
