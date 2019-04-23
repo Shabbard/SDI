@@ -89,8 +89,7 @@ void Browser::display()
 		std::cout << *it << ",";
 	}
 	std::cout << std::endl;
-	//std::cout << "Weekly Ticket Sales" << "\t" << "£ " << current->data->WeeklyTicketSales << std::endl;
-   std::cout << "Weekly Ticket Sales,";
+	std::cout << "Weekly Ticket Sales,";
 	for (std::vector<double>::iterator it = current->data->WeeklyTicketSales.begin(); it != current->data->WeeklyTicketSales.end(); it++)
 	{
 		std::cout << *it << ",";
@@ -125,25 +124,6 @@ void Browser::display_crew()
       temp = *it;   
       std::cout << "- " <<temp.ID<< "\t"<< temp.Name << "\t\t" << temp.Job << std::endl;
 	}
-   std::cout << "\n";
-}
-
-void Browser::display_mat()
-{
-
-   std::cout << "___________________________________\n" << std::endl;
-   std::cout << "            Materials             " << "\n"<< std::endl;
-   std::cout << " DataType"<< "\t\t"<< "Data\n" << std::endl;
-   
-   for (std::vector<Material*>::iterator it = current->data->Materials.begin(); it != current->data->Materials.end(); it++)
-   {
-      // std::cout << "ID" << "\t\t\t"<< current->data->ID << std::endl;
-      
-      // current->data.Materials* temp;
-      // temp = *it;
-      // std::cout << "ID" << "\t\t\t"<< temp->data->Materials->Title << std::endl;
-   }
-
    std::cout << "\n";
 }
 
