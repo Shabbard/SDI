@@ -377,7 +377,6 @@ void GUI::project_edit()
 
 				}else{
 					std::cout <<"\nPlease enter in the edited Genre\n";
-
 					std::string replace;
 					std::cin >> replace;
 
@@ -669,11 +668,15 @@ void GUI::Create_New_Project_Menu()
 
 	new_film.ID = unique_id_check();
 
+	std::string user_input;
+
 	std::cout << "Unreleased 1, Now_Playing 2, Released 3\n";
 	std::cout << "\nPlease insert a Status Number: ";
 	std::cin >> new_film.Status;
 	std::cout << "\nPlease insert a Title: ";
-	std::cin >> new_film.Title;
+
+	std::getline (std::cin,new_film.Title);
+	
 	std::cout << "\nPlease insert the Keywords: " << std::endl;
 	std::cout << "Type in the value then press enter to add another value" << std::endl;
 	std::cout << "When you have finished enter in (case sensitive) - Q" << std::endl;
