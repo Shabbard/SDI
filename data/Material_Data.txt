@@ -35,6 +35,7 @@ Languages,English,French,Spanish
 Retail_Price,30
 Subtitles,English,French,Spanish
 Frame_Aspect,16:9
+Bonus_Features,Directors Cut
 Packaging,Plastic
 Stored,4
 ID,4
@@ -48,6 +49,7 @@ Languages,English,French,Spanish
 Retail_Price,30
 Subtitles,English,French,Spanish
 Frame_Aspect,16:9
+Bonus_Features,Directors Cut
 Packaging,Plastic
 Stored,3
 ID,5
@@ -61,5 +63,6 @@ Languages,English,French,Spanish
 Retail_Price,30
 Subtitles,English,French,Spanish
 Frame_Aspect,16:9
+Bonus_Features,Directors Cut
 Packaging,Plastic
 Stored,2

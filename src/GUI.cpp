@@ -521,10 +521,10 @@ void GUI::project_edit()
 
 void GUI::LoadMatData(Material* mat, std::string strvar)
 {
-
-	std::cout << strvar << "ID" << "\t\t\t" << mat->ID << std::endl;
-	std::cout << strvar << "Type" << "\t\t\t" << mat->Type << std::endl;
+	std::cout << strvar << "________________________________________________\n" << std::endl;
+	std::cout << strvar << "ID" << "\t\t\t" << mat->ID << "\n" << std::endl;
 	std::cout << strvar << "Title" << "\t\t\t" << mat->Title << std::endl;
+	std::cout << strvar << "Type" << "\t\t\t" << mat->Type << std::endl;
 	std::cout << strvar << "DVD Description" << "\t\t" << mat->Description << std::endl;
 	std::cout << strvar << "Video Format" << "\t\t" << mat->VideoFormat << std::endl;
 	std::cout << strvar << "Audio Format" << "\t\t" << mat->AudioFormat << std::endl;
@@ -557,16 +557,23 @@ void GUI::LoadMatData(Material* mat, std::string strvar)
 		std::cout << std::endl;
 	}
 	std::cout << strvar <<"Frame Aspect" << "\t\t" << mat->FrameAspect << std::endl;
+	if (mat->Type == "DVD" || mat->Type == "BluRay")
+	{
+		std::cout << strvar << "Bonus Features" << "\t\t";
+		for(size_t i = 0; i != mat->GetNumBonusFeatures(); i++)
+		{
+			std::cout << mat->GetBonusFeature(i) << ",";
+		}
+		std::cout << std::endl;
+	}
 	std::cout << strvar <<"Packaging" << "\t\t" << mat->Packaging << std::endl;
 	std::cout << std::endl;
 
-	if(mat->Type != "ComboBox")
+	if (mat->Type == "DoubleSidedDVD")
 	{
-//		for(size_t i = 0; i != mat->(); i++)
-//		{
-//			std::cout << mat->GetSubtitle(i) << ",";
-//		}
-//		std::cout << std::endl;
+		std::pair<Material*, Material*> DoubleDVD = mat->GetDVDPair();
+		LoadMatData(DoubleDVD.first, "\t\t\t\t");
+		LoadMatData(DoubleDVD.second, "\t\t\t\t");
 	}
 }
 

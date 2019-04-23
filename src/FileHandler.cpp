@@ -255,6 +255,11 @@ T FileHandler::LoadMaterial(T mat, int idToLoad)
 			{
 				mat->FrameAspect = LineData.at(1);
 			}
+			else if (LineData.at(0) == "Bonus_Features")
+			{
+				LineData.erase(LineData.begin());
+				mat->SetBonusFeatures(LineData);
+			}
 			else if (LineData.at(0) == "Packaging")
 			{
 				mat->Packaging = LineData.at(1);
