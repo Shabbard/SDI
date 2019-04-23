@@ -137,9 +137,9 @@ void GUI::Browser_Menu()
 		{
 			browser->display_crew();
 		}
-		else if (strinput == "materials")
+		else if (strinput == "mi")
 		{
-			//DisplayMaterials();
+			DisplayMaterials();
 		}
 		
 
@@ -169,7 +169,7 @@ void GUI::Maintenance_Menu()
 
 		if (strinput == "mi")
 		{
-			//browser->display_mat();
+			DisplayMaterials();
 		}
 
 		if (strinput == "edit")
@@ -519,19 +519,20 @@ void GUI::project_edit()
 	} while (edit_input != "rtm");
 }
 
-void GUI::LoadMatData(Material* mat)
+void GUI::LoadMatData(Material* mat, std::string strvar)
 {
-	std::cout << "ID" << "\t" << mat->ID << std::endl;
-	std::cout << "Type" << "\t" << mat->Type << std::endl;
-	std::cout << "Title" << "\t" << mat->Title << std::endl;
-	std::cout << "DVD Description" << "\t" << mat->Description << std::endl;
-	std::cout << "Video Format" << "\t" << mat->VideoFormat << std::endl;
-	std::cout << "Audio Format" << "\t" << mat->AudioFormat << std::endl;
-	std::cout << "Runtime" << "\t" << mat->Runtime << std::endl;
-	std::cout << "Languages" << "\t";
+
+	std::cout << strvar << "ID" << "\t" << mat->ID << std::endl;
+	std::cout << strvar << "Type" << "\t" << mat->Type << std::endl;
+	std::cout << strvar << "Title" << "\t" << mat->Title << std::endl;
+	std::cout << strvar << "DVD Description" << "\t" << mat->Description << std::endl;
+	std::cout << strvar << "Video Format" << "\t" << mat->VideoFormat << std::endl;
+	std::cout << strvar << "Audio Format" << "\t" << mat->AudioFormat << std::endl;
+	std::cout << strvar << "Runtime" << "\t" << mat->Runtime << std::endl;
+	std::cout << strvar << "Languages" << "\t";
 	if (mat->Type == "VHS")
 	{
-		std::cout << mat->GetLanguage(0);
+		std::cout << strvar << mat->GetLanguage(0);
 	}
 	else
 	{
@@ -541,21 +542,22 @@ void GUI::LoadMatData(Material* mat)
 		}
 		std::cout << std::endl;
 	}
-	std::cout << "Retail Price" << "\t" << mat->RetailPrice << std::endl;
+	std::cout << strvar << "Retail Price" << "\t" << mat->RetailPrice << std::endl;
 	if (mat->Type == "VHS")
 	{
-		std::cout << mat->GetSubtitle(0);
+		std::cout << strvar << mat->GetSubtitle(0);
 	}
 	else
 	{
 		for(size_t i = 0; i != mat->GetNumSubtitles(); i++)
 		{
-			std::cout << mat->GetSubtitle(i) << ",";
+			std::cout << strvar <<mat->GetSubtitle(i) << ",";
 		}
 		std::cout << std::endl;
 	}
-	std::cout << "Frame Aspect" << "\t" << mat->FrameAspect << std::endl;
-	std::cout << "Packaging" << "\t" << mat->Packaging << std::endl;
+	std::cout << strvar <<"Frame Aspect" << "\t" << mat->FrameAspect << std::endl;
+	std::cout << strvar <<"Packaging" << "\t" << mat->Packaging << std::endl;
+	std::cout << std::endl;
 
 	if(mat->Type != "ComboBox")
 	{
@@ -574,16 +576,14 @@ void GUI::DisplayMaterials()
 	
    	for(std::vector<Material*>::iterator it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); it++)
 	{
-	
-		LoadMatData(*it);
+		LoadMatData(*it, "");
 		Material* mat = *it;
 		if (mat->Type == "ComboBox")
 		{
 			std::vector<Material*> ComboBoxStored = mat->GetDVDs();
 			for (size_t i = 0; i != ComboBoxStored.size(); ++i)
 			{
-				LoadMatData(ComboBoxStored.at(i));
-
+				LoadMatData(ComboBoxStored.at(i), "\t");
 			}
 		}
 	}
