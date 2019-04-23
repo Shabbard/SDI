@@ -255,6 +255,11 @@ T FileHandler::LoadMaterial(T mat, int idToLoad)
 			{
 				mat->FrameAspect = LineData.at(1);
 			}
+			else if (LineData.at(0) == "Bonus_Features")
+			{
+				LineData.erase(LineData.begin());
+				mat->SetBonusFeatures(LineData);
+			}
 			else if (LineData.at(0) == "Packaging")
 			{
 				mat->Packaging = LineData.at(1);
@@ -275,7 +280,15 @@ T FileHandler::LoadMaterial(T mat, int idToLoad)
 				}
 				else if (mat->Type == "DoubleSidedDVD")
 				{
-					mat->SetDoubleDVD(LoadFilm(std::stoi(LineData.at(0))), LoadFilm(std::stoi(LineData.at(1))));
+					auto new_mat1 = new Material();
+					auto new_mat2 = new Material();
+                    new_mat1 = GetMaterialType(new_mat1, std::stoi(LineData.at(0)));
+                    LoadMaterial(new_mat1, std::stoi(LineData.at(0)));
+                    new_mat2 = GetMaterialType(new_mat2, std::stoi(LineData.at(1)));
+                    LoadMaterial(new_mat2, std::stoi(LineData.at(1)));
+					mat->SetDoubleDVD(new_mat1, new_mat2);
+					new_mat1 = nullptr;
+					new_mat2 = nullptr;
 				}
 				else if (mat->Type == "DVD" || mat->Type == "VHS" || mat->Type == "BluRay")
 				{
