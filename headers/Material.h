@@ -70,7 +70,7 @@ class DoubleSidedDVD : public Material
 {
   private:
     std::pair<Material*, Material*> DVD;
-    std::vector<std::string> Languages, Subtitles, BonusFeatures;
+    std::vector<std::string> Languages, Subtitles;
 
   public:
     DoubleSidedDVD() { Type = "DoubleSidedDVD"; }
@@ -81,7 +81,6 @@ class DoubleSidedDVD : public Material
     }
     void SetLanguages(std::vector<std::string> input) override { Languages = input; }
     void SetSubtitles(std::vector<std::string> input) override { Subtitles = input; }
-    void SetBonusFeatures(std::vector<std::string> input) override { BonusFeatures = input; }
     std::string GetLanguage(size_t index) override { return Languages.at(index); }
     std::string GetSubtitle(size_t index) override { return Subtitles.at(index); }
     size_t GetNumLanguages() override { return Languages.size(); };
@@ -114,7 +113,7 @@ class ComboBox : public Material
 {
   private:
     std::vector<Material *> DVDs;
-    std::vector<std::string> Languages, Subtitles, BonusFeatures;
+    std::vector<std::string> Languages, Subtitles;
 
   public:
     ComboBox()
@@ -133,7 +132,6 @@ class ComboBox : public Material
     void SetDVDVector(Material *in) override { DVDs.push_back(in); }
     void SetLanguages(std::vector<std::string> input) override { Languages = input; }
     void SetSubtitles(std::vector<std::string> input) override { Subtitles = input; }
-    void SetBonusFeatures(std::vector<std::string> input) override { BonusFeatures = input; }
     std::string GetLanguage(size_t index) override { return Languages.at(index); }
     std::string GetSubtitle(size_t index) override { return Subtitles.at(index); }
     size_t GetNumLanguages() override { return Languages.size(); };
