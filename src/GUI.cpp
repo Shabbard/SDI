@@ -70,8 +70,8 @@ void GUI::Edit_Templates()
 	std::cout << "\n           Welcome to Edit Mode" << std::endl;
 	std::cout << "______________________________________________\n" << std::endl;
 	std::cout << "Step 1: Enter in the database you want to edit\n" << std::endl;
-	std::cout << "Step 2: Enter in the ID you want to edit\n" << std::endl;
-	std::cout << "Step 3: Enter in the datatype you want ot edit\n " << std::endl;
+	std::cout << "Step 2: Enter in the datatype you want ot edit\n " << std::endl;
+	std::cout << "Step 3: Make your changes\n " << std::endl;
 	std::cout << "______________________________________________\n" << std::endl;
 }
 
@@ -240,7 +240,7 @@ void GUI::project_edit()
 		Edit_Templates();
 		
 		std::cout << "\nNext                                Enter Next" << std::endl;
-		std::cout << "Back                                En=0r Back\n" << std::endl;
+		std::cout << "Back                                Enter Back\n" << std::endl;
 		std::cout << "Return to Menu                       Enter RTM\n" << std::endl;
 		std::cout << "________________________________________________" << std::endl;	
 		
@@ -519,89 +519,95 @@ void GUI::project_edit()
 	} while (edit_input != "rtm");
 }
 
-// void GUI::LoadMatData(Material* mat)
-// {
-// 	std::cout << "ID" << "\t" << mat->ID << std::endl;
-// 	std::cout << "Type" << "\t" << mat->Type << std::endl;
-// 	std::cout << "Title" << "\t" << mat->Title << std::endl;
-// 	std::cout << "DVD Description" << "\t" << mat->Description << std::endl;
-// 	std::cout << "Video Format" << "\t" << mat->VideoFormat << std::endl;
-// 	std::cout << "Audio Format" << "\t" << mat->AudioFormat << std::endl;
-// 	std::cout << "Runtime" << "\t" << mat->Runtime << std::endl;
-// 	std::cout << "Languages" << "\t";
-// 	if (mat->Type == "VHS")
-// 	{
-// 		std::cout << mat->GetLanguage(0);
-// 	}
-// 	else
-// 	{
-// 		for(size_t i = 0; i != mat->GetNumLanguages(); i++)
-// 		{
-// 			std::cout << mat->GetLanguage(i) << ",";
-// 		}
-// 		std::cout << std::endl;
-// 	}
-// 	std::cout << "Retail Price" << "\t" << mat->RetailPrice << std::endl;
-// 	if (mat->Type == "VHS")
-// 	{
-// 		std::cout << mat->GetSubtitle(0);
-// 	}
-// 	else
-// 	{
-// 		for(size_t i = 0; i != mat->GetNumSubtitles(); i++)
-// 		{
-// 			std::cout << mat->GetSubtitle(i) << ",";
-// 		}
-// 		std::cout << std::endl;
-// 	}
-// 	std::cout << "Frame Aspect" << "\t" << mat->FrameAspect << std::endl;
-// 	std::cout << "Packaging" << "\t" << mat->Packaging << std::endl;
+void GUI::LoadMatData(Material* mat)
+{
+	std::cout << "ID" << "\t" << mat->ID << std::endl;
+	std::cout << "Type" << "\t" << mat->Type << std::endl;
+	std::cout << "Title" << "\t" << mat->Title << std::endl;
+	std::cout << "DVD Description" << "\t" << mat->Description << std::endl;
+	std::cout << "Video Format" << "\t" << mat->VideoFormat << std::endl;
+	std::cout << "Audio Format" << "\t" << mat->AudioFormat << std::endl;
+	std::cout << "Runtime" << "\t" << mat->Runtime << std::endl;
+	std::cout << "Languages" << "\t";
+	if (mat->Type == "VHS")
+	{
+		std::cout << mat->GetLanguage(0);
+	}
+	else
+	{
+		for(size_t i = 0; i != mat->GetNumLanguages(); i++)
+		{
+			std::cout << mat->GetLanguage(i) << ",";
+		}
+		std::cout << std::endl;
+	}
+	std::cout << "Retail Price" << "\t" << mat->RetailPrice << std::endl;
+	if (mat->Type == "VHS")
+	{
+		std::cout << mat->GetSubtitle(0);
+	}
+	else
+	{
+		for(size_t i = 0; i != mat->GetNumSubtitles(); i++)
+		{
+			std::cout << mat->GetSubtitle(i) << ",";
+		}
+		std::cout << std::endl;
+	}
+	std::cout << "Frame Aspect" << "\t" << mat->FrameAspect << std::endl;
+	std::cout << "Packaging" << "\t" << mat->Packaging << std::endl;
 
-// 	if(mat->Type != "ComboBox")
-// 	{
-// //		for(size_t i = 0; i != mat->(); i++)
-// //		{
-// //			std::cout << mat->GetSubtitle(i) << ",";
-// //		}
-// //		std::cout << std::endl;
-// 	}
-// }
+	if(mat->Type != "ComboBox")
+	{
+//		for(size_t i = 0; i != mat->(); i++)
+//		{
+//			std::cout << mat->GetSubtitle(i) << ",";
+//		}
+//		std::cout << std::endl;
+	}
+}
 
-// void GUI::DisplayMaterials()
-// {
-// 	std::cout << "___________________________________\n" << std::endl;
-//    	std::cout << "              Materials              " << "\n"<< std::endl;
+void GUI::DisplayMaterials()
+{
+	std::cout << "___________________________________\n" << std::endl;
+   	std::cout << "              Materials              " << "\n"<< std::endl;
 	
-//    	for(std::vector<Material*>::iterator it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); it++)
-// 	{
+   	for(std::vector<Material*>::iterator it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); it++)
+	{
 	
-// 		LoadMatData(*it);
-// 		Material* mat = *it;
-// 		if (mat->Type == "ComboBox")
-// 		{
-// 			std::vector<Material*> ComboBoxStored = mat->GetDVDs();
-// 			for (size_t i = 0; i != ComboBoxStored.size(); ++i)
-// 			{
-// 				LoadMatData(ComboBoxStored.at(i));
+		LoadMatData(*it);
+		Material* mat = *it;
+		if (mat->Type == "ComboBox")
+		{
+			std::vector<Material*> ComboBoxStored = mat->GetDVDs();
+			for (size_t i = 0; i != ComboBoxStored.size(); ++i)
+			{
+				LoadMatData(ComboBoxStored.at(i));
 
-// 			}
-			
-// 		}
-    
-		
-// 	}
+			}
+		}
+	}
 
 
-//    std::cout << "\n";
-// }
+   std::cout << "\n";
+}
 
 void GUI::crew_edit()
 {
 	system("clear");
+
+	// Display all crew maybe in increments?? With Scrubbing 
+	// Request ID for change
+	// Request Datatype to change
+	// Offer Delete, Edit
+	// Return to edit menu
+
+	// Crew Member ID , Name , Job 
 }
 
 void GUI::material_edit()
 {
+	// Adams display
 	system("clear");
 }
 

@@ -137,11 +137,11 @@ void Browser::display_mat()
    
    for (std::vector<Material*>::iterator it = current->data->Materials.begin(); it != current->data->Materials.end(); it++)
    {
-      // std::cout << "ID" << "\t\t\t"<< current->data->ID << std::endl;
+      std::cout << "ID" << "\t\t\t"<< current->data->ID << std::endl;
       
-      // current->data.Materials* temp;
-      // temp = *it;
-      // std::cout << "ID" << "\t\t\t"<< temp->data->Materials->Title << std::endl;
+      current->data.Materials* temp;
+      temp = *it;
+      std::cout << "ID" << "\t\t\t"<< temp->data->Materials->Title << std::endl;
    }
 
    std::cout << "\n";
