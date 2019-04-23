@@ -18,11 +18,11 @@ class Material
     virtual void SetDVDVector(Material *){};
     virtual void SetDoubleDVD(Film, Film){};
     virtual void SetFilm(Film){};
-    virtual std::string GetLanguage(size_t index);
-    virtual size_t GetNumLanguages();
-    virtual std::string GetSubtitle(size_t index);
-    virtual size_t GetNumSubtitles();
-    virtual std::vector<Material*> GetDVDs();
+    virtual std::string GetLanguage(size_t index) {};
+    virtual size_t GetNumLanguages() {};
+    virtual std::string GetSubtitle(size_t index) {};
+    virtual size_t GetNumSubtitles() {};
+    virtual std::vector<Material*> GetDVDs() {};
 };
 
 class VHS : public Material
@@ -41,8 +41,6 @@ class VHS : public Material
     void SetFilm(Film in) override { film = in; }
     std::string GetLanguage(size_t index) override { return Language; }
     std::string GetSubtitle(size_t index) override { return Subtitle; }
-    size_t GetNumSubtitles() override;
-    size_t GetNumLanguages() override;
 };
 
 class DVD : public Material
