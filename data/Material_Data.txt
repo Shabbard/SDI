@@ -10,7 +10,7 @@ Retail_Price,25
 Subtitles,English,French,Spanish
 Frame_Aspect,16:9
 Packaging,Cardboard
-Stored,2,3
+Stored,2,5
 ID,2
 Type,DoubleSidedDVD
 Title,Avatar + Car Wars.
@@ -23,7 +23,7 @@ Retail_Price,30
 Subtitles,English,French,Spanish
 Frame_Aspect,16:9
 Packaging,Plastic
-Stored,1,2
+Stored,3,4
 ID,3
 Type,DVD
 Title,Avatar - End Game.
@@ -36,4 +36,30 @@ Retail_Price,30
 Subtitles,English,French,Spanish
 Frame_Aspect,16:9
 Packaging,Plastic
+Stored,4
+ID,4
+Type,DVD
+Title,Car Wars.
+DVD_Description,Car Avatar.
+Video_Format,1080p
+Audio_Format,WAV
+Run_Time,160
+Languages,English,French,Spanish
+Retail_Price,30
+Subtitles,English,French,Spanish
+Frame_Aspect,16:9
+Packaging,Plastic
 Stored,3
+ID,5
+Type,BluRay
+Title,Avatar 2.
+DVD_Description,New Avatar.
+Video_Format,1080p
+Audio_Format,WAV
+Run_Time,160
+Languages,English,French,Spanish
+Retail_Price,30
+Subtitles,English,French,Spanish
+Frame_Aspect,16:9
+Packaging,Plastic
+Stored,2

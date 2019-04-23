@@ -15,8 +15,9 @@ class Material
     virtual ~Material(){};
     virtual void SetLanguages(std::vector<std::string>){};
     virtual void SetSubtitles(std::vector<std::string>){};
-    virtual void SetDVDVector(Material *){};
-    virtual void SetDoubleDVD(Film, Film){};
+    virtual void SetBonusFeatures(std::vector<std::string>){};
+    virtual void SetDVDVector(Material*){};
+    virtual void SetDoubleDVD(Material*, Material*){};
     virtual void SetFilm(Film){};
     virtual std::string GetLanguage(size_t index) {};
     virtual size_t GetNumLanguages() {};
@@ -47,7 +48,7 @@ class DVD : public Material
 {
   private:
     Film film;
-    std::vector<std::string> Languages, Subtitles;
+    std::vector<std::string> Languages, Subtitles, BonusFeatures;
 
   public:
     DVD()
@@ -58,6 +59,7 @@ class DVD : public Material
     void SetFilm(Film in) override { film = in; }
     void SetLanguages(std::vector<std::string> input) override { Languages = input; }
     void SetSubtitles(std::vector<std::string> input) override { Subtitles = input; }
+    void SetBonusFeatures(std::vector<std::string> input) override { BonusFeatures = input; }
     std::string GetLanguage(size_t index) override { return Languages.at(index); }
     std::string GetSubtitle(size_t index) override { return Subtitles.at(index); }
     size_t GetNumLanguages() override { return Languages.size(); };
@@ -67,18 +69,19 @@ class DVD : public Material
 class DoubleSidedDVD : public Material
 {
   private:
-    std::pair<Film, Film> DVD;
-    std::vector<std::string> Languages, Subtitles;
+    std::pair<Material*, Material*> DVD;
+    std::vector<std::string> Languages, Subtitles, BonusFeatures;
 
   public:
     DoubleSidedDVD() { Type = "DoubleSidedDVD"; }
-    virtual void SetDoubleDVD(Film a, Film b)
+    void SetDoubleDVD(Material* a, Material* b) override
     {
         DVD.first = a;
         DVD.second = b;
     }
     void SetLanguages(std::vector<std::string> input) override { Languages = input; }
     void SetSubtitles(std::vector<std::string> input) override { Subtitles = input; }
+    void SetBonusFeatures(std::vector<std::string> input) override { BonusFeatures = input; }
     std::string GetLanguage(size_t index) override { return Languages.at(index); }
     std::string GetSubtitle(size_t index) override { return Subtitles.at(index); }
     size_t GetNumLanguages() override { return Languages.size(); };
@@ -89,7 +92,7 @@ class BluRay : public DVD
 {
   private:
     Film film;
-    std::vector<std::string> Languages, Subtitles;
+    std::vector<std::string> Languages, Subtitles, BonusFeatures;
 
   public:
     BluRay()
@@ -100,6 +103,7 @@ class BluRay : public DVD
     void SetFilm(Film in) override { film = in; }
     void SetLanguages(std::vector<std::string> input) override { Languages = input; }
     void SetSubtitles(std::vector<std::string> input) override { Subtitles = input; }
+    void SetBonusFeatures(std::vector<std::string> input) override { BonusFeatures = input; }
     std::string GetLanguage(size_t index) override { return Languages.at(index); }
     std::string GetSubtitle(size_t index) override { return Subtitles.at(index); }
     size_t GetNumLanguages() override { return Languages.size(); };
@@ -110,7 +114,7 @@ class ComboBox : public Material
 {
   private:
     std::vector<Material *> DVDs;
-    std::vector<std::string> Languages, Subtitles;
+    std::vector<std::string> Languages, Subtitles, BonusFeatures;
 
   public:
     ComboBox()
@@ -129,6 +133,7 @@ class ComboBox : public Material
     void SetDVDVector(Material *in) override { DVDs.push_back(in); }
     void SetLanguages(std::vector<std::string> input) override { Languages = input; }
     void SetSubtitles(std::vector<std::string> input) override { Subtitles = input; }
+    void SetBonusFeatures(std::vector<std::string> input) override { BonusFeatures = input; }
     std::string GetLanguage(size_t index) override { return Languages.at(index); }
     std::string GetSubtitle(size_t index) override { return Subtitles.at(index); }
     size_t GetNumLanguages() override { return Languages.size(); };
