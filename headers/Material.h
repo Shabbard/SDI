@@ -20,10 +20,14 @@ class Material
     virtual void SetDoubleDVD(Material*, Material*){};
     virtual void SetFilm(Film){};
     virtual std::string GetLanguage(size_t index) {};
-    virtual size_t GetNumLanguages() {};
+    virtual std::string GetBonusFeature(size_t index) {};
     virtual std::string GetSubtitle(size_t index) {};
+    virtual size_t GetNumLanguages() {};
+    virtual size_t GetNumBonusFeatures() {};
     virtual size_t GetNumSubtitles() {};
     virtual std::vector<Material*> GetDVDs() {};
+    virtual std::pair<Material*, Material*> GetDVDPair() {};
+
 };
 
 class VHS : public Material
@@ -62,8 +66,10 @@ class DVD : public Material
     void SetBonusFeatures(std::vector<std::string> input) override { BonusFeatures = input; }
     std::string GetLanguage(size_t index) override { return Languages.at(index); }
     std::string GetSubtitle(size_t index) override { return Subtitles.at(index); }
+    std::string GetBonusFeature(size_t index) override { return BonusFeatures.at(index); }
     size_t GetNumLanguages() override { return Languages.size(); };
     size_t GetNumSubtitles() override { return Subtitles.size(); };
+    size_t GetNumBonusFeatures() override { return BonusFeatures.size(); };
 };
 
 class DoubleSidedDVD : public Material
@@ -85,6 +91,7 @@ class DoubleSidedDVD : public Material
     std::string GetSubtitle(size_t index) override { return Subtitles.at(index); }
     size_t GetNumLanguages() override { return Languages.size(); };
     size_t GetNumSubtitles() override { return Subtitles.size(); };
+    std::pair<Material*, Material*> GetDVDPair() override { return DVD; };
 };
 
 class BluRay : public DVD
@@ -105,8 +112,10 @@ class BluRay : public DVD
     void SetBonusFeatures(std::vector<std::string> input) override { BonusFeatures = input; }
     std::string GetLanguage(size_t index) override { return Languages.at(index); }
     std::string GetSubtitle(size_t index) override { return Subtitles.at(index); }
+    std::string GetBonusFeature(size_t index) override { return BonusFeatures.at(index); }
     size_t GetNumLanguages() override { return Languages.size(); };
     size_t GetNumSubtitles() override { return Subtitles.size(); };
+    size_t GetNumBonusFeatures() override { return BonusFeatures.size(); };
 };
 
 class ComboBox : public Material
