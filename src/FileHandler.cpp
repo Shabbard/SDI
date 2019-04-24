@@ -63,20 +63,16 @@ void FileHandler::LoadFilmProjects()
 		else if (LineData.at(0) == "Weekly Ticket Sales")
 		{
 			LineData.erase(LineData.begin());
-			for (size_t i = 0; i != LineData.size(); ++i)
+			for (auto i = LineData.begin(); i != LineData.end(); ++i)
 			{
-				film->WeeklyTicketSales.push_back(std::stoi(LineData.at(i)));
+				film->WeeklyTicketSales.push_back(std::stoi(*i));
 			}
 		}
 		else if (LineData.at(0) == "Crew_Members")
 		{
 			LineData.erase(LineData.begin());
-			for (std::vector<std::string>::iterator it = LineData.begin(); it != LineData.end(); it++)
+			for (auto it = LineData.begin(); it != LineData.end(); ++it)
 			{
-				// if (!film->CrewMembers.empty())
-				// {
-				// 	film->CrewMembers.clear();
-				// }
 				Crew temp;
 				temp.ID = std::stoi(*it);
 				temp = LoadCrew(temp);
@@ -89,19 +85,9 @@ void FileHandler::LoadFilmProjects()
 		else if (LineData.at(0) == "Material_ID")
 		{
 			LineData.erase(LineData.begin());
-
-			// if (!film->Materials.empty())
-			// {
-			// 	for (std::vector<Material*>::iterator it = film->Materials.begin(); it != film->Materials.end(); ++it)
-            // 	{
-            //     	delete *it;
-			// 	}
-			// 	film->Materials.clear();
-			// }
-
 			auto mat = new Material();
 
-			for (std::vector<std::string>::iterator it = LineData.begin(); it != LineData.end(); ++it)
+			for (auto it = LineData.begin(); it != LineData.end(); ++it)
 			{
                 mat = GetMaterialType(mat, std::stoi(*it));
 				LoadMaterial(mat, std::stoi(*it));
@@ -116,6 +102,25 @@ void FileHandler::LoadFilmProjects()
 	}
 	delete film;
 	film = nullptr;
+}
+
+std::vector<Crew> FileHandler::LoadEntireCrew()
+{
+	std::ifstream infile;
+	infile.open(CrewData);
+	std::string str;
+	std::vector<Crew> crewVec;
+
+	while (std::getline(infile, str))
+	{
+		std::vector<std::string> LineData = SeparateCommasIntoData(str);
+		Crew temp;
+		temp.ID = std::stoi(LineData.at(0));
+		temp.Name = LineData.at(1);
+		temp.Job = LineData.at(2);
+		crewVec.push_back(temp);
+	}
+	return crewVec;
 }
 
 Crew FileHandler::LoadCrew(Crew CrewMember)
@@ -269,11 +274,11 @@ T FileHandler::LoadMaterial(T mat, int idToLoad)
 				LineData.erase(LineData.begin());
 				if (mat->Type == "ComboBox")
 				{
-					for (size_t i = 0; i != LineData.size(); i++)
+					for (auto it = LineData.begin(); it != LineData.end(); ++i)
 					{
 						auto new_mat = new Material();
-						new_mat = GetMaterialType(new_mat, std::stoi(LineData.at(i)));
-						LoadMaterial(new_mat, std::stoi(LineData.at(i)));
+						new_mat = GetMaterialType(new_mat, std::stoi(LineData.at(*it)));
+						LoadMaterial(new_mat, std::stoi(LineData.at(*it)));
 						mat->SetDVDVector(new_mat);
 						new_mat = nullptr;
 					}

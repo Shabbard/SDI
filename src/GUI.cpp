@@ -12,7 +12,7 @@ GUI::~GUI()
 
 void GUI::LoadCrew()
 {
-	Crew temp;
+	crewVector = fileHandler->LoadEntireCrew();
 }
 
 void GUI::Main_Menu_Templates()
@@ -81,6 +81,7 @@ void GUI::Edit_Templates()
 
 void GUI::Main_Menu()
 {
+	LoadCrew();
 
 	std::string strinput = "";
 
@@ -653,10 +654,13 @@ void GUI::material_edit_management(int material_ID)
 		std::cout << "________________________________________________" << std::endl;
 
 		
+<<<<<<< HEAD
 
 
 
 		
+=======
+>>>>>>> e4080a85b197784a37a9ddb5a18448e6179f8dab
 	} while (edit_input != "rtm");
 	
 }
@@ -778,9 +782,8 @@ void GUI::Basic_User_Input(std::string user_input)
 		browser->previousNode();
 	}
 }
-		
 
-int GUI::unique_id_check()
+int GUI::unique_id_check_project()
 {
 	int new_id = 0;
 
@@ -794,7 +797,6 @@ int GUI::unique_id_check()
 		}
 
 		browser->nextNode();
-		
 	}
 
 	if (new_id < browser->current->data->ID)
@@ -803,6 +805,23 @@ int GUI::unique_id_check()
 	}
 
 	return ++new_id;
+}
+
+int GUI::unique_id_check_material()
+{
+	
+}
+
+int GUI::unique_id_check_crew()
+{
+	int new_id = 0;
+
+	for (std::vector<Crew>::iterator it = crewVector.begin(); it != crewVector.end(); ++it)
+	{
+		(*it).ID;
+	}
+
+
 }
 
 void GUI::DisplayCrew()
@@ -867,27 +886,33 @@ void GUI::DisplayCurrentFilmProject()
 		std::cout << *it << ",";
 	}
 	std::cout << std::endl;
-	std::cout << "Weekly Ticket Sales," << "\t" << "£";
-	for (std::vector<double>::iterator it = browser->current->data->WeeklyTicketSales.begin(); it != browser->current->data->WeeklyTicketSales.end(); it++)
+	if (browser->current->data->Status == 1)
 	{
-		std::cout << *it << ",";
+		std::cout << "Weekly Ticket Sales," << "\t" << "£";
+		for (std::vector<double>::iterator it = browser->current->data->WeeklyTicketSales.begin(); it != browser->current->data->WeeklyTicketSales.end(); it++)
+		{
+			std::cout << *it << ",";
+		}
+		std::cout << std::endl;
 	}
-	std::cout << std::endl;
-   std::cout << "Crew Member ID's" << "\t";
+   	std::cout << "Crew Member ID's" << "\t";
 	for(std::vector<Crew>::iterator it = browser->current->data->CrewMembers.begin(); it != browser->current->data->CrewMembers.end(); it++)
 	{
       Crew temp = *it;
 		std::cout << temp.ID << ",";
 	}
-   std::cout << std::endl;
-    std::cout << "Material ID's" << "\t\t";
-	for(std::vector<Material*>::iterator it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); it++)
+   	std::cout << std::endl;
+	if (browser->current->data->Status == 2)
 	{
-      Material* temp = *it;
-		std::cout << temp -> ID << ",";
+		std::cout << "Material ID's" << "\t\t";
+		for(std::vector<Material*>::iterator it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); it++)
+		{
+		Material* temp = *it;
+			std::cout << temp -> ID << ",";
+		}
+		std::cout << std::endl;
 	}
-	std::cout << std::endl;
-   std::cout << std::endl;
+   	std::cout << std::endl;
 }
 
 void GUI::Create_New_Project_Menu()
@@ -904,11 +929,31 @@ void GUI::Create_New_Project_Menu()
 	new_film.ID = unique_id_check();
 
 	std::string user_input;
-
-	std::cout << "Unreleased 1, Now_Playing 2, Released 3\n";
-	std::cout << "\nPlease insert a Status Number: ";
-	std::getline(std::cin, user_input);
-	new_film.Status = std::stoi(user_input);
+	bool success;
+	std::cout << "\nUnreleased 1, Now_Playing 2, Released 3\n";
+	success = false;
+	while (success == false)
+	{
+		std::cout << "\nPlease insert a Status Number: ";
+		std::getline(std::cin, user_input);
+		try
+		{
+			new_film.Status = std::stoi(user_input);
+			if (new_film.Status > 3 || new_film.Status < 0)
+			{
+				throw std::invalid_argument("Wrong value entered");
+			}
+			else
+			{
+				success = true;
+			}
+		}
+		catch(const std::exception& e)
+		{
+			std::cout << "Please enter a correct number" << '\n';
+			success = false;
+		}
+	}
 	std::cout << "\nPlease insert a Title: ";
 	std::getline(std::cin, new_film.Title);
 	std::cout << "\nPlease insert the Keywords: " << std::endl;
@@ -920,7 +965,7 @@ void GUI::Create_New_Project_Menu()
 		new_film.KeyWords.push_back(strinput);
 	} while (strinput != "Q");
 	std::cout << "\nPlease insert a Summary: ";
-	std::getline(std::cin, user_input) >> new_film.Summary;
+	std::getline(std::cin, new_film.Summary);
 	std::cout << "\nPlease insert the Genres: " << std::endl;
 	std::cout << "Type in the value then press enter to add another value" << std::endl;
 	std::cout << "When you have finished enter in (case sensitive) - Q" << std::endl;
@@ -939,9 +984,22 @@ void GUI::Create_New_Project_Menu()
 		std::getline(std::cin, strinput);
 		new_film.Filming_Locations.push_back(strinput);
 	} while (strinput != "Q");
-	std::cout << "\nPlease insert the Runtime: ";
-	std::getline(std::cin, user_input);
-	new_film.Runtime = std::stoi(user_input);
+	success = false;
+	while (success == false)
+	{
+		std::cout << "\nPlease insert the Runtime: ";
+		std::getline(std::cin, user_input);
+		try
+		{
+			new_film.Runtime = std::stoi(user_input);
+			success = true;
+		}
+		catch(const std::exception& e)
+		{
+			std::cout << "Please enter a number" << '\n';
+			success = false;
+		}
+	}	
 	std::cout << "\nPlease insert the Languages: " << std::endl;
 	std::cout << "Type in the value then press enter to add another value" << std::endl;
 	std::cout << "When you have finished enter in (case sensitive) - Q" << std::endl;
@@ -950,9 +1008,25 @@ void GUI::Create_New_Project_Menu()
 		std::getline(std::cin, user_input);
 		new_film.Languages.push_back(user_input);
 	} while (strinput != "Q");
-	std::cout << "\nPlease insert the Weekly Ticket Sale: ";
-	std::getline(std::cin, user_input);
-	new_film.WeeklyTicketSales.push_back(std::stod(user_input));
+	if (new_film.Status == 1)
+	{
+		success = false;
+		while (success == false)
+		{
+			std::cout << "\nPlease insert the Weekly Ticket Sale: ";
+			std::getline(std::cin, user_input);
+			try
+			{
+				new_film.WeeklyTicketSales.push_back(std::stod(user_input));
+				success = true;
+			}
+			catch(const std::exception& e)
+			{
+				std::cout << "Please enter a number" << '\n';
+				success = false;
+			}
+		}
+	}
 	std::cout << "\nPlease insert Crew Memeber IDs" << std::endl;
 	std::cout << "Type in the value then press enter to add another value" << std::endl;
 	std::cout << "When you have finihed enter in - Q" << std::endl;
@@ -960,7 +1034,7 @@ void GUI::Create_New_Project_Menu()
 	do
 	{
 		Crew temp;
-		//std::getline(std::cin, )>> tempStr;
+		std::getline(std::cin, tempStr);
 		if (tempStr != "Q")
 		{
 			temp.ID = std::stoi(tempStr);
@@ -968,21 +1042,25 @@ void GUI::Create_New_Project_Menu()
 			new_film.CrewMembers.push_back(temp);
 		}
 	} while (tempStr != "Q");
-	std::cout << "\nPlease insert the Material IDs" << std::endl;
-	std::cout << "Type in the value then press enter to add another value" << std::endl;
-	std::cout << "When you have finihed enter in - Q" << std::endl;
-	tempStr = "";
-	do
-	{
-		Material *temp = new Material();
-		//std::getline(std::cin, )>> tempStr;
-		if (tempStr != "Q")
+	if (new_film.Status == 2)
+	{	
+		std::cout << "\nPlease insert the Material IDs" << std::endl;
+		std::cout << "Type in the value then press enter to add another value" << std::endl;
+		std::cout << "When you have finihed enter in - Q" << std::endl;
+		tempStr = "";
+		do
 		{
-			temp = fileHandler->GetMaterialType(temp, std::stoi(tempStr));
-			temp = fileHandler->LoadMaterial(temp, temp->ID);
-			new_film.Materials.push_back(temp);
-		}
-	} while (tempStr != "Q");
+			Material *temp = new Material();
+			//std::getline(std::cin, )>> tempStr;
+			if (tempStr != "Q")
+			{
+				temp = fileHandler->GetMaterialType(temp, std::stoi(tempStr));
+				temp = fileHandler->LoadMaterial(temp, temp->ID);
+				new_film.Materials.push_back(temp);
+			}
+		} while (tempStr != "Q");
+	}
+	
 	FilmProject *filmToPass = &new_film;
 	browser->insert_tail(filmToPass);
 	system("clear");

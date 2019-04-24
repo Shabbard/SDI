@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <algorithm>
 #include <string>
+#include <stdexcept>
 //#include <conio.h>
 #pragma once
 
@@ -45,7 +46,9 @@ public:
     void material_edit();
     void material_edit_management(int material_ID);
 
-    int unique_id_check();
+    int unique_id_check_project();
+    int unique_id_check_material();
+    int unique_id_check_crew();
 
     void Basic_User_Input(std::string user_input);
 };

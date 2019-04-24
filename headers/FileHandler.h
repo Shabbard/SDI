@@ -24,6 +24,7 @@ public:
     void UpdateFile();
     void WriteToFile(std::ofstream& file);
     Crew LoadCrew(Crew CrewMember);
+    std::vector<Crew> LoadEntireCrew();
     template<typename T>
     T GetMaterialType(T mat, int currentID);
     template<typename T>
