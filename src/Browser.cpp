@@ -127,6 +127,13 @@ void Browser::display_crew()
    std::cout << "\n";
 }
 
+void Browser::display_all_crew()
+{
+   std::cout << "___________________________________\n" << std::endl;
+   std::cout << "            Crew Members             " << "\n"<< std::endl;
+   std::cout << " ID             Name            Job\n" << std::endl;
+}
+
 void Browser::insert(FilmProject* new_data)
 {
    if(current == nullptr || current->next == nullptr)
