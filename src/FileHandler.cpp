@@ -12,9 +12,6 @@ void FileHandler::LoadFilmProjects()
 	FilmProject* film = new FilmProject();
 	std::string str;
 
-    std::vector<int> sortCrew;
-
-
 	while (std::getline(infile, str))
 	{
 		std::vector<std::string> LineData = SeparateCommasIntoData(str);
@@ -73,46 +70,9 @@ void FileHandler::LoadFilmProjects()
 		}
 		else if (LineData.at(0) == "Crew_Members")
 		{
-
-
 			LineData.erase(LineData.begin());
-<<<<<<< HEAD
 
-
-
-            for (std::vector<std::string>::iterator it = LineData.begin(); it != LineData.end(); it++)
-            {
-                // if (!film->CrewMembers.empty())
-                // {
-                // 	film->CrewMembers.clear();
-                // }
-
-
-
-                Crew temp;
-                temp.ID = std::stoi(*it);
-                sortCrew.push_back(temp.ID);
-                temp = LoadCrew(temp);
-
-                if (temp.ID != 0)
-                {
-                    //film->CrewMembers.push_back(temp);
-
-                }
-            }
-
-            sort(sortCrew.begin(), sortCrew.end());
-            for (std::vector<int>::iterator it = sortCrew.begin(); it != sortCrew.end(); it++ ) {
-                   Crew temp;
-                   temp.ID = *it;
-                   if (temp.ID != 0){
-                         film->CrewMembers.push_back(temp);
-                    }
-            }
-
-
-=======
-			for (auto it = LineData.begin(); it != LineData.end(); ++it)
+            for (auto it = LineData.begin(); it != LineData.end(); ++it)
 			{
 				Crew temp;
 				temp.ID = std::stoi(*it);
@@ -122,7 +82,7 @@ void FileHandler::LoadFilmProjects()
 					film->CrewMembers.push_back(temp);
 				}
 			}
->>>>>>> 82cf959cfbaff9bcceed10f87b0fa8e40ca6f954
+			std::sort(film->CrewMembers.begin(), film->CrewMembers.end());	
 		}
 		else if (LineData.at(0) == "Material_ID")
 		{
@@ -141,7 +101,6 @@ void FileHandler::LoadFilmProjects()
 			film = new FilmProject();
 		}
 		LineData.clear();
-        sortCrew.clear();
 	}
 
     insertionSort(&browser->current);
@@ -166,6 +125,7 @@ std::vector<Crew> FileHandler::LoadEntireCrew()
 		temp.Job = LineData.at(2);
 		crewVec.push_back(temp);
 	}
+	std::sort(crewVec.begin(), crewVec.end());
 	return crewVec;
 }
 
@@ -175,34 +135,22 @@ Crew FileHandler::LoadCrew(Crew CrewMember)
     infile.open(CrewData);
 	std::string str;
 
-
 	while (std::getline(infile, str))
 	{
-
 		std::vector<std::string> LineData = SeparateCommasIntoData(str);
-
 		if (std::stoi(LineData.at(0)) == CrewMember.ID)
 		{
-
 			CrewMember.Name = LineData.at(1);
 			CrewMember.Job = LineData.at(2);
-
             return CrewMember;
 		}
 		else if (std::stoi(LineData.at(0)) > CrewMember.ID)
 		{
-
             CrewMember.ID = 0;
-
 			return CrewMember;
 		}
-
-
 		LineData.clear();
 	}
-
-
-
 	return CrewMember;
 }
 
@@ -360,7 +308,6 @@ T FileHandler::LoadMaterial(T mat, int idToLoad)
 		}
 		LineData.clear();
 	}
-
 
 	return mat;
 }
