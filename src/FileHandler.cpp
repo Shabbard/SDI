@@ -12,6 +12,9 @@ void FileHandler::LoadFilmProjects()
 	FilmProject* film = new FilmProject();
 	std::string str;
 
+    std::vector<int> sortCrew;
+
+
 	while (std::getline(infile, str))
 	{
 		std::vector<std::string> LineData = SeparateCommasIntoData(str);
@@ -70,21 +73,43 @@ void FileHandler::LoadFilmProjects()
 		}
 		else if (LineData.at(0) == "Crew_Members")
 		{
+
+
 			LineData.erase(LineData.begin());
-			for (std::vector<std::string>::iterator it = LineData.begin(); it != LineData.end(); it++)
-			{
-				// if (!film->CrewMembers.empty())
-				// {
-				// 	film->CrewMembers.clear();
-				// }
-				Crew temp;
-				temp.ID = std::stoi(*it);
-				temp = LoadCrew(temp);
-				if (temp.ID != 0)
-				{
-					film->CrewMembers.push_back(temp);
-				}
-			}
+
+
+
+            for (std::vector<std::string>::iterator it = LineData.begin(); it != LineData.end(); it++)
+            {
+                // if (!film->CrewMembers.empty())
+                // {
+                // 	film->CrewMembers.clear();
+                // }
+
+
+
+                Crew temp;
+                temp.ID = std::stoi(*it);
+                sortCrew.push_back(temp.ID);
+                temp = LoadCrew(temp);
+
+                if (temp.ID != 0)
+                {
+                    //film->CrewMembers.push_back(temp);
+
+                }
+            }
+
+            sort(sortCrew.begin(), sortCrew.end());
+            for (std::vector<int>::iterator it = sortCrew.begin(); it != sortCrew.end(); it++ ) {
+                   Crew temp;
+                   temp.ID = *it;
+                   if (temp.ID != 0){
+                         film->CrewMembers.push_back(temp);
+                    }
+            }
+
+
 		}
 		else if (LineData.at(0) == "Material_ID")
 		{
@@ -113,7 +138,11 @@ void FileHandler::LoadFilmProjects()
 			film = new FilmProject();
 		}
 		LineData.clear();
+        sortCrew.clear();
 	}
+
+    insertionSort(&browser->current);
+
 	delete film;
 	film = nullptr;
 }
@@ -121,27 +150,37 @@ void FileHandler::LoadFilmProjects()
 Crew FileHandler::LoadCrew(Crew CrewMember)
 {
 	std::ifstream infile;
-	infile.open(CrewData);
+    infile.open(CrewData);
 	std::string str;
+
 
 	while (std::getline(infile, str))
 	{
+
 		std::vector<std::string> LineData = SeparateCommasIntoData(str);
 
 		if (std::stoi(LineData.at(0)) == CrewMember.ID)
 		{
+
 			CrewMember.Name = LineData.at(1);
 			CrewMember.Job = LineData.at(2);
 
-			return CrewMember;
+            return CrewMember;
 		}
 		else if (std::stoi(LineData.at(0)) > CrewMember.ID)
 		{
-			CrewMember.ID = 0;
+
+            CrewMember.ID = 0;
+
 			return CrewMember;
 		}
+
+
 		LineData.clear();
 	}
+
+
+
 	return CrewMember;
 }
 
@@ -299,6 +338,8 @@ T FileHandler::LoadMaterial(T mat, int idToLoad)
 		}
 		LineData.clear();
 	}
+
+
 	return mat;
 }
 
@@ -440,7 +481,7 @@ std::vector<std::string> FileHandler::SeparateCommasIntoData(std::string input)
 	if (std::regex_search(input, data_match, data)) // if there are data values to enter
 	{
 		for (std::sregex_iterator i = std::sregex_iterator(input.begin(), input.end(), data); i != std::sregex_iterator(); ++i)
-		{
+        {
 			data_match = *i;
 			LineData.push_back(data_match.str()); // loops through the values between commas (including whitespace) and adds them to a vector
 		}
@@ -452,33 +493,26 @@ void FileHandler::sortedInsert(struct Node** head_ref, struct Node* newNode)
 {
 	struct Node* current;
 
-	// if list is empty 
+
 	if (*head_ref == NULL)
 		*head_ref = newNode;
 
-	// if the node is to be inserted at the beginning 
-	// of the doubly linked list 
+
 	else if ((*head_ref)->data->ID >= newNode->data->ID) {
 		newNode->next = *head_ref;
 		newNode->next->back = newNode;
-		*head_ref = newNode;
+        *head_ref = newNode;
+
 	}
 
 	else {
+
 		current = *head_ref;
+        while (current->next != NULL && current->next->data->ID < newNode->data->ID)
 
-		// locate the node after which the new node 
-		// is to be inserted 
-		while (current->next != NULL &&
-			current->next->data->ID < newNode->data->ID)
 			current = current->next;
-
-		/*Make the appropriate links */
-
 		newNode->next = current->next;
 
-		// if the new node is not inserted 
-		// at the end of the list 
 		if (current->next != NULL)
 			newNode->next->back = newNode;
 
@@ -487,31 +521,48 @@ void FileHandler::sortedInsert(struct Node** head_ref, struct Node* newNode)
 	}
 }
 
-// function to sort a doubly linked list using insertion sort 
+
 void FileHandler::insertionSort(struct Node** head_ref)
 {
-	// Initialize 'sorted' - a sorted doubly linked list 
 	struct Node* sorted = NULL;
-
-	// Traverse the given doubly linked list and 
-	// insert every node to 'sorted' 
 	struct Node* current = *head_ref;
+
 	while (current != NULL) {
 
-		// Store next for next iteration 
 		struct Node* next = current->next;
+        current->back = current->next = NULL;
 
-		// removing all the links so as to create 'current' 
-		// as a new node for insertion 
-		 current->back = current->next = NULL;
-
-		// insert current in 'sorted' doubly linked list 
 		sortedInsert(&sorted, current);
-
-		// Update current 
 		current = next;
 	}
 
-	// Update head_ref to point to sorted doubly linked list 
 	*head_ref = sorted;
 }
+
+
+
+//void FileHandler::swap(int *xp, int *yp)
+//{
+//    int temp = *xp;
+//    *xp = *yp;
+//    *yp = temp;
+//}
+
+//void FileHandler::crewSort(std::vector<int> LineData)
+//{
+//    int min_idx;
+
+
+//    for (int i = 0; i < LineData.size()-1; i++)
+//    {
+
+//        min_idx = i;
+//        for (int j = i+1; j < LineData.size() - 1; j++)
+//          if (LineData.at(j) < LineData.at(min_idx))
+//            min_idx = j;
+
+
+//        swap(&LineData.at(min_idx), &LineData.at(i));
+//    }
+//}
+

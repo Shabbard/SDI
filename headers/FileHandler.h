@@ -33,6 +33,9 @@ public:
 
     void insertionSort(struct Node** head_ref);
     void sortedInsert(struct Node** head_ref, struct Node* newNode);
+
+    //void crewSort(std::vector<int> LineData);
+   // void swap(int *xp, int *yp);
 };
 
 #endif
