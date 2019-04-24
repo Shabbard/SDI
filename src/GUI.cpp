@@ -616,14 +616,13 @@ void GUI::material_edit()
 
 		if(interger_val == true && string_val == false)
 		{
-			int project_ID = std::stoi(edit_input);
-			std::cout << "Thats an int";
+			int material_ID = std::stoi(edit_input);
+			material_edit_management(material_ID);
 		}
 
 		if(interger_val == false  && string_val == true)
 		{
 
-			std::cout << "Thats an string";
 			std::transform(edit_input.begin(), edit_input.end(), edit_input.begin(), ::tolower);
 
 			if( edit_input == "next" ||  edit_input == "previous" ||  edit_input == "rtm" )
@@ -635,6 +634,20 @@ void GUI::material_edit()
 		std::cin >> edit_input;
 
 	}while(edit_input != "rtm");
+}
+
+void GUI::material_edit_management(int material_ID)
+{
+
+	system("clear");
+
+	std::string edit_input = "";
+
+	do
+	{
+		
+	} while (edit_input != "rtm");
+	
 }
 
 void GUI::LoadMatData(Material* mat, std::string strvar)

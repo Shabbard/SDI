@@ -41,7 +41,7 @@ public:
     void project_edit();
     void crew_edit();
     void material_edit();
-    void material_edit_management();
+    void material_edit_management(int material_ID);
 
     int unique_id_check();
 
