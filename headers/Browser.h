@@ -27,10 +27,7 @@ class Browser
     void setTail();
     void insert_tail(FilmProject* new_data);
     void insert_head(FilmProject* new_data);
-    
     void delete_current();
-
-    void display_all_crew();
 
 };
 

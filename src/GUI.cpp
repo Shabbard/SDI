@@ -923,7 +923,7 @@ void GUI::Create_New_Project_Menu()
 
 	FilmProject new_film;
 
-	new_film.ID = unique_id_check();
+	new_film.ID = unique_id_check_project();
 
 	std::string user_input;
 	bool success;
