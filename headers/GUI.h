@@ -35,6 +35,8 @@ public:
     void Create_New_Project_Menu();
     void DisplayMaterials();
     void LoadMatData(Material* mat, std::string strvar);
+    void DisplayCurrentFilmProject();
+    void DisplayCrew();
 
     void project_edit();
     void crew_edit();

@@ -30,6 +30,9 @@ public:
     T LoadMaterial(T mat, int currentID);
     Film LoadFilm(int currentID);
     std::vector<std::string> SeparateCommasIntoData(std::string input);
+
+    void insertionSort(struct Node** head_ref);
+    void sortedInsert(struct Node** head_ref, struct Node* newNode);
 };
 
 #endif

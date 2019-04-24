@@ -20,9 +20,6 @@ class Browser
     Node* current = nullptr;
     ~Browser();
     void insert(FilmProject* new_data);
-    void display();
-    void display_crew();
-    void display_mat();
     void nextNode();
     void previousNode();
     void setHead();
