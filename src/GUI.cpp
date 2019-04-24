@@ -645,7 +645,7 @@ void GUI::material_edit_management(int material_ID)
 
 	do
 	{
-
+		
 
 		
 	} while (edit_input != "rtm");
