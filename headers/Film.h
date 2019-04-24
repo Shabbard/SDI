@@ -9,6 +9,11 @@ struct Crew
   int ID = 0;
   std::string Name;
   std::string Job;
+
+  bool operator < (const Crew& str) const
+    {
+        return (ID < str.ID);
+    }
 };
 
 class Film
