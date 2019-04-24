@@ -22,11 +22,16 @@ class Browser
     void insert(FilmProject* new_data);
     void nextNode();
     void previousNode();
+
     void setHead();
     void setTail();
     void insert_tail(FilmProject* new_data);
     void insert_head(FilmProject* new_data);
+    
     void delete_current();
+
+    void display_all_crew();
+
 };
 
 #endif

@@ -544,7 +544,104 @@ void GUI::project_edit()
 	} while (edit_input != "rtm");
 }
 
+<<<<<<< HEAD
 void GUI::LoadMatData(Material *mat, std::string strvar)
+=======
+
+void GUI::crew_edit()
+{
+	std::string edit_input = "";
+
+	do
+	{
+
+		system("clear");
+		Edit_Templates();
+		
+		std::cout << "\nNext                                Enter Next" << std::endl;
+		std::cout << "Back                                Enter Back\n" << std::endl;
+		std::cout << "Return to Menu                       Enter RTM\n" << std::endl;
+		std::cout << "________________________________________________" << std::endl;
+		
+		//browser->display_all_crew();
+
+		std::cin >> edit_input;
+
+	}while(edit_input != "rtm");
+
+}
+	// Display all crew maybe in increments?? With Scrubbing 
+	// Request ID for change
+	// Request Datatype to change
+	// Offer Delete, Edit
+	// Return to edit menu
+
+	// Crew Member ID , Name , Job 
+
+
+void GUI::material_edit()
+{
+
+	system("clear");
+
+	std::string edit_input = "";
+
+	do
+	{
+
+		system("clear");
+		Edit_Templates();
+		
+		std::cout << "\nNext                                Enter Next" << std::endl;
+		std::cout << "Back                                Enter Back\n" << std::endl;
+		std::cout << "Return to Menu                       Enter RTM\n" << std::endl;
+		
+		DisplayMaterials();
+
+		std::cout << "Please enter in the ID of the material\n" << std::endl;	
+
+		std::cin >> edit_input;
+
+		bool interger_val, string_val = false;
+
+		for(int i = 0; i != edit_input.length(); ++i)
+		{
+			if (isalpha(edit_input[i]))
+			{
+				string_val = true;
+			}
+
+			if (isdigit(edit_input[i]))
+			{
+				interger_val = true;
+			}
+		}
+
+		if(interger_val == true && string_val == false)
+		{
+			int project_ID = std::stoi(edit_input);
+			std::cout << "Thats an int";
+		}
+
+		if(interger_val == false  && string_val == true)
+		{
+
+			std::cout << "Thats an string";
+			std::transform(edit_input.begin(), edit_input.end(), edit_input.begin(), ::tolower);
+
+			if( edit_input == "next" ||  edit_input == "previous" ||  edit_input == "rtm" )
+			{
+				Basic_User_Input(edit_input);
+			}
+		}
+
+		std::cin >> edit_input;
+
+	}while(edit_input != "rtm");
+}
+
+void GUI::LoadMatData(Material* mat, std::string strvar)
+>>>>>>> cdc5727942016c1499a8bca7c4600e7b8a6d8b7e
 {
 	std::cout << strvar << "________________________________________________\n"
 			  << std::endl;
@@ -642,6 +739,7 @@ void GUI::DisplayMaterials()
 	std::cout << "\n";
 }
 
+<<<<<<< HEAD
 void GUI::crew_edit()
 {
 	system("clear");
@@ -661,6 +759,8 @@ void GUI::material_edit()
 	system("clear");
 }
 
+=======
+>>>>>>> cdc5727942016c1499a8bca7c4600e7b8a6d8b7e
 void GUI::Basic_User_Input(std::string user_input)
 {
 	if (user_input == "rtm")
