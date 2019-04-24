@@ -645,6 +645,8 @@ void GUI::material_edit_management(int material_ID)
 
 	do
 	{
+
+
 		
 	} while (edit_input != "rtm");
 	
@@ -767,6 +769,7 @@ void GUI::Basic_User_Input(std::string user_input)
 		browser->previousNode();
 	}
 }
+		
 
 int GUI::unique_id_check()
 {
@@ -782,6 +785,7 @@ int GUI::unique_id_check()
 		}
 
 		browser->nextNode();
+		
 	}
 
 	if (new_id < browser->current->data->ID)
