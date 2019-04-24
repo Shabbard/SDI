@@ -27,7 +27,6 @@ class Material
     virtual size_t GetNumSubtitles() {};
     virtual std::vector<Material*> GetDVDs() {};
     virtual std::pair<Material*, Material*> GetDVDPair() {};
-
 };
 
 class VHS : public Material
@@ -37,10 +36,7 @@ class VHS : public Material
     std::string Language, Subtitle;
 
   public:
-    VHS()
-    {
-        Type = "VHS";
-    }
+    VHS() { Type = "VHS"; }
     void SetLanguages(std::vector<std::string> input) override { Language = input.at(0); }
     void SetSubtitles(std::vector<std::string> input) override { Subtitle = input.at(0); }
     void SetFilm(Film in) override { film = in; }
@@ -55,11 +51,7 @@ class DVD : public Material
     std::vector<std::string> Languages, Subtitles, BonusFeatures;
 
   public:
-    DVD()
-    {
-        Type = "DVD";
-        Packaging = "Plastic Box";
-    }
+    DVD();
     void SetFilm(Film in) override { film = in; }
     void SetLanguages(std::vector<std::string> input) override { Languages = input; }
     void SetSubtitles(std::vector<std::string> input) override { Subtitles = input; }
@@ -80,11 +72,7 @@ class DoubleSidedDVD : public Material
 
   public:
     DoubleSidedDVD() { Type = "DoubleSidedDVD"; }
-    void SetDoubleDVD(Material* a, Material* b) override
-    {
-        DVD.first = a;
-        DVD.second = b;
-    }
+    void SetDoubleDVD(Material* a, Material* b) override;
     void SetLanguages(std::vector<std::string> input) override { Languages = input; }
     void SetSubtitles(std::vector<std::string> input) override { Subtitles = input; }
     std::string GetLanguage(size_t index) override { return Languages.at(index); }
@@ -101,11 +89,7 @@ class BluRay : public DVD
     std::vector<std::string> Languages, Subtitles, BonusFeatures;
 
   public:
-    BluRay()
-    {
-        Type = "BluRay";
-        Packaging = "Small Plastic Box";
-    }
+    BluRay();
     void SetFilm(Film in) override { film = in; }
     void SetLanguages(std::vector<std::string> input) override { Languages = input; }
     void SetSubtitles(std::vector<std::string> input) override { Subtitles = input; }
@@ -125,19 +109,8 @@ class ComboBox : public Material
     std::vector<std::string> Languages, Subtitles;
 
   public:
-    ComboBox()
-    {
-        Type = "ComboBox";
-        Packaging = "Cardboard Box";
-    }
-    ~ComboBox() override
-    {
-        for (std::vector<Material *>::iterator it = DVDs.begin(); it != DVDs.end(); ++it)
-        {
-            delete *it;
-        }
-        DVDs.clear();
-    }
+    ComboBox();
+    ~ComboBox();
     void SetDVDVector(Material *in) override { DVDs.push_back(in); }
     void SetLanguages(std::vector<std::string> input) override { Languages = input; }
     void SetSubtitles(std::vector<std::string> input) override { Subtitles = input; }
