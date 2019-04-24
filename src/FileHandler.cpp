@@ -281,8 +281,8 @@ T FileHandler::LoadMaterial(T mat, int idToLoad)
 					for (auto it = LineData.begin(); it != LineData.end(); ++i)
 					{
 						auto new_mat = new Material();
-						new_mat = GetMaterialType(new_mat, std::stoi(LineData.at(*it)));
-						LoadMaterial(new_mat, std::stoi(LineData.at(*it)));
+						new_mat = GetMaterialType(new_mat, std::stoi(*it));
+						LoadMaterial(new_mat, std::stoi(*it));
 						mat->SetDVDVector(new_mat);
 						new_mat = nullptr;
 					}
