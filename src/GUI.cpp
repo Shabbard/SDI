@@ -544,9 +544,6 @@ void GUI::project_edit()
 	} while (edit_input != "rtm");
 }
 
-<<<<<<< HEAD
-void GUI::LoadMatData(Material *mat, std::string strvar)
-=======
 
 void GUI::crew_edit()
 {
@@ -641,7 +638,6 @@ void GUI::material_edit()
 }
 
 void GUI::LoadMatData(Material* mat, std::string strvar)
->>>>>>> cdc5727942016c1499a8bca7c4600e7b8a6d8b7e
 {
 	std::cout << strvar << "________________________________________________\n"
 			  << std::endl;
@@ -739,28 +735,6 @@ void GUI::DisplayMaterials()
 	std::cout << "\n";
 }
 
-<<<<<<< HEAD
-void GUI::crew_edit()
-{
-	system("clear");
-
-	// Display all crew maybe in increments?? With Scrubbing
-	// Request ID for change
-	// Request Datatype to change
-	// Offer Delete, Edit
-	// Return to edit menu
-
-	// Crew Member ID , Name , Job
-}
-
-void GUI::material_edit()
-{
-	// Adams display
-	system("clear");
-}
-
-=======
->>>>>>> cdc5727942016c1499a8bca7c4600e7b8a6d8b7e
 void GUI::Basic_User_Input(std::string user_input)
 {
 	if (user_input == "rtm")
