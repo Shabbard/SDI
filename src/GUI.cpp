@@ -654,13 +654,10 @@ void GUI::material_edit_management(int material_ID)
 		std::cout << "________________________________________________" << std::endl;
 
 		
-<<<<<<< HEAD
 
 
 
 		
-=======
->>>>>>> e4080a85b197784a37a9ddb5a18448e6179f8dab
 	} while (edit_input != "rtm");
 	
 }
@@ -926,7 +923,7 @@ void GUI::Create_New_Project_Menu()
 
 	FilmProject new_film;
 
-	new_film.ID = unique_id_check();
+	new_film.ID = unique_id_check_project();
 
 	std::string user_input;
 	bool success;
