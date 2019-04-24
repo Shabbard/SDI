@@ -650,7 +650,11 @@ void GUI::material_edit_management(int material_ID)
 
 	do
 	{
+		std::cout << "________________________________________________" << std::endl;
+
 		
+
+
 
 		
 	} while (edit_input != "rtm");
@@ -732,9 +736,9 @@ void GUI::LoadMatData(Material* mat, std::string strvar)
 
 void GUI::DisplayMaterials()
 {
-	std::cout << "___________________________________\n"
+	std::cout << "________________________________________________\n\n"
 			  << std::endl;
-	std::cout << "              Materials              "
+	std::cout << "                     Materials                 "
 			  << "\n"
 			  << std::endl;
 
