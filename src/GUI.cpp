@@ -10,6 +10,11 @@ GUI::~GUI()
 {
 }
 
+void GUI::LoadCrew()
+{
+	Crew temp;
+}
+
 void GUI::Main_Menu_Templates()
 {
 
@@ -854,7 +859,7 @@ void GUI::DisplayCurrentFilmProject()
 		std::cout << *it << ",";
 	}
 	std::cout << std::endl;
-	std::cout << "Weekly Ticket Sales,";
+	std::cout << "Weekly Ticket Sales," << "\t" << "£";
 	for (std::vector<double>::iterator it = browser->current->data->WeeklyTicketSales.begin(); it != browser->current->data->WeeklyTicketSales.end(); it++)
 	{
 		std::cout << *it << ",";

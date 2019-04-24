@@ -19,6 +19,7 @@ class GUI
 private:
     Browser* browser;
     FileHandler* fileHandler;
+    std::vector<Crew> crewVector;
 public:
     GUI(Browser* browser, FileHandler* file);
     ~GUI();
@@ -27,6 +28,7 @@ public:
     void MM_Templates();
     void Edit_Templates();
     void CNP_Templates();
+    void LoadCrew();
 
     void Main_Menu();
     void Browser_Menu();

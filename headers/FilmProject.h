@@ -7,14 +7,7 @@
 class FilmProject : public Film
 {
     public:
-        ~FilmProject()
-        {
-            for (std::vector<Material*>::iterator it = Materials.begin(); it != Materials.end(); ++it)
-            {
-                delete *it;
-            }
-            Materials.clear();
-        }
+        ~FilmProject();
         std::vector<double> WeeklyTicketSales;
         std::vector<Material*> Materials;
         std::vector<Crew> CrewMembers;
