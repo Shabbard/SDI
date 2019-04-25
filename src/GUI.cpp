@@ -867,27 +867,20 @@ int GUI::unique_id_check_material()
 
 		for (auto it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); ++it)
 		{
-		
-			if (new_id < (*it).ID)
+			if (new_id < (*it)->ID)
 			{
-				new_id = (*it).ID;
+				new_id = (*it)->ID;
 			}
-
-			browser->nextNode();
 		}
-
-		for (auto it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); ++it)
-		{
-		
-			if (new_id < (*it).ID)
-			{
-				new_id = (*it).ID;
-			}
-
-		}
-
+		browser->nextNode();
 	}
-
+	for (auto it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); ++it)
+		{
+			if (new_id < (*it)->ID)
+			{
+				new_id = (*it)->ID;
+			}
+		}
 	return ++new_id;
 }
 
