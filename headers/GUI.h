@@ -41,7 +41,7 @@ public:
     void DisplayCurrentFilmProject();
     void DisplayCrew();
     void CreateNewCrew();
-    void CreateNewMaterial();
+    Material* CreateNewMaterial();
     void SaveAllFiles();
 
     void project_edit();
@@ -52,6 +52,8 @@ public:
     int unique_id_check_project();
     int unique_id_check_material();
     int unique_id_check_crew();
+
+    std::pair <bool,bool> string_int_check(std::string string_check);
 
     void Basic_User_Input(std::string user_input);
 };

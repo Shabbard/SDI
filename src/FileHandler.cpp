@@ -171,27 +171,29 @@ T FileHandler::GetMaterialType(T mat, int idToFind)
 		{
 			std::vector<std::string> matTypeVec = SeparateCommasIntoData(readline);
 
-			if (matTypeVec.at(1) == "ComboBox")
+			std::transform(matTypeVec.at(1).begin(), matTypeVec.at(1).end(), matTypeVec.at(1).begin(), ::tolower);
+
+			if (matTypeVec.at(1) == "combobox")
 			{
 				delete mat;
 				mat = new ComboBox();
 			}
-			else if (matTypeVec.at(1) == "VHS")
+			else if (matTypeVec.at(1) == "vhs")
 			{
 				delete mat;
 				mat = new VHS();
 			}
-			else if (matTypeVec.at(1) == "DVD")
+			else if (matTypeVec.at(1) == "dvd")
 			{
 				delete mat;
 				mat = new DVD();
 			}
-			else if (matTypeVec.at(1) == "DoubleSidedDVD")
+			else if (matTypeVec.at(1) == "doublesideddvd")
 			{
 				delete mat;
 				mat = new DoubleSidedDVD();
 			}
-			else if (matTypeVec.at(1) == "BluRay")
+			else if (matTypeVec.at(1) == "bluray")
 			{
 				delete mat;
 				mat = new BluRay();
@@ -276,7 +278,7 @@ T FileHandler::LoadMaterial(T mat, int idToLoad)
 			else if (LineData.at(0) == "Stored")
 			{
 				LineData.erase(LineData.begin());
-				if (mat->Type == "ComboBox")
+				if (mat->Type == "combobox")
 				{
 					for (auto it = LineData.begin(); it != LineData.end(); ++it)
 					{
@@ -287,7 +289,7 @@ T FileHandler::LoadMaterial(T mat, int idToLoad)
 						new_mat = nullptr;
 					}
 				}
-				else if (mat->Type == "DoubleSidedDVD")
+				else if (mat->Type == "doublesideddvd")
 				{
 					auto new_mat1 = new Material();
 					auto new_mat2 = new Material();
@@ -299,7 +301,7 @@ T FileHandler::LoadMaterial(T mat, int idToLoad)
 					new_mat1 = nullptr;
 					new_mat2 = nullptr;
 				}
-				else if (mat->Type == "DVD" || mat->Type == "VHS" || mat->Type == "BluRay")
+				else if (mat->Type == "dvd" || mat->Type == "vhs" || mat->Type == "bluray")
 				{
 					mat->SetFilm(LoadFilm(std::stoi(LineData.at(0))));
 				}
@@ -436,6 +438,12 @@ void FileHandler::WriteProjectToFile(std::ofstream &file)
 	for (auto it = browser->current->data->CrewMembers.begin(); it != browser->current->data->CrewMembers.end(); ++it)
 	{
 		file << (*it).ID << ",";
+	}
+	file << std::endl;
+	file << "Material_ID,";
+	for (auto it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); ++it)
+	{
+		file << (*it)->ID << ",";
 	}
 	file << std::endl;
 }

@@ -2,7 +2,7 @@
 .idea/
 *.xml
 cmake-build-debug/
-*.pro.user
+*.pro.user.*
 .qmake.stash
 bin/*
 *.o

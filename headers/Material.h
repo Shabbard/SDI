@@ -36,7 +36,7 @@ class VHS : public Material
     std::string Language, Subtitle;
 
   public:
-    VHS() { Type = "VHS"; }
+    VHS() { Type = "vhs"; }
     void SetLanguages(std::vector<std::string> input) override { Language = input.at(0); }
     void SetSubtitles(std::vector<std::string> input) override { Subtitle = input.at(0); }
     void SetFilm(Film in) override { film = in; }
@@ -71,7 +71,7 @@ class DoubleSidedDVD : public Material
     std::vector<std::string> Languages, Subtitles;
 
   public:
-    DoubleSidedDVD() { Type = "DoubleSidedDVD"; }
+    DoubleSidedDVD() { Type = "doublesideddvd"; }
     void SetDoubleDVD(Material* a, Material* b) override;
     void SetLanguages(std::vector<std::string> input) override { Languages = input; }
     void SetSubtitles(std::vector<std::string> input) override { Subtitles = input; }

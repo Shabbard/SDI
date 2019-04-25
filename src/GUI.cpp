@@ -36,7 +36,7 @@ void GUI::BM_Templates()
 	std::cout << "Back                                Enter Back" << std::endl;
 	std::cout << "View Crew                           Enter Crew" << std::endl;
 	std::cout << "View Material Info                  Enter MI" << std::endl;
-	std::cout << "Search                              Enter Search\n" << std::endl; // Develop Search Engine to complete criteria of mojoo
+	std::cout << "Search                              Enter Search\n" << std::endl;
 	std::cout << "Return to Menu                      Enter RTM\n" << std::endl;
 	std::cout << "______________________________________________\n" << std::endl;
 	DisplayCurrentFilmProject();
@@ -52,6 +52,7 @@ void GUI::MM_Templates()
 	std::cout << "View Material Info                   Enter MI\n" << std::endl;
 	std::cout << "Create New Project                   Enter CNP" << std::endl;
 	std::cout << "Create New Crew                      Enter CNC" << std::endl;
+	std::cout << "Create New Material                  Enter CNM" << std::endl;
 	std::cout << "Edit                                 Enter EDIT" << std::endl;
 	std::cout << "Delete Project                       Enter DP\n" << std::endl;
 	std::cout << "Reports Mode                         Enter R\n" << std::endl;
@@ -198,6 +199,13 @@ void GUI::Maintenance_Menu()
 		{
 			CreateNewCrew();
 		}
+		if (user_input == "cnm")
+		{
+			SaveAllFiles();
+			browser->current->data->Materials.push_back(CreateNewMaterial());
+			system("clear");
+			MM_Templates();
+		}
 
 	} while (user_input != "rtm");
 	user_input = "";
@@ -264,7 +272,7 @@ void GUI::project_edit()
 
 		std::transform(edit_input.begin(), edit_input.end(), edit_input.begin(), ::tolower);
 
-		if (edit_input == "next" || edit_input == "previous" || edit_input == "rtm")
+		if (edit_input == "next" || edit_input == "back" || edit_input == "rtm")
 		{
 			Basic_User_Input(edit_input);
 		}
@@ -551,6 +559,16 @@ void GUI::project_edit()
 			if (edit_input == "crew member ID")
 			{
 			}
+
+			if (edit_input == "material ID" && browser->current->data->Status == 2)
+			{
+				std::cout << "\nPlease insert a material ID : ";
+				DisplayMaterials();
+				std::string strMaterialID;
+				std::getline(std::cin, strMaterialID);
+				std::stoi(strMaterialID);
+
+			}
 		}
 
 	} while (edit_input != "rtm");
@@ -597,7 +615,6 @@ void GUI::material_edit()
 
 	do
 	{
-
 		system("clear");
 		Edit_Templates();
 		
@@ -608,42 +625,23 @@ void GUI::material_edit()
 		DisplayMaterials();
 
 		std::cout << "Please enter in the ID of the material\n" << std::endl;	
+		std::getline(std::cin, edit_input);
 
-		std::cin >> edit_input;
+		std::pair<bool, bool> string_int_vals = string_int_check(edit_input);
 
-		bool interger_val, string_val = false;
-
-		for(auto it = edit_input.begin(); it != edit_input.end(); ++it)
-		{
-			if (isalpha(*it))
-			{
-				string_val = true;
-			}
-
-			if (isdigit(*it))
-			{
-				interger_val = true;
-			}
-		}
-
-		if(interger_val == true && string_val == false)
+		if(string_int_vals.second == true && string_int_vals.first == false)
 		{
 			int material_ID = std::stoi(edit_input);
 			material_edit_management(material_ID);
 		}
-
-		if(interger_val == false  && string_val == true)
+		else if(string_int_vals.second == false  && string_int_vals.first == true)
 		{
-
 			std::transform(edit_input.begin(), edit_input.end(), edit_input.begin(), ::tolower);
-
-			if( edit_input == "next" ||  edit_input == "previous" ||  edit_input == "rtm" )
+			if( edit_input == "next" ||  edit_input == "back" ||  edit_input == "rtm" )
 			{
 				Basic_User_Input(edit_input);
 			}
 		}
-
-		std::cin >> edit_input;
 
 	}while(edit_input != "rtm");
 }
@@ -784,16 +782,241 @@ void GUI::CreateNewCrew()
 	MM_Templates();
 }
 
-void GUI::CreateNewMaterial()
+Material* GUI::CreateNewMaterial()
 {
-	std::cout << "________________________________________________\n\n" << std::endl;
-	std::cout << "              Create New Material                 " << "\n" << std::endl;
+
 
 	Material* new_mat = new Material();
 
 	new_mat->ID = unique_id_check_material();
 
+	std::string user_input;
+	
+	bool isCorrectType = false;
+	do
+	{
+		system("clear");
+		std::cout << "________________________________________________\n\n" << std::endl;
+		std::cout << "              Create New Material                 " << "\n" << std::endl;
+		std::cout << "\nPlease insert the type of Material:";
+		std::cout << "\nTypes are: VHS, DVD(SingleSided), BluRay, ComboBox, DoubleSidedDVD\n";
+		std::getline(std::cin, user_input);
+		std::transform(user_input.begin(), user_input.end(), user_input.begin(), ::tolower);
+		
+		if(user_input == "vhs")
+		{
+			new_mat->Type = "vhs";
+			isCorrectType = true;
+			new_mat = new VHS();
+		}
+		else if(user_input == "dvd")
+		{
+			new_mat->Type = "dvd";
+			isCorrectType = true;
+			new_mat = new DVD();
+		}
+		else if(user_input == "bluray")
+		{
+			new_mat->Type = "bluray";
+			isCorrectType = true;
+			new_mat = new BluRay();
+		}
+		else if(user_input == "combobox")
+		{
+			new_mat->Type = "combobox";
+			isCorrectType = true;
+			new_mat = new ComboBox();
+		}
+		else if(user_input == "doublesideddvd")
+		{
+			new_mat->Type = "doublesideddvd";
+			isCorrectType = true;
+			new_mat = new DoubleSidedDVD();
+		}
+		else
+		{
+			std::cout << "\n Please enter a valid material type \n";
+		}
+		
+	} while (isCorrectType == false);
 
+		// Type,ComboBox
+		// Title,Avatar - The complete collection.
+		// DVD_Description,The complete Avatar film collection.
+		// Video_Format,1080p
+		// Audio_Format,WAV
+		// Run_Time,438
+		// Languages,English,French,Spanish
+		// Retail_Price,25
+		// Subtitles,English,French,Spanish
+		// Frame_Aspect,16:9
+		// Packaging,Cardboard
+		// Stored,2,5
+
+	std::cout << "\nPlease insert the Title:\n"<< std::endl;
+	std::getline(std::cin, new_mat->Title);
+	
+	std::cout << "\nPlease insert the Description:\n"<< std::endl;
+	std::getline(std::cin, new_mat->Description);
+
+	std::cout << "\nPlease insert the Video Format:\n"<< std::endl; 
+	std::getline(std::cin, new_mat->Description);
+
+	std::cout << "\nPlease insert the Audio Format:\n"<< std::endl; 
+	std::getline(std::cin, new_mat->Description);
+	
+	bool isNum = false;
+	while (isNum == false)
+	{
+		std::cout << "\nPlease insert the Runtime:\n";
+		std::getline(std::cin, user_input);
+		try
+		{
+			new_mat->Runtime = std::stoi(user_input);
+			isNum = true;
+		}
+		catch(const std::exception& e)
+		{
+			std::cout << "Please enter a number" << '\n';
+			isNum = false;
+		}
+	}
+	if (new_mat->Type == "vhs")
+	{
+		std::cout << "\nPlease insert the Language:\n"<< std::endl;
+		std::getline(std::cin, user_input);
+		std::vector<std::string> language;
+		language.push_back(user_input);
+		new_mat->SetLanguages(language);
+	}
+	else
+	{
+		std::vector<std::string> languages;
+		std::cout << "\nPlease insert the Languages:\n"<< std::endl;
+		std::cout << "Type in the value then press enter to add another value" << std::endl;
+		std::cout << "When you have finished enter in (case sensitive) - Q" << std::endl;
+		do
+		{
+			std::getline(std::cin, user_input);
+			languages.push_back(user_input);
+		} while (user_input != "Q");
+		new_mat->SetLanguages(languages);
+	}
+	
+	isNum = false;
+	while (isNum == false)
+	{
+		std::cout << "\nPlease insert the Retail Price:\n";
+		std::getline(std::cin, user_input);
+		try
+		{
+			new_mat->RetailPrice = std::stod(user_input);
+			isNum = true;
+		}
+		catch(const std::exception& e)
+		{
+			std::cout << "Please enter a number" << '\n';
+			isNum = false;
+		}
+	}
+
+	if (new_mat->Type == "vhs")
+	{
+		std::cout << "\nPlease insert the Subtitle Language:\n"<< std::endl;
+		std::getline(std::cin, user_input);
+		std::vector<std::string> subtitle;
+		subtitle.push_back(user_input);
+		new_mat->SetLanguages(subtitle);
+	}
+	else
+	{
+		std::vector<std::string> subtitles;
+		std::cout << "\nPlease insert the Subtitle Languages:\n"<< std::endl;
+		std::cout << "Type in the value then press enter to add another value" << std::endl;
+		std::cout << "When you have finished enter in (case sensitive) - Q" << std::endl;
+		do
+		{
+			std::getline(std::cin, user_input);
+			subtitles.push_back(user_input);
+		} while (user_input != "Q");
+		new_mat->SetLanguages(subtitles);
+	}
+
+	std::cout << "\nPlease insert the Frame Aspect\n"<< std::endl;
+	std::getline(std::cin, new_mat->FrameAspect);
+
+	if (new_mat->Type == "combobox")
+	{
+		int numOfStoredMats = 0;
+		isNum = false;
+		while (isNum == false)
+		{
+			std::cout << "\nEnter the number of materials stored in the combo box\n"<< std::endl;
+			std::getline(std::cin, user_input);
+			try
+			{
+				numOfStoredMats = std::stoi(user_input);
+				isNum = true;
+			}
+			catch(const std::exception& e)
+			{
+				std::cout << "Please enter a number" << '\n';
+				isNum = false;
+			}
+		}
+
+		for (auto i = 0; i != numOfStoredMats; ++i)
+		{
+			new_mat->SetDVDVector(CreateNewMaterial());
+		}
+	}
+	else
+	{
+        browser->setHead();
+		isNum = false;
+		int film_ID = 0;
+		while (isNum == false)
+		{
+			system("clear");
+			std::cout << "\nNext                                Enter Next" << std::endl;
+			std::cout << "Back                                Enter Back\n" << std::endl;
+			std::cout << "________________________________________________\n" << std::endl;
+
+			DisplayCurrentFilmProject();
+			user_input = "";
+			std::cout << "\nEnter the ID's of the films to store on this material\n"<< std::endl;
+			std::getline(std::cin, user_input);
+
+			std::pair<bool, bool> string_int_vals = string_int_check(user_input);
+
+			if(string_int_vals.first == false && string_int_vals.second == true)
+			{
+				film_ID = std::stoi(user_input);
+                Film new_film;
+                new_film.ID = film_ID;
+                new_film = fileHandler->LoadFilm(new_film.ID);
+				if (new_film.Title == "")
+				{
+					isNum = false;
+				}
+				else
+				{	
+                	new_mat->SetFilm(new_film);
+                	isNum = true;
+				}
+			}
+			else if(string_int_vals.first == true  && string_int_vals.second == false)
+			{
+				std::transform(user_input.begin(), user_input.end(), user_input.begin(), ::tolower);
+
+				if( user_input == "next" ||  user_input == "back")
+				{
+					Basic_User_Input(user_input);
+				}
+			}
+		}
+	}
+	return new_mat;
 }
 
 void GUI::DisplayMaterials()
@@ -998,10 +1221,10 @@ void GUI::Create_New_Project_Menu()
 	new_film.ID = unique_id_check_project();
 
 	std::string user_input;
-	bool success;
+	bool isNum;
 	std::cout << "\nUnreleased 1, Now_Playing 2, Released 3\n";
-	success = false;
-	while (success == false)
+	isNum = false;
+	while (isNum == false)
 	{
 		std::cout << "\nPlease insert a Status Number: ";
 		std::getline(std::cin, user_input);
@@ -1014,13 +1237,13 @@ void GUI::Create_New_Project_Menu()
 			}
 			else
 			{
-				success = true;
+				isNum = true;
 			}
 		}
 		catch(const std::exception& e)
 		{
 			std::cout << "Please enter a correct number" << '\n';
-			success = false;
+			isNum = false;
 		}
 	}
 	std::cout << "\nPlease insert a Title: ";
@@ -1053,20 +1276,20 @@ void GUI::Create_New_Project_Menu()
 		std::getline(std::cin, user_input);
 		new_film.Filming_Locations.push_back(user_input);
 	} while (user_input != "Q");
-	success = false;
-	while (success == false)
+	isNum = false;
+	while (isNum == false)
 	{
 		std::cout << "\nPlease insert the Runtime: ";
 		std::getline(std::cin, user_input);
 		try
 		{
 			new_film.Runtime = std::stoi(user_input);
-			success = true;
+			isNum = true;
 		}
 		catch(const std::exception& e)
 		{
 			std::cout << "Please enter a number" << '\n';
-			success = false;
+			isNum = false;
 		}
 	}	
 	std::cout << "\nPlease insert the Languages: " << std::endl;
@@ -1079,20 +1302,20 @@ void GUI::Create_New_Project_Menu()
 	} while (user_input != "Q");
 	if (new_film.Status == 1)
 	{
-		success = false;
-		while (success == false)
+		isNum = false;
+		while (isNum == false)
 		{
 			std::cout << "\nPlease insert the Weekly Ticket Sale: ";
 			std::getline(std::cin, user_input);
 			try
 			{
 				new_film.WeeklyTicketSales.push_back(std::stod(user_input));
-				success = true;
+				isNum = true;
 			}
 			catch(const std::exception& e)
 			{
 				std::cout << "Please enter a number" << '\n';
-				success = false;
+				isNum = false;
 			}
 		}
 	}
@@ -1134,4 +1357,26 @@ void GUI::Create_New_Project_Menu()
 	browser->insert_tail(filmToPass);
 	system("clear");
 	MM_Templates();
+}
+
+std::pair <bool,bool> GUI::string_int_check(std::string string_check)
+{
+	bool integer_val = false, string_val = false;
+
+		for(auto it = string_check.begin(); it != string_check.end(); ++it)
+		{
+			if (isalpha(*it))
+			{
+				string_val = true;
+			}
+			else if (isdigit(*it))
+			{
+				integer_val = true;
+			}
+		}
+
+	std::pair<bool, bool> output = {string_val, integer_val};
+		
+	return output;
+	
 }
