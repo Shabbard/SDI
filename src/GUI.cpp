@@ -798,9 +798,9 @@ void GUI::DisplayMaterials()
 		Material *mat = *it;
 		if (mat->Type == "ComboBox")
 		{
-			for (auto it = mat->GetDVDs().begin(); it != mat->GetDVDs().end(); ++it)
+			for (auto iter = mat->GetDVDs().begin(); iter != mat->GetDVDs().end(); ++iter)
 			{
-				LoadMatData((*it), "\t\t");
+				LoadMatData((*iter), "\t\t");
 			}
 		}
 	}
@@ -964,7 +964,7 @@ void GUI::Create_New_Project_Menu()
 	system("clear");
 	CNP_Templates();
 
-	std::string values[12] = {"Status", "Title", "Keywords", "Summary", "Genre", "Release Date", "Filming Locations", "Runtime", "Language", "Weekly Ticket Sales", "Crew Members"};
+	//std::string values[12] = {"Status", "Title", "Keywords", "Summary", "Genre", "Release Date", "Filming Locations", "Runtime", "Language", "Weekly Ticket Sales", "Crew Members"};
 
 	FilmProject new_film;
 
