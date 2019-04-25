@@ -864,6 +864,10 @@ int GUI::unique_id_check_material()
 
 	while (browser->current->next != nullptr)
 	{
+		for(std::vector<Material *>::iterator it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); ++it)
+		{
+			
+		}
 		if (new_id < browser->current->data->Materials)
 		{
 			new_id = browser->current->data->Materials;
