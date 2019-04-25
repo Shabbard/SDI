@@ -864,31 +864,30 @@ int GUI::unique_id_check_material()
 
 	while (browser->current->next != nullptr)
 	{
-		for(std::vector<Material *>::iterator it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); ++it)
+
+		for (auto it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); ++it)
 		{
-			
+		
+			if (new_id < (*it).ID)
+			{
+				new_id = (*it).ID;
+			}
+
+			browser->nextNode();
 		}
-		if (new_id < browser->current->data->Materials)
+
+		for (auto it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); ++it)
 		{
-			new_id = browser->current->data->Materials;
+		
+			if (new_id < (*it).ID)
+			{
+				new_id = (*it).ID;
+			}
+
 		}
-		browser->nextNode();
+
 	}
 
-	if (new_id < browser->current->data->ID)
-	{
-		new_id = browser->current->data->ID;
-	}
-
-	return ++new_id;
-
-	for (auto it = crewVector.begin(); it != crewVector.end(); ++it)
-	{
-		if ((*it).ID > new_id)
-		{
-			new_id = (*it).ID;
-		}
-	}
 	return ++new_id;
 }
 
