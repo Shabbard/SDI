@@ -665,7 +665,7 @@ void GUI::material_edit_management(int material_ID)
 
 		for (auto it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); ++it)
 		{
-			//(*it).ID;
+			//id = (*it).ID;
 
 			std::cout << id;
 		}
