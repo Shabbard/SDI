@@ -114,6 +114,7 @@ void GUI::Main_Menu()
 
 	} while (user_input != "exit");
 	SaveAllFiles();
+
 }
 
 void GUI::SaveAllFiles()
