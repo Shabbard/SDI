@@ -278,7 +278,7 @@ T FileHandler::LoadMaterial(T mat, int idToLoad)
 				LineData.erase(LineData.begin());
 				if (mat->Type == "ComboBox")
 				{
-					for (auto it = LineData.begin(); it != LineData.end(); ++i)
+					for (auto it = LineData.begin(); it != LineData.end(); ++it)
 					{
 						auto new_mat = new Material();
 						new_mat = GetMaterialType(new_mat, std::stoi(*it));
