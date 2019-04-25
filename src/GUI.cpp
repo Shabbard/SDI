@@ -658,15 +658,39 @@ void GUI::material_edit_management(int material_ID)
 	do
 	{
 		std::cout << "________________________________________________" << std::endl;
+		std::cout << "\n         Please Enter in the value " << std::endl;
+		std::cout << "           you would like to change  " << std::endl;
 
-		
+		int id;
 
+		for (auto it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); ++it)
+		{
+			//(*it).ID;
 
+			std::cout << id;
+		}
 
 		
 	} while (edit_input != "rtm");
 	
 }
+
+
+// ID,3
+// Type,DVD
+// Title,Avatar - End Game.
+// DVD_Description,Dead Avatar.
+// Video_Format,1080p
+// Audio_Format,WAV
+// Run_Time,160
+// Languages,English,French,Spanish
+// Retail_Price,30
+// Subtitles,English,French,Spanish
+// Frame_Aspect,16:9
+// Bonus_Features,Directors Cut
+// Packaging,Plastic
+// Stored,4
+		
 
 void GUI::LoadMatData(Material* mat, std::string strvar)
 {
