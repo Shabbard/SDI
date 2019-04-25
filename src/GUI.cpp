@@ -659,15 +659,39 @@ void GUI::material_edit_management(int material_ID)
 	do
 	{
 		std::cout << "________________________________________________" << std::endl;
+		std::cout << "\n         Please Enter in the value " << std::endl;
+		std::cout << "           you would like to change  " << std::endl;
 
-		
+		int id;
 
+		for (auto it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); ++it)
+		{
+			//id = (*it).ID;
 
+			std::cout << id;
+		}
 
 		
 	} while (edit_input != "rtm");
 	
 }
+
+
+// ID,3
+// Type,DVD
+// Title,Avatar - End Game.
+// DVD_Description,Dead Avatar.
+// Video_Format,1080p
+// Audio_Format,WAV
+// Run_Time,160
+// Languages,English,French,Spanish
+// Retail_Price,30
+// Subtitles,English,French,Spanish
+// Frame_Aspect,16:9
+// Bonus_Features,Directors Cut
+// Packaging,Plastic
+// Stored,4
+		
 
 void GUI::LoadMatData(Material* mat, std::string strvar)
 {
@@ -745,7 +769,7 @@ void GUI::LoadMatData(Material* mat, std::string strvar)
 void GUI::CreateNewCrew()
 {
 	std::cout << "________________________________________________\n\n" << std::endl;
-	std::cout << "                     Create New Crew Member                 " << "\n" << std::endl;
+	std::cout << "           Create New Crew Member                 " << "\n" << std::endl;
 
 	Crew new_crew;
 	new_crew.ID = unique_id_check_crew();
@@ -759,6 +783,18 @@ void GUI::CreateNewCrew()
 
 	system("clear");
 	MM_Templates();
+}
+
+void GUI::CreateNewMaterial()
+{
+	std::cout << "________________________________________________\n\n" << std::endl;
+	std::cout << "              Create New Material                 " << "\n" << std::endl;
+
+	Material* new_mat = new Material();
+
+	new_mat->ID = unique_id_check_material();
+
+
 }
 
 void GUI::DisplayMaterials()
@@ -775,9 +811,9 @@ void GUI::DisplayMaterials()
 		Material *mat = *it;
 		if (mat->Type == "ComboBox")
 		{
-			for (auto it = mat->GetDVDs().begin(); it != mat->GetDVDs().end(); ++it)
+			for (auto iter = mat->GetDVDs().begin(); iter != mat->GetDVDs().end(); ++iter)
 			{
-				LoadMatData((*it), "\t\t");
+				LoadMatData((*iter), "\t\t");
 			}
 		}
 	}
@@ -823,16 +859,31 @@ int GUI::unique_id_check_project()
 
 int GUI::unique_id_check_material()
 {
-	// int new_id = 0;
+	int new_id = 0;
 
-	// for (auto it = crewVector.begin(); it != crewVector.end(); ++it)
-	// {
-	// 	if ((*it).ID > new_id)
-	// 	{
-	// 		new_id = (*it).ID;
-	// 	}
-	// }
-	// return ++new_id;
+	browser->setHead();
+
+	while (browser->current->next != nullptr)
+	{
+
+		for (auto it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); ++it)
+		{
+			if (new_id < (*it)->ID)
+			{
+				new_id = (*it)->ID;
+			}
+		}
+		browser->nextNode();
+	}
+	for (auto it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); ++it)
+	{
+		if (new_id < (*it)->ID)
+		{
+			new_id = (*it)->ID;
+		}
+	}
+	
+	return ++new_id;
 }
 
 int GUI::unique_id_check_crew()
@@ -941,7 +992,7 @@ void GUI::Create_New_Project_Menu()
 	system("clear");
 	CNP_Templates();
 
-	std::string values[12] = {"Status", "Title", "Keywords", "Summary", "Genre", "Release Date", "Filming Locations", "Runtime", "Language", "Weekly Ticket Sales", "Crew Members"};
+	//std::string values[12] = {"Status", "Title", "Keywords", "Summary", "Genre", "Release Date", "Filming Locations", "Runtime", "Language", "Weekly Ticket Sales", "Crew Members"};
 
 	FilmProject new_film;
 

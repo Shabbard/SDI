@@ -41,8 +41,8 @@ public:
     void DisplayCurrentFilmProject();
     void DisplayCrew();
     void CreateNewCrew();
+    void CreateNewMaterial();
     void SaveAllFiles();
-
 
     void project_edit();
     void crew_edit();

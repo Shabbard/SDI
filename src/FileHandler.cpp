@@ -471,16 +471,13 @@ void FileHandler::sortedInsert(struct Node** head_ref, struct Node* newNode)
 {
 	struct Node* current;
 
-
 	if (*head_ref == NULL)
 		*head_ref = newNode;
-
 
 	else if ((*head_ref)->data->ID >= newNode->data->ID) {
 		newNode->next = *head_ref;
 		newNode->next->back = newNode;
         *head_ref = newNode;
-
 	}
 
 	else {
@@ -488,7 +485,7 @@ void FileHandler::sortedInsert(struct Node** head_ref, struct Node* newNode)
 		current = *head_ref;
         while (current->next != NULL && current->next->data->ID < newNode->data->ID)
 
-			current = current->next;
+		current = current->next;
 		newNode->next = current->next;
 
 		if (current->next != NULL)

@@ -10,12 +10,8 @@ SOURCES += \
     src/GUI.cpp \
     src/FIlm.cpp \
     src/FilmProject.cpp \
-    src/Material.cpp \
-    src/SDI-tests.cpp \
-    src/main.cpp
+    src/Material.cpp
 
-
-    
 HEADERS += \
     headers/Browser.h \
     headers/Film.h \
@@ -26,6 +22,4 @@ HEADERS += \
 
 INCLUDEPATH += headers/
 
-TARGET = $$_PRO_FILE_PWD_/bin/main
-
-LIBS += -lboost_unit_test_framework
+TARGET = $$_PRO_FILE_PWD_/bin/SDI-Tests
