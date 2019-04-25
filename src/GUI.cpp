@@ -768,7 +768,7 @@ void GUI::LoadMatData(Material* mat, std::string strvar)
 void GUI::CreateNewCrew()
 {
 	std::cout << "________________________________________________\n\n" << std::endl;
-	std::cout << "                     Create New Crew Member                 " << "\n" << std::endl;
+	std::cout << "           Create New Crew Member                 " << "\n" << std::endl;
 
 	Crew new_crew;
 	new_crew.ID = unique_id_check_crew();
@@ -782,6 +782,18 @@ void GUI::CreateNewCrew()
 
 	system("clear");
 	MM_Templates();
+}
+
+void GUI::CreateNewMaterial()
+{
+	std::cout << "________________________________________________\n\n" << std::endl;
+	std::cout << "              Create New Material                 " << "\n" << std::endl;
+
+	Material* new_mat = new Material();
+
+	new_mat->ID = unique_id_check_material();
+
+
 }
 
 void GUI::DisplayMaterials()
@@ -846,16 +858,34 @@ int GUI::unique_id_check_project()
 
 int GUI::unique_id_check_material()
 {
-	// int new_id = 0;
+	int new_id = 0;
 
-	// for (auto it = crewVector.begin(); it != crewVector.end(); ++it)
-	// {
-	// 	if ((*it).ID > new_id)
-	// 	{
-	// 		new_id = (*it).ID;
-	// 	}
-	// }
-	// return ++new_id;
+	browser->setHead();
+
+	while (browser->current->next != nullptr)
+	{
+		if (new_id < browser->current->data->Materials)
+		{
+			new_id = browser->current->data->Materials;
+		}
+		browser->nextNode();
+	}
+
+	if (new_id < browser->current->data->ID)
+	{
+		new_id = browser->current->data->ID;
+	}
+
+	return ++new_id;
+
+	for (auto it = crewVector.begin(); it != crewVector.end(); ++it)
+	{
+		if ((*it).ID > new_id)
+		{
+			new_id = (*it).ID;
+		}
+	}
+	return ++new_id;
 }
 
 int GUI::unique_id_check_crew()

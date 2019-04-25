@@ -10,8 +10,7 @@ SOURCES += \
     src/GUI.cpp \
     src/FIlm.cpp \
     src/FilmProject.cpp \
-    src/Material.cpp \
-    src/main.cpp
+    src/Material.cpp
 
 HEADERS += \
     headers/Browser.h \
@@ -23,4 +22,4 @@ HEADERS += \
 
 INCLUDEPATH += headers/
 
-TARGET = $$_PRO_FILE_PWD_/bin/main
+TARGET = $$_PRO_FILE_PWD_/bin/SDI-Tests
