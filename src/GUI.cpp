@@ -46,11 +46,12 @@ void GUI::MM_Templates()
 	std::cout << "\n     Welcome to Maintenace Mode" << std::endl;
 	std::cout << "______________________________________________" << std::endl;
 	std::cout << "\nPlease Enter in a Value" << std::endl;
-	std::cout << "\nNext                                 Enter Next" << std::endl;
+	std::cout << "\nNext                               Enter Next" << std::endl;
 	std::cout << "Back                                 Enter Back" << std::endl;
 	std::cout << "View Crew                            Enter Crew" << std::endl;
 	std::cout << "View Material Info                   Enter MI\n" << std::endl;
 	std::cout << "Create New Project                   Enter CNP" << std::endl;
+	std::cout << "Create New Crew                      Enter CNC" << std::endl;
 	std::cout << "Edit                                 Enter EDIT" << std::endl;
 	std::cout << "Delete Project                       Enter DP\n" << std::endl;
 	std::cout << "Reports Mode                         Enter R\n" << std::endl;
@@ -81,106 +82,105 @@ void GUI::Edit_Templates()
 
 void GUI::Main_Menu()
 {
-	LoadCrew();
-
-	std::string strinput = "";
+	std::string user_input = "";
 
 	do
 	{
 		system("clear");
 		Main_Menu_Templates();
 
-		std::getline(std::cin, strinput);
+		std::getline(std::cin, user_input);
+		std::transform(user_input.begin(), user_input.end(), user_input.begin(), ::tolower);
 
-		std::transform(strinput.begin(), strinput.end(), strinput.begin(), ::tolower);
-
-		if (strinput == "save")
+		if (user_input == "save")
 		{
 			system("clear");
 			Main_Menu_Templates();
+			SaveAllFiles();
 			std::cout << " Projects Saved   " << std::endl;
-			fileHandler->UpdateFile();
-			browser->setHead();
 		}
-
-		if (strinput == "bm")
+		if (user_input == "bm")
 		{
 			system("clear");
 			BM_Templates();
-
 			Browser_Menu();
 		}
-
-		if (strinput == "mm")
+		if (user_input == "mm")
 		{
-
 			system("clear");
 			MM_Templates();
-
 			Maintenance_Menu();
 		}
 
-	} while (strinput != "exit");
+	} while (user_input != "exit");
+	SaveAllFiles();
+}
+
+void GUI::SaveAllFiles()
+{
+	fileHandler->UpdateProjectFile();
+	fileHandler->WriteCrewToFile(crewVector);
+	browser->setHead();
 }
 
 void GUI::Browser_Menu()
 {
-	std::string strinput = "";
+	std::string user_input = "";
 
 	do
 	{
-		std::getline(std::cin, strinput);
+		std::getline(std::cin, user_input);
 
-		std::transform(strinput.begin(), strinput.end(), strinput.begin(), ::tolower);
+		std::transform(user_input.begin(), user_input.end(), user_input.begin(), ::tolower);
 
-		Basic_User_Input(strinput);
+		Basic_User_Input(user_input);
 
 		system("clear");
 		BM_Templates();
 
-		if (strinput == "crew")
+		if (user_input == "crew")
 		{
 			DisplayCrew();
 		}
-		else if (strinput == "mi")
+		else if (user_input == "mi")
 		{
 			DisplayMaterials();
 		}
 
-	} while (strinput != "rtm");
+	} while (user_input != "rtm");
 }
 
 void GUI::Maintenance_Menu()
 {
-	std::string strinput = "";
+	std::string user_input;
 
 	do
 	{
-		std::getline(std::cin, strinput);
+		std::getline(std::cin, user_input);
 
-		std::transform(strinput.begin(), strinput.end(), strinput.begin(), ::tolower);
+		std::transform(user_input.begin(), user_input.end(), user_input.begin(), ::tolower);
 
-		Basic_User_Input(strinput);
+		Basic_User_Input(user_input);
 
 		system("clear");
 		MM_Templates();
 
-		if (strinput == "crew")
+		if (user_input == "crew")
 		{
 			DisplayCrew();
 		}
 
-		if (strinput == "mi")
+		if (user_input == "mi")
 		{
 			DisplayMaterials();
 		}
 
-		if (strinput == "edit")
+		if (user_input == "edit")
 		{
 			Edit_Menu();
 		}
 
-		if (strinput == "dp")
+		if (user_input == "dp")
 		{
 			MM_Templates();
 			std::cout << "\nProject Deleted" << std::endl;
@@ -189,18 +189,24 @@ void GUI::Maintenance_Menu()
 			MM_Templates();
 		}
 
-		if (strinput == "cnp")
+		if (user_input == "cnp")
 		{
 			Create_New_Project_Menu();
 		}
 
-	} while (strinput != "rtm");
+		if (user_input == "cnc")
+		{
+			CreateNewCrew();
+		}
+
+	} while (user_input != "rtm");
+	user_input = "";
 }
 
 void GUI::Edit_Menu()
 {
 
-	std::string strinput = "";
+	std::string user_input = "";
 
 	do
 	{
@@ -212,25 +218,25 @@ void GUI::Edit_Menu()
 				  << std::endl;
 		std::cout << "- ";
 
-		std::getline(std::cin, strinput);
-		std::transform(strinput.begin(), strinput.end(), strinput.begin(), ::tolower);
+		std::getline(std::cin, user_input);
+		std::transform(user_input.begin(), user_input.end(), user_input.begin(), ::tolower);
 
-		if (strinput == "project")
+		if (user_input == "project")
 		{
 			project_edit();
 		}
 
-		if (strinput == "crew")
+		if (user_input == "crew")
 		{
 			crew_edit();
 		}
 
-		if (strinput == "material" || strinput == "materials")
+		if (user_input == "material" || user_input == "materials")
 		{
 			material_edit();
 		}
 
-	} while (strinput != "rtm");
+	} while (user_input != "rtm");
 }
 
 void GUI::project_edit()
@@ -290,7 +296,7 @@ void GUI::project_edit()
 				std::cout << "\n";
 				int counter = 0;
 
-				for (std::vector<std::string>::iterator it = browser->current->data->KeyWords.begin(); it != browser->current->data->KeyWords.end(); it++)
+				for (auto it = browser->current->data->KeyWords.begin(); it != browser->current->data->KeyWords.end(); ++it)
 				{
 					std::cout << counter << " - " << *it << "\n";
 					counter++;
@@ -354,7 +360,7 @@ void GUI::project_edit()
 				std::cout << "\n";
 				int counter = 0;
 
-				for (std::vector<std::string>::iterator it = browser->current->data->Genre.begin(); it != browser->current->data->Genre.end(); it++)
+				for (auto it = browser->current->data->Genre.begin(); it != browser->current->data->Genre.end(); ++it)
 				{
 					std::cout << counter << " - " << *it << "\n";
 					counter++;
@@ -417,7 +423,7 @@ void GUI::project_edit()
 				std::cout << "\n";
 				int counter = 0;
 
-				for (std::vector<std::string>::iterator it = browser->current->data->Filming_Locations.begin(); it != browser->current->data->Filming_Locations.end(); it++)
+				for (auto it = browser->current->data->Filming_Locations.begin(); it != browser->current->data->Filming_Locations.end(); ++it)
 				{
 					std::cout << counter << " - " << *it << "\n";
 					counter++;
@@ -482,7 +488,7 @@ void GUI::project_edit()
 				std::cout << "\n";
 				int counter = 0;
 
-				for (std::vector<std::string>::iterator it = browser->current->data->Languages.begin(); it != browser->current->data->Languages.end(); it++)
+				for (auto it = browser->current->data->Languages.begin(); it != browser->current->data->Languages.end(); ++it)
 				{
 					std::cout << counter << " - " << *it << "\n";
 					counter++;
@@ -572,7 +578,6 @@ void GUI::crew_edit()
 
 	}while(edit_input != "rtm");
 
-}
 	// Display all crew maybe in increments?? With Scrubbing 
 	// Request ID for change
 	// Request Datatype to change
@@ -581,6 +586,7 @@ void GUI::crew_edit()
 
 	// Crew Member ID , Name , Job 
 
+}
 
 void GUI::material_edit()
 {
@@ -607,14 +613,14 @@ void GUI::material_edit()
 
 		bool interger_val, string_val = false;
 
-		for(int i = 0; i != edit_input.length(); ++i)
+		for(auto it = edit_input.begin(); it != edit_input.end(); ++it)
 		{
-			if (isalpha(edit_input[i]))
+			if (isalpha(*it))
 			{
 				string_val = true;
 			}
 
-			if (isdigit(edit_input[i]))
+			if (isdigit(*it))
 			{
 				interger_val = true;
 			}
@@ -735,6 +741,25 @@ void GUI::LoadMatData(Material* mat, std::string strvar)
 	}
 }
 
+void GUI::CreateNewCrew()
+{
+	std::cout << "________________________________________________\n\n" << std::endl;
+	std::cout << "                     Create New Crew Member                 " << "\n" << std::endl;
+
+	Crew new_crew;
+	new_crew.ID = unique_id_check_crew();
+
+	std::string user_input;
+	std::cout << "\nPlease insert the Crew Members Name: ";
+	std::getline(std::cin, new_crew.Name);
+	std::cout << "\nPlease insert the Crew Members Job: ";
+	std::getline(std::cin, new_crew.Job);
+	crewVector.push_back(new_crew);
+
+	system("clear");
+	MM_Templates();
+}
+
 void GUI::DisplayMaterials()
 {
 	std::cout << "________________________________________________\n\n"
@@ -743,16 +768,15 @@ void GUI::DisplayMaterials()
 			  << "\n"
 			  << std::endl;
 
-	for (std::vector<Material *>::iterator it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); it++)
+	for (std::vector<Material *>::iterator it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); ++it)
 	{
 		LoadMatData(*it, "");
 		Material *mat = *it;
 		if (mat->Type == "ComboBox")
 		{
-			std::vector<Material *> ComboBoxStored = mat->GetDVDs();
-			for (size_t i = 0; i != ComboBoxStored.size(); ++i)
+			for (auto it = mat->GetDVDs().begin(); it != mat->GetDVDs().end(); ++it)
 			{
-				LoadMatData(ComboBoxStored.at(i), "\t\t");
+				LoadMatData((*it), "\t\t");
 			}
 		}
 	}
@@ -762,13 +786,6 @@ void GUI::DisplayMaterials()
 
 void GUI::Basic_User_Input(std::string user_input)
 {
-	if (user_input == "rtm")
-	{
-		GUI::Main_Menu();
-		system("clear");
-		Main_Menu_Templates();
-	}
-
 	if (user_input == "next")
 	{
 		browser->nextNode();
@@ -792,7 +809,6 @@ int GUI::unique_id_check_project()
 		{
 			new_id = browser->current->data->ID;
 		}
-
 		browser->nextNode();
 	}
 
@@ -806,19 +822,30 @@ int GUI::unique_id_check_project()
 
 int GUI::unique_id_check_material()
 {
-	
+	// int new_id = 0;
+
+	// for (auto it = crewVector.begin(); it != crewVector.end(); ++it)
+	// {
+	// 	if ((*it).ID > new_id)
+	// 	{
+	// 		new_id = (*it).ID;
+	// 	}
+	// }
+	// return ++new_id;
 }
 
 int GUI::unique_id_check_crew()
 {
 	int new_id = 0;
 
-	for (std::vector<Crew>::iterator it = crewVector.begin(); it != crewVector.end(); ++it)
+	for (auto it = crewVector.begin(); it != crewVector.end(); ++it)
 	{
-		(*it).ID;
+		if ((*it).ID > new_id)
+		{
+			new_id = (*it).ID;
+		}
 	}
-
-
+	return ++new_id;
 }
 
 void GUI::DisplayCrew()
@@ -826,11 +853,9 @@ void GUI::DisplayCrew()
 	std::cout << "___________________________________\n" << std::endl;
    	std::cout << "            Crew Members             " << "\n"<< std::endl;
    	std::cout << " ID             Name            Job\n" << std::endl;
-   	for(std::vector<Crew>::iterator it = browser->current->data->CrewMembers.begin(); it != browser->current->data->CrewMembers.end(); it++)
-	{
-      	Crew temp;
-      	temp = *it;   
-      	std::cout << "- " <<temp.ID<< "\t"<< temp.Name << "\t\t" << temp.Job << std::endl;
+   	for(auto it = browser->current->data->CrewMembers.begin(); it != browser->current->data->CrewMembers.end(); ++it)
+	{   
+      	std::cout << "- " << (*it).ID<< "\t"<< (*it).Name << "\t\t" << (*it).Job << std::endl;
 	}
    	std::cout << "\n";
 }
@@ -857,28 +882,28 @@ void GUI::DisplayCurrentFilmProject()
    }
 	std::cout << "Title" << "\t\t\t"<< browser->current->data->Title << std::endl;
 	std::cout << "Keywords"<< "\t\t";
-	for(std::vector<std::string>::iterator it = browser->current->data->KeyWords.begin(); it != browser->current->data->KeyWords.end(); it++)
+	for(auto it = browser->current->data->KeyWords.begin(); it != browser->current->data->KeyWords.end(); ++it)
 	{
 		std::cout << *it << ",";
 	}
 	std::cout << std::endl;
 	std::cout << "Summary" << "\t\t\t"<< browser->current->data->Summary << std::endl;
 	std::cout << "Genre"<< "\t\t\t";
-	for(std::vector<std::string>::iterator it = browser->current->data->Genre.begin(); it != browser->current->data->Genre.end(); it++)
+	for(auto it = browser->current->data->Genre.begin(); it != browser->current->data->Genre.end(); ++it)
 	{
 		std::cout << *it << ",";
 	}
 	std::cout << std::endl;
 	std::cout << "Release_Date" << "\t\t"<< browser->current->data->ReleaseDate << std::endl;
 	std::cout << "Filming_Loc"<< "\t\t";
-	for(std::vector<std::string>::iterator it = browser->current->data->Filming_Locations.begin(); it != browser->current->data->Filming_Locations.end(); it++)
+	for(auto it = browser->current->data->Filming_Locations.begin(); it != browser->current->data->Filming_Locations.end(); ++it)
 	{
 		std::cout << *it << ",";
 	}
 	std::cout << std::endl;
 	std::cout << "Runtime" << "\t\t\t"<< browser->current->data->Runtime << " Minutes "<< std::endl;
 	std::cout << "Language"<< "\t\t";
-	for(std::vector<std::string>::iterator it = browser->current->data->Languages.begin(); it != browser->current->data->Languages.end(); it++)
+	for(auto it = browser->current->data->Languages.begin(); it != browser->current->data->Languages.end(); ++it)
 	{
 		std::cout << *it << ",";
 	}
@@ -886,26 +911,24 @@ void GUI::DisplayCurrentFilmProject()
 	if (browser->current->data->Status == 1)
 	{
 		std::cout << "Weekly Ticket Sales," << "\t" << "£";
-		for (std::vector<double>::iterator it = browser->current->data->WeeklyTicketSales.begin(); it != browser->current->data->WeeklyTicketSales.end(); it++)
+		for (auto it = browser->current->data->WeeklyTicketSales.begin(); it != browser->current->data->WeeklyTicketSales.end(); ++it)
 		{
 			std::cout << *it << ",";
 		}
 		std::cout << std::endl;
 	}
    	std::cout << "Crew Member ID's" << "\t";
-	for(std::vector<Crew>::iterator it = browser->current->data->CrewMembers.begin(); it != browser->current->data->CrewMembers.end(); it++)
+	for(auto it = browser->current->data->CrewMembers.begin(); it != browser->current->data->CrewMembers.end(); ++it)
 	{
-      Crew temp = *it;
-		std::cout << temp.ID << ",";
+		std::cout << (*it).ID << ",";
 	}
    	std::cout << std::endl;
 	if (browser->current->data->Status == 2)
 	{
 		std::cout << "Material ID's" << "\t\t";
-		for(std::vector<Material*>::iterator it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); it++)
+		for(auto it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); ++it)
 		{
-		Material* temp = *it;
-			std::cout << temp -> ID << ",";
+			std::cout << (*it)->ID << ",";
 		}
 		std::cout << std::endl;
 	}
@@ -914,8 +937,6 @@ void GUI::DisplayCurrentFilmProject()
 
 void GUI::Create_New_Project_Menu()
 {
-	std::string strinput = "";
-
 	system("clear");
 	CNP_Templates();
 
@@ -958,9 +979,9 @@ void GUI::Create_New_Project_Menu()
 	std::cout << "When you have finished enter in (case sensitive) - Q" << std::endl;
 	do
 	{
-		std::getline(std::cin, strinput);
-		new_film.KeyWords.push_back(strinput);
-	} while (strinput != "Q");
+		std::getline(std::cin, user_input);
+		new_film.KeyWords.push_back(user_input);
+	} while (user_input != "Q");
 	std::cout << "\nPlease insert a Summary: ";
 	std::getline(std::cin, new_film.Summary);
 	std::cout << "\nPlease insert the Genres: " << std::endl;
@@ -968,9 +989,9 @@ void GUI::Create_New_Project_Menu()
 	std::cout << "When you have finished enter in (case sensitive) - Q" << std::endl;
 	do
 	{
-		std::getline(std::cin, strinput);
-		new_film.Genre.push_back(strinput);
-	} while (strinput != "Q");
+		std::getline(std::cin, user_input);
+		new_film.Genre.push_back(user_input);
+	} while (user_input != "Q");
 	std::cout << "\nPlease insert a Release Date: ";
 	std::getline(std::cin, new_film.ReleaseDate);
 	std::cout << "\nPlease insert the Filming Locations: " << std::endl;
@@ -978,9 +999,9 @@ void GUI::Create_New_Project_Menu()
 	std::cout << "When you have finished enter in (case sensitive) - Q" << std::endl;
 	do
 	{
-		std::getline(std::cin, strinput);
-		new_film.Filming_Locations.push_back(strinput);
-	} while (strinput != "Q");
+		std::getline(std::cin, user_input);
+		new_film.Filming_Locations.push_back(user_input);
+	} while (user_input != "Q");
 	success = false;
 	while (success == false)
 	{
@@ -1004,7 +1025,7 @@ void GUI::Create_New_Project_Menu()
 	{
 		std::getline(std::cin, user_input);
 		new_film.Languages.push_back(user_input);
-	} while (strinput != "Q");
+	} while (user_input != "Q");
 	if (new_film.Status == 1)
 	{
 		success = false;
@@ -1030,13 +1051,13 @@ void GUI::Create_New_Project_Menu()
 	std::string tempStr;
 	do
 	{
-		Crew temp;
+		Crew new_crew;
 		std::getline(std::cin, tempStr);
 		if (tempStr != "Q")
 		{
-			temp.ID = std::stoi(tempStr);
-			temp = fileHandler->LoadCrew(temp);
-			new_film.CrewMembers.push_back(temp);
+			new_crew.ID = std::stoi(tempStr);
+			new_crew = fileHandler->LoadCrew(new_crew);
+			new_film.CrewMembers.push_back(new_crew);
 		}
 	} while (tempStr != "Q");
 	if (new_film.Status == 2)
@@ -1047,13 +1068,13 @@ void GUI::Create_New_Project_Menu()
 		tempStr = "";
 		do
 		{
-			Material *temp = new Material();
+			Material* new_mat = new Material();
 			//std::getline(std::cin, )>> tempStr;
 			if (tempStr != "Q")
 			{
-				temp = fileHandler->GetMaterialType(temp, std::stoi(tempStr));
-				temp = fileHandler->LoadMaterial(temp, temp->ID);
-				new_film.Materials.push_back(temp);
+				new_mat = fileHandler->GetMaterialType(new_mat, std::stoi(tempStr));
+				new_mat = fileHandler->LoadMaterial(new_mat, new_mat->ID);
+				new_film.Materials.push_back(new_mat);
 			}
 		} while (tempStr != "Q");
 	}
@@ -1062,6 +1083,4 @@ void GUI::Create_New_Project_Menu()
 	browser->insert_tail(filmToPass);
 	system("clear");
 	MM_Templates();
-
-	Maintenance_Menu();
 }

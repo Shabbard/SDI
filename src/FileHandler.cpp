@@ -8,7 +8,7 @@ FileHandler::FileHandler(Browser *input)
 void FileHandler::LoadFilmProjects()
 {
 	std::ifstream infile;
-	infile.open(FilmData);
+    infile.open(FilmDataRead);
 	FilmProject* film = new FilmProject();
 	std::string str;
 
@@ -63,9 +63,9 @@ void FileHandler::LoadFilmProjects()
 		else if (LineData.at(0) == "Weekly Ticket Sales")
 		{
 			LineData.erase(LineData.begin());
-			for (auto i = LineData.begin(); i != LineData.end(); ++i)
+			for (auto it = LineData.begin(); it != LineData.end(); ++it)
 			{
-				film->WeeklyTicketSales.push_back(std::stoi(*i));
+				film->WeeklyTicketSales.push_back(std::stoi(*it));
 			}
 		}
 		else if (LineData.at(0) == "Crew_Members")
@@ -74,12 +74,12 @@ void FileHandler::LoadFilmProjects()
 
             for (auto it = LineData.begin(); it != LineData.end(); ++it)
 			{
-				Crew temp;
-				temp.ID = std::stoi(*it);
-				temp = LoadCrew(temp);
-				if (temp.ID != 0)
+				Crew new_crew;
+				new_crew.ID = std::stoi(*it);
+				new_crew = LoadCrew(new_crew);
+				if (new_crew.ID != 0)
 				{
-					film->CrewMembers.push_back(temp);
+					film->CrewMembers.push_back(new_crew);
 				}
 			}
 			std::sort(film->CrewMembers.begin(), film->CrewMembers.end());	
@@ -119,11 +119,11 @@ std::vector<Crew> FileHandler::LoadEntireCrew()
 	while (std::getline(infile, str))
 	{
 		std::vector<std::string> LineData = SeparateCommasIntoData(str);
-		Crew temp;
-		temp.ID = std::stoi(LineData.at(0));
-		temp.Name = LineData.at(1);
-		temp.Job = LineData.at(2);
-		crewVec.push_back(temp);
+		Crew new_crew;
+		new_crew.ID = std::stoi(LineData.at(0));
+		new_crew.Name = LineData.at(1);
+		new_crew.Job = LineData.at(2);
+		crewVec.push_back(new_crew);
 	}
 	std::sort(crewVec.begin(), crewVec.end());
 	return crewVec;
@@ -278,7 +278,7 @@ T FileHandler::LoadMaterial(T mat, int idToLoad)
 				LineData.erase(LineData.begin());
 				if (mat->Type == "ComboBox")
 				{
-					for (auto it = LineData.begin(); it != LineData.end(); ++i)
+					for (auto it = LineData.begin(); it != LineData.end(); ++it)
 					{
 						auto new_mat = new Material();
 						new_mat = GetMaterialType(new_mat, std::stoi(*it));
@@ -315,7 +315,7 @@ T FileHandler::LoadMaterial(T mat, int idToLoad)
 Film FileHandler::LoadFilm(int idToLoad)
 {
 	std::ifstream LoadFilm;
-	LoadFilm.open(FilmData);
+    LoadFilm.open(FilmDataRead);
 	Film film;
 	std::string str;
 	int currentID = 0;
@@ -364,20 +364,20 @@ Film FileHandler::LoadFilm(int idToLoad)
 	return film;
 }
 
-void FileHandler::UpdateFile()
+void FileHandler::UpdateProjectFile()
 {
 	browser->setHead();
-	std::ofstream newfile(FilmData);
+    std::ofstream newfile(FilmDataWrite);
 
 	while (browser->current->next != nullptr)
 	{
-		WriteToFile(newfile);
+		WriteProjectToFile(newfile);
 		browser->nextNode();
 	}
-	WriteToFile(newfile);
+	WriteProjectToFile(newfile);
 }
 
-void FileHandler::WriteToFile(std::ofstream &file)
+void FileHandler::WriteProjectToFile(std::ofstream &file)
 {
 	file << "ID," << browser->current->data->ID << std::endl;
 	switch (browser->current->data->Status)
@@ -400,45 +400,54 @@ void FileHandler::WriteToFile(std::ofstream &file)
 	}
 	file << "Title," << browser->current->data->Title << std::endl;
 	file << "Keywords,";
-	for (std::vector<std::string>::iterator it = browser->current->data->KeyWords.begin(); it != browser->current->data->KeyWords.end(); it++)
+	for (auto it = browser->current->data->KeyWords.begin(); it != browser->current->data->KeyWords.end(); ++it)
 	{
 		file << *it << ",";
 	}
 	file << std::endl;
 	file << "Summary," << browser->current->data->Summary << std::endl;
 	file << "Genre,";
-	for (std::vector<std::string>::iterator it = browser->current->data->Genre.begin(); it != browser->current->data->Genre.end(); it++)
+	for (auto it = browser->current->data->Genre.begin(); it != browser->current->data->Genre.end(); ++it)
 	{
 		file << *it << ",";
 	}
 	file << std::endl;
 	file << "Release_Date," << browser->current->data->ReleaseDate << std::endl;
 	file << "Filming_Loc,";
-	for (std::vector<std::string>::iterator it = browser->current->data->Filming_Locations.begin(); it != browser->current->data->Filming_Locations.end(); it++)
+	for (auto it = browser->current->data->Filming_Locations.begin(); it != browser->current->data->Filming_Locations.end(); ++it)
 	{
 		file << *it << ",";
 	}
 	file << std::endl;
 	file << "Runtime," << browser->current->data->Runtime << std::endl;
 	file << "Language,";
-	for (std::vector<std::string>::iterator it = browser->current->data->Languages.begin(); it != browser->current->data->Languages.end(); it++)
+	for (auto it = browser->current->data->Languages.begin(); it != browser->current->data->Languages.end(); ++it)
 	{
 		file << *it << ",";
 	}
 	file << std::endl;
 	file << "Weekly Ticket Sales,";
-	for (std::vector<double>::iterator it = browser->current->data->WeeklyTicketSales.begin(); it != browser->current->data->WeeklyTicketSales.end(); it++)
+	for (auto it = browser->current->data->WeeklyTicketSales.begin(); it != browser->current->data->WeeklyTicketSales.end(); ++it)
 	{
 		file << *it << ",";
 	}
 	file << std::endl;
 	file << "Crew_Members,";
-	for (std::vector<Crew>::iterator it = browser->current->data->CrewMembers.begin(); it != browser->current->data->CrewMembers.end(); it++)
+	for (auto it = browser->current->data->CrewMembers.begin(); it != browser->current->data->CrewMembers.end(); ++it)
 	{
-		Crew temp = *it;
-		file << temp.ID << ",";
+		file << (*it).ID << ",";
 	}
 	file << std::endl;
+}
+
+void FileHandler::WriteCrewToFile(std::vector<Crew> crewVec)
+{
+	std::ofstream writeToCrewFile(CrewData);
+
+	for (auto it = crewVec.begin(); it != crewVec.end(); ++it)
+	{
+		writeToCrewFile << (*it).ID << "," << (*it).Name << "," << (*it).Job << std::endl;
+	}
 }
 
 std::vector<std::string> FileHandler::SeparateCommasIntoData(std::string input)
@@ -449,9 +458,9 @@ std::vector<std::string> FileHandler::SeparateCommasIntoData(std::string input)
 
 	if (std::regex_search(input, data_match, data)) // if there are data values to enter
 	{
-		for (std::sregex_iterator i = std::sregex_iterator(input.begin(), input.end(), data); i != std::sregex_iterator(); ++i)
+		for (std::sregex_iterator it = std::sregex_iterator(input.begin(), input.end(), data); it != std::sregex_iterator(); ++it)
         {
-			data_match = *i;
+			data_match = *it;
 			LineData.push_back(data_match.str()); // loops through the values between commas (including whitespace) and adds them to a vector
 		}
 	}
@@ -507,31 +516,3 @@ void FileHandler::insertionSort(struct Node** head_ref)
 
 	*head_ref = sorted;
 }
-
-
-
-//void FileHandler::swap(int *xp, int *yp)
-//{
-//    int temp = *xp;
-//    *xp = *yp;
-//    *yp = temp;
-//}
-
-//void FileHandler::crewSort(std::vector<int> LineData)
-//{
-//    int min_idx;
-
-
-//    for (int i = 0; i < LineData.size()-1; i++)
-//    {
-
-//        min_idx = i;
-//        for (int j = i+1; j < LineData.size() - 1; j++)
-//          if (LineData.at(j) < LineData.at(min_idx))
-//            min_idx = j;
-
-
-//        swap(&LineData.at(min_idx), &LineData.at(i));
-//    }
-//}
-
