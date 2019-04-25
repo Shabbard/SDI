@@ -6,6 +6,7 @@ int main()
 	auto fileHandler = new FileHandler(browser);
 	fileHandler->LoadFilmProjects();
 	GUI cli(browser, fileHandler);
+	cli.LoadCrew();
     cli.Main_Menu();
 	delete fileHandler;
 	delete browser;	

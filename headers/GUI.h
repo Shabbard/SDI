@@ -40,6 +40,9 @@ public:
     void LoadMatData(Material* mat, std::string strvar);
     void DisplayCurrentFilmProject();
     void DisplayCrew();
+    void CreateNewCrew();
+    void SaveAllFiles();
+
 
     void project_edit();
     void crew_edit();
