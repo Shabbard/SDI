@@ -29,3 +29,4 @@ INCLUDEPATH += headers/
 TARGET = $$_PRO_FILE_PWD_/bin/main
 
 LIBS += -lboost_unit_test_framework
+LIBS += -lglib-2.0

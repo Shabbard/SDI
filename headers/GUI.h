@@ -21,6 +21,7 @@ private:
     Browser* browser;
     FileHandler* fileHandler;
     std::vector<Crew> crewVector;
+    std::vector<Material*> matVector;
 public:
     GUI(Browser* browser, FileHandler* file);
     ~GUI();
@@ -30,6 +31,7 @@ public:
     void Edit_Templates();
     void CNP_Templates();
     void LoadCrew();
+    void LoadMaterials();
 
     void Main_Menu();
     void Browser_Menu();
@@ -40,6 +42,7 @@ public:
     void LoadMatData(Material* mat, std::string strvar);
     void DisplayCurrentFilmProject();
     void DisplayCrew();
+    void DisplayAllCrew();
     void CreateNewCrew();
     Material* CreateNewMaterial();
     void SaveAllFiles();

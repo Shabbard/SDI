@@ -15,6 +15,11 @@ void GUI::LoadCrew()
 	crewVector = fileHandler->LoadEntireCrew();
 }
 
+void GUI::LoadMaterials()
+{
+	matVector = fileHandler->LoadAllMaterials();
+}
+
 void GUI::Main_Menu_Templates()
 {
 
@@ -203,7 +208,7 @@ void GUI::Maintenance_Menu()
 		if (user_input == "cnm")
 		{
 			SaveAllFiles();
-			browser->current->data->Materials.push_back(CreateNewMaterial());
+			matVector.push_back(CreateNewMaterial());
 			system("clear");
 			MM_Templates();
 		}
@@ -279,7 +284,6 @@ void GUI::project_edit()
 		}
 		else
 		{
-
 			if (edit_input == "status")
 			{
 				std::cout << "\nUnreleased 1, Now_Playing 2, Released 3";
@@ -290,7 +294,6 @@ void GUI::project_edit()
 
 				browser->current->data->Status = status;
 			}
-
 			if (edit_input == "title")
 			{
 				std::cout << "\nPlease Insert a project title : ";
@@ -299,7 +302,6 @@ void GUI::project_edit()
 
 				browser->current->data->Title = title;
 			}
-
 			if (edit_input == "keywords")
 			{
 				std::cout << "\n";
@@ -417,7 +419,6 @@ void GUI::project_edit()
 					browser->current->data->Genre.at(Genre) = replace;
 				}
 			}
-
 			if (edit_input == "release date")
 			{
 				std::cout << "\nPlease Insert a project release date : ";
@@ -426,7 +427,6 @@ void GUI::project_edit()
 
 				browser->current->data->ReleaseDate = title;
 			}
-
 			if (edit_input == "filming locations")
 			{
 				std::cout << "\n";
@@ -557,17 +557,32 @@ void GUI::project_edit()
 				browser->current->data->WeeklyTicketSales.push_back(WeeklyTicketSales);
 			}
 
-			if (edit_input == "crew member ID")
+			if (edit_input == "crew member id")
 			{
+				
+				DisplayCrew();
+				
+				
+				
+				std::cout << "\nPlease insert a crew member ID: ";
+				
+				
+				
+				// display crew members
+				// request ID
+				// Link ID and data
 			}
 
-			if (edit_input == "material ID" && browser->current->data->Status == 2)
+			if (edit_input == "material id" && browser->current->data->Status == 2)
 			{
 				std::cout << "\nPlease insert a material ID : ";
 				DisplayMaterials();
 				std::string strMaterialID;
 				std::getline(std::cin, strMaterialID);
+				//Material* new_mat
 				std::stoi(strMaterialID);
+
+				//browser->current->data->Materials.push_back();
 
 			}
 		}
@@ -674,7 +689,6 @@ void GUI::material_edit_management(int material_ID)
 	
 }
 
-
 // ID,3
 // Type,DVD
 // Title,Avatar - End Game.
@@ -689,7 +703,6 @@ void GUI::material_edit_management(int material_ID)
 // Bonus_Features,Directors Cut
 // Packaging,Plastic
 // Stored,4
-		
 
 void GUI::LoadMatData(Material* mat, std::string strvar)
 {
@@ -785,8 +798,6 @@ void GUI::CreateNewCrew()
 
 Material* GUI::CreateNewMaterial()
 {
-
-
 	Material* new_mat = new Material();
 
 	new_mat->ID = unique_id_check_material();
@@ -1135,6 +1146,18 @@ void GUI::DisplayCrew()
    	std::cout << "\n";
 }
 
+void GUI::DisplayAllCrew()
+{
+	std::cout << "___________________________________\n" << std::endl;
+   	std::cout << "            Crew Members             " << "\n"<< std::endl;
+   	std::cout << " ID             Name            Job\n" << std::endl;
+   	for(auto it = crewVector.begin(); it != crewVector.end(); ++it)
+	{   
+      	std::cout << "- " << (*it).ID<< "\t"<< (*it).Name << "\t\t" << (*it).Job << std::endl;
+	}
+   	std::cout << "\n";
+}
+
 void GUI::DisplayCurrentFilmProject()
 {
 	std::cout << "        Project Data " << std::endl;
@@ -1320,6 +1343,9 @@ void GUI::Create_New_Project_Menu()
 			}
 		}
 	}
+
+	DisplayAllCrew();
+
 	std::cout << "\nPlease insert Crew Memeber IDs" << std::endl;
 	std::cout << "Type in the value then press enter to add another value" << std::endl;
 	std::cout << "When you have finihed enter in - Q" << std::endl;
@@ -1335,24 +1361,24 @@ void GUI::Create_New_Project_Menu()
 			new_film.CrewMembers.push_back(new_crew);
 		}
 	} while (tempStr != "Q");
-	if (new_film.Status == 2)
-	{	
-		std::cout << "\nPlease insert the Material IDs" << std::endl;
-		std::cout << "Type in the value then press enter to add another value" << std::endl;
-		std::cout << "When you have finihed enter in - Q" << std::endl;
-		tempStr = "";
-		do
-		{
-			Material* new_mat = new Material();
-			//std::getline(std::cin, )>> tempStr;
-			if (tempStr != "Q")
-			{
-				new_mat = fileHandler->GetMaterialType(new_mat, std::stoi(tempStr));
-				new_mat = fileHandler->LoadMaterial(new_mat, new_mat->ID);
-				new_film.Materials.push_back(new_mat);
-			}
-		} while (tempStr != "Q");
-	}
+	// if (new_film.Status == 2)
+	// {	
+	// 	std::cout << "\nPlease insert the Material IDs" << std::endl;
+	// 	std::cout << "Type in the value then press enter to add another value" << std::endl;
+	// 	std::cout << "When you have finihed enter in - Q" << std::endl;
+	// 	tempStr = "";
+	// 	do
+	// 	{
+	// 		Material* new_mat = new Material();
+	// 		//std::getline(std::cin, )>> tempStr;
+	// 		if (tempStr != "Q")
+	// 		{
+	// 			new_mat = fileHandler->GetMaterialType(new_mat, std::stoi(tempStr));
+	// 			new_mat = fileHandler->LoadMaterial(new_mat, new_mat->ID);
+	// 			new_film.Materials.push_back(new_mat);
+	// 		}
+	// 	} while (tempStr != "Q");
+	// }
 	
 	FilmProject *filmToPass = &new_film;
 	browser->insert_tail(filmToPass);

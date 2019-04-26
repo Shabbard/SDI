@@ -55,3 +55,46 @@ int Search::IntVectorSearch(std::vector<int> Vector, int value)
     }
     return position;
 }
+
+Node* Search::SearchProjectTitle(Browser* browser, std::string search)
+{
+    while (browser->current->next != nullptr)
+	{
+        if (browser->current->data->Title == search)
+        {
+            return browser->current;
+        }
+		browser->nextNode();
+	}
+    if (browser->current->data->Title == search)
+    {
+        return browser->current;
+    }
+    return nullptr;
+}
+
+std::vector<std::string> Search::SearchActor(Browser* browser, std::string search)
+{
+    std::vector<std::string> FilmTitles;
+
+    auto CheckIfFilmContainsActor = [browser, &FilmTitles, search]()
+    {
+        std::vector<std::string> CurrentFilmCrewNames;
+        for (auto it = browser->current->data->CrewMembers.begin(); it != browser->current->data->CrewMembers.end(); ++it)
+        {
+            CurrentFilmCrewNames.push_back((*it).Name);
+        }
+        if(std::find(CurrentFilmCrewNames.begin(), CurrentFilmCrewNames.end(), search) != CurrentFilmCrewNames.end())
+        {
+            FilmTitles.push_back(browser->current->data->Title);
+        }
+        browser->nextNode();
+    };
+
+    while (browser->current->next != nullptr)
+	{
+        CheckIfFilmContainsActor();
+	}
+    CheckIfFilmContainsActor();
+    return FilmTitles;
+}

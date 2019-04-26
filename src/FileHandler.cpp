@@ -129,6 +129,28 @@ std::vector<Crew> FileHandler::LoadEntireCrew()
 	return crewVec;
 }
 
+std::vector<Material*> FileHandler::LoadAllMaterials()
+{
+	std::ifstream materialFile;
+	materialFile.open(MaterialData);
+	std::string str;
+	std::vector<Material*> matVec;
+
+	while (std::getline(materialFile, str))
+	{
+		Material* new_mat;
+		std::vector<std::string> LineData = SeparateCommasIntoData(str);
+		if (LineData.at(0) == "ID")
+		{
+			new_mat->ID = std::stoi(LineData.at(1));
+		}
+		new_mat = GetMaterialType(new_mat, new_mat->ID);
+		LoadMaterial(new_mat, new_mat->ID);
+		matVec.push_back(new_mat);
+	}
+	return matVec;
+}
+
 Crew FileHandler::LoadCrew(Crew CrewMember)
 {
 	std::ifstream infile;
@@ -158,7 +180,7 @@ template <typename T>
 T FileHandler::GetMaterialType(T mat, int idToFind)
 {
 	std::ifstream MatFile;
-	MatFile.open("../data/Material_Data.txt");
+	MatFile.open(MaterialData);
 	std::string readline;
 	int currentID = 0;
 
