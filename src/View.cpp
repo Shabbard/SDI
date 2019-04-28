@@ -261,8 +261,8 @@ void View::LoadMatData(Material* mat, std::string strvar)
 	}
 }
 
-void View::interror()
+void View::value_error()
 {
 	std::cout << "\n                     ERROR             " << std::endl;
-	std::cout << "\n         Please enter correct value    " << std::endl;
+	std::cout << "\n         Please enter correct value    \n" << std::endl;
 }

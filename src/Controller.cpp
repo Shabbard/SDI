@@ -186,8 +186,7 @@ void Controller::Maintenance_Menu()
 
 	do
 	{
-		
-
+	
 		inputHandler.Basic_User_Input();
 
 		view.MM_Templates();

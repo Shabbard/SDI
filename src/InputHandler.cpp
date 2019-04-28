@@ -43,14 +43,9 @@ std::string InputHandler::Basic_User_Input(std::string datatype)
         }
         else if(!string_int_check(user_input).second && datatype == "number")
         {
-            return "interror";
+            return "value_error";
         }
         
-
-		
-
-
-
         return user_input;
     } while(true);
 
