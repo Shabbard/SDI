@@ -9,7 +9,7 @@ Languages,English,French,Spanish
 Retail_Price,25
 Subtitles,English,French,Spanish
 Frame_Aspect,16:9
-Packaging,Cardboard
+Packaging,cardboard
 Stored,2,5
 ID,2
 Type,doublesideddvd
@@ -22,7 +22,7 @@ Languages,English,French,Spanish
 Retail_Price,30
 Subtitles,English,French,Spanish
 Frame_Aspect,16:9
-Packaging,Plastic
+Packaging,plastic
 Stored,3,4
 ID,3
 Type,dvd
@@ -36,7 +36,7 @@ Retail_Price,30
 Subtitles,English,French,Spanish
 Frame_Aspect,16:9
 Bonus_Features,Directors Cut
-Packaging,Plastic
+Packaging,plastic
 Stored,4
 ID,4
 Type,dvd
@@ -50,7 +50,7 @@ Retail_Price,30
 Subtitles,English,French,Spanish
 Frame_Aspect,16:9
 Bonus_Features,Directors Cut
-Packaging,Plastic
+Packaging,plastic
 Stored,3
 ID,5
 Type,bluray
@@ -64,5 +64,5 @@ Retail_Price,30
 Subtitles,English,French,Spanish
 Frame_Aspect,16:9
 Bonus_Features,Directors Cut
-Packaging,Plastic
+Packaging,plastic
 Stored,2

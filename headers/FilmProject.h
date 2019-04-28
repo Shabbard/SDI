@@ -10,7 +10,7 @@ class FilmProject : public Film
         ~FilmProject();
         std::vector<double> WeeklyTicketSales;
         std::vector<Material*> Materials;
-        std::vector<Crew> CrewMembers;
+        std::vector<Crew*> CrewMembers;
         enum Status { Unreleased, Now_Playing, Released };
         int Status = 0;
         std::vector<std::string> Filming_Locations, KeyWords;

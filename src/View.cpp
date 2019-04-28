@@ -10,14 +10,12 @@ View::~View()
 
 void View::Main_Menu_Templates()
 {
-	
 	system("clear");
 	std::cout << "\n           TrekStar Production Log" << std::endl;
 	std::cout << "______________________________________________" << std::endl;
 	std::cout << "\n            Please Enter in a Value" << std::endl;
 	std::cout << "\nBrowser Mode                        Enter BM" << std::endl;
 	std::cout << "Maintenance Mode                    Enter MM\n" << std::endl;
-	std::cout << "Save                                Enter Save\n" << std::endl;
 	std::cout << "Exit                                Enter Exit\n" << std::endl;
 	std::cout << "______________________________________________\n" << std::endl;
 }
@@ -41,7 +39,7 @@ void View::MM_Templates()
 	std::cout << "\n     Welcome to Maintenace Mode" << std::endl;
 	std::cout << "______________________________________________" << std::endl;
 	std::cout << "\nPlease Enter in a Value" << std::endl;
-	std::cout << "\nNext                               Enter Next" << std::endl;
+	std::cout << "\nNext                                 Enter Next" << std::endl;
 	std::cout << "Back                                 Enter Back" << std::endl;
 	std::cout << "View Crew                            Enter Crew" << std::endl;
 	std::cout << "View Material Info                   Enter MI\n" << std::endl;
@@ -50,7 +48,7 @@ void View::MM_Templates()
 	std::cout << "Create New Material                  Enter CNM" << std::endl;
 	std::cout << "Edit                                 Enter EDIT" << std::endl;
 	std::cout << "Delete Project                       Enter DP\n" << std::endl;
-	std::cout << "Reports Mode                         Enter R\n" << std::endl;
+	std::cout << "Reports Mode                         Enter reports\n" << std::endl;
 	std::cout << "Return to Menu                       Enter RTM\n" << std::endl;
 	std::cout << "______________________________________________\n" << std::endl;
 }
@@ -75,21 +73,25 @@ void View::Edit_Templates()
 	std::cout << "Step 1: Enter in the database you want to edit\n" << std::endl;
 	std::cout << "Step 2: Enter in the datatype you want ot edit\n " << std::endl;
 	std::cout << "Step 3: Make your changes\n " << std::endl;
+	std::cout << "Return to menu	 						 RTM\n" << std::endl;
 	std::cout << "______________________________________________\n" << std::endl;
+	std::cout << "Please enter the section you would like to edit " << std::endl;
+		std::cout << "          (project,crew or material)            \n"
+				  << std::endl;
+		std::cout << "- ";
 }
 
-void View::DisplayCrew(std::vector<Crew> crewVec)
+void View::DisplayCrew(std::vector<Crew*> crewVec)
 {
 	std::cout << "___________________________________\n" << std::endl;
    	std::cout << "            Crew Members             " << "\n"<< std::endl;
    	std::cout << " ID             Name            Job\n" << std::endl;
    	for(auto it = crewVec.begin(); it != crewVec.end(); ++it)
 	{   
-      	std::cout << "- " << (*it).ID<< "\t"<< (*it).Name << "\t\t" << (*it).Job << std::endl;
+      	std::cout << "- " << (*it)->ID<< "\t"<< (*it)->Name << "\t\t\t" << (*it)->Job << std::endl;
 	}
    	std::cout << "\n";
 }
-
 
 void View::DisplayCurrentFilmProject(FilmProject* film)
 {
@@ -151,7 +153,7 @@ void View::DisplayCurrentFilmProject(FilmProject* film)
    	std::cout << "Crew Member ID's" << "\t";
 	for(auto it = film->CrewMembers.begin(); it != film->CrewMembers.end(); ++it)
 	{
-		std::cout << (*it).ID << ",";
+		std::cout << (*it)->ID << ",";
 	}
    	std::cout << std::endl;
 	if (film->Status == 2)
@@ -265,4 +267,212 @@ void View::value_error()
 {
 	std::cout << "\n                     ERROR             " << std::endl;
 	std::cout << "\n         Please enter correct value    \n" << std::endl;
+}
+
+void View::DisplayCreateNewCrew()
+{
+	system("clear");
+	std::cout << "________________________________________________\n\n" << std::endl;
+	std::cout << "           Create New Crew Member                 " << "\n" << std::endl;
+
+}
+
+void View::DisplayCreateNewMaterial()
+{
+	system("clear");
+	std::cout << "________________________________________________\n\n" << std::endl;
+	std::cout << "              Create New Material                 " << "\n" << std::endl;
+	std::cout << "\nPlease insert the type of Material:";
+	std::cout << "\nTypes are: VHS, DVD(SingleSided), BluRay, ComboBox, DoubleSidedDVD\n";
+}
+void View::ShowInsertCrewName()
+{
+	std::cout << "\nPlease insert the Crew Members Name: ";
+}
+void View::ShowInsertCrewJob()
+{
+	std::cout << "\nPlease insert the Crew Members Job: ";
+}
+void View::ShowStatusMeaning()
+{
+	std::cout << "\nUnreleased 0, Now_Playing 1, Released 2\n";
+}
+void View::ShowInsertStatus()
+{
+	std::cout << "\nPlease insert a Status Number: ";
+}
+void View::ShowInsertTitle()
+{
+	std::cout << "\nPlease insert a Title: ";
+}
+void View::ShowInsertKeywords()
+{
+	std::cout << "\nPlease insert the Keyword(s): " << std::endl;
+}
+void View::ShowInsertSummary()
+{
+	std::cout << "\nPlease insert a Summary: ";
+}
+void View::ShowInsertGenre()
+{
+	std::cout << "\nPlease insert the Genre(s): " << std::endl;
+}
+void View::ShowInsertReleaseDate()
+{
+	std::cout << "\nPlease insert a Release Date: ";
+}
+void View::ShowInsertFilmingLocations()
+{
+	std::cout << "\nPlease insert the Filming Location(s): " << std::endl;
+}
+void View::ShowInsertRuntime()
+{
+	std::cout << "\nPlease insert the Runtime: ";
+}
+void View::ShowInsertLanguages()
+{
+	std::cout << "\nPlease insert the Language(s): " << std::endl;
+}
+void View::ShowInsertWeeklyTicketSale()
+{
+	std::cout << "\nPlease insert the Weekly Ticket Sale: ";
+}
+void View::ShowInsertDataType()
+{
+	std::cout << "Please enter in the datatype you want to edit\n" << std::endl;
+}
+void View::ShowInsertFrameAspect()
+{
+	std::cout << "Please entert the frame aspect: ";
+}
+void View::ShowInsertDescription()
+{
+	std::cout << "\nPlease insert the Description:\n"<< std::endl;
+}
+void View::ShowInsertVideoFormat()
+{
+	std::cout << "\nPlease insert the Video Format:\n"<< std::endl; 
+}
+void View::ShowInsertAudioFormat()
+{
+	std::cout << "\nPlease insert the Audio Format:\n"<< std::endl;
+}
+void View::ShowInsertRetailPrice()
+{
+	std::cout << "\nPlease insert the Retail Price:\n"<< std::endl;
+}
+void View::ShowInsertSubtitles()
+{
+	std::cout << "\nPlease insert the Subtitle Language(s):\n"<< std::endl;
+}
+void View::ShowInsertNumMaterials()
+{
+	std::cout << "\nEnter the number of materials stored in the combo box\n"<< std::endl;
+}
+void View::ShowInsertFilmIDs()
+{
+	std::cout << "\nEnter the ID's of the films to store on this material\n"<< std::endl;
+}
+void View::ShowVectorEdit(std::vector<std::string> strVec)
+{
+	int counter= 0;
+	std::cout << "\n";
+	for (auto it = strVec.begin(); it != strVec.end(); ++it)
+	{
+		std::cout << counter << " - " << *it << "\n";
+		counter++;
+	}
+	std::cout << "\n" << counter << " - " << "Enter in this number to add a new value " << std::endl;
+	std::cout << "000" << " - " << "Enter in this number to delete a value " << std::endl;
+}
+void View::ShowInsertEditGenre()
+{
+	std::cout << "\nPlease Enter in a Genre number you want to edit\n";
+}
+void View::ShowInsertPackaging()
+{
+	std::cout << "\nPlease Enter in a the type of packaging, either plastic or cardboard\n";
+}
+void View::ShowInsertEditKeywords()
+{
+	std::cout << "\nPlease Enter in a keywords number you want to edit\n";
+}
+void View::ShowDeleteGenre()
+{
+	std::cout << "\nPlease enter in the Genre number you want to delete\n";
+}
+void View::ShowDeleteKeywords()
+{
+	std::cout << "\nPlease enter in the keyword number you want to delete\n";
+}
+void View::ShowDeleteFilmingLocations()
+{
+	std::cout << "\nPlease enter in the filming location number you want to delete\n";
+}
+void View::ShowDeleteLanguages()
+{
+	std::cout << "\nPlease enter in the language number you want to delete\n";
+}
+void View::ShowDeleteSubtitles()
+{
+	std::cout << "\nPlease enter in the subtitle number you want to delete\n";
+}
+void View::ShowEditDeleteCrew()
+{
+	std::cout << "\nPlease choose edit or delete to manage the crew members\n";
+}
+void View::ShowRequestCrewID()
+{
+	std::cout << "\nPlease choose the ID of the crew member you wish to edit\n";
+}
+void View::ShowRequestMaterialID()
+{
+	std::cout << "\nPlease choose the ID of the material you wish to edit\n";
+}
+void View::ShowDeleteCrew()
+{
+	std::cout << "\nPlease enter in the ID of the crew member you want to delete\n";
+}
+void View::ShowDeleteMaterials()
+{
+	std::cout << "\nPlease enter in the ID of the material you want to delete\n";
+}
+void View::ShowSearchRequest()
+{	
+	std::cout << "\nWould you like to search for projects by Actor Name : Enter Actor" << std::endl;
+	std::cout << "Would you like to search for a project Title        : Enter Title\n";
+	std::cout << "\nReturn to Browser Menu                              : Enter rtm\n";
+}
+void View::ShowEnterProjectTitle()
+{
+	std::cout << "\nPlease enter a Project Title - ";
+}
+void View::ShowEnterActorName()
+{
+	std::cout << "\nPlease enter an actors name  - ";
+}
+void View::DisplayFilmTitles(std::vector<std::string> films, std::string actorName)
+{
+	std::cout << actorName <<" appears in the following films: \n";
+	for (auto it = films.begin(); it != films.end(); ++it)
+	{
+		std::cout << (*it) << std::endl;
+	}
+}
+void View::ReportsOptions()
+{
+	std::cout << "\n    Please select a report option       \n";
+	std::cout << "   1. New Projects and Materials Made today   " << std::endl;
+	std::cout << "   2. Projects with a certain Box Office Earning"<< std::endl;
+	std::cout << "   3. Return to Menu        \n"<< std::endl;
+}
+
+void View::New_data_report()
+{
+	std::cout <<"\n Time          Change Type";
+}
+
+void View::Total_Earnings_report(int figure)
+{
+	std::cout <<"\n Project Title";
 }

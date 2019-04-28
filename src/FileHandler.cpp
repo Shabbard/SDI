@@ -1,8 +1,10 @@
 #include "FileHandler.h"
 
-FileHandler::FileHandler(Browser *input)
+FileHandler::FileHandler(Browser *browserinput, std::vector<Crew*>* crewinput, std::vector<Material*>* matinput)
 {
-	browser = input;
+	browser = browserinput;
+	crewVector = crewinput;
+	matVector = matinput;
 }
 
 void FileHandler::LoadFilmProjects()
@@ -71,15 +73,11 @@ void FileHandler::LoadFilmProjects()
 		else if (LineData.at(0) == "Crew_Members")
 		{
 			LineData.erase(LineData.begin());
-
             for (auto it = LineData.begin(); it != LineData.end(); ++it)
 			{
-				Crew new_crew;
-				new_crew.ID = std::stoi(*it);
-				new_crew = LoadCrew(new_crew);
-				if (new_crew.ID != 0)
+				if (LoadCrew(std::stoi(*it)) != nullptr)
 				{
-					film->CrewMembers.push_back(new_crew);
+					film->CrewMembers.push_back(LoadCrew(std::stoi(*it)));
 				}
 			}
 			std::sort(film->CrewMembers.begin(), film->CrewMembers.end());	
@@ -87,14 +85,12 @@ void FileHandler::LoadFilmProjects()
 		else if (LineData.at(0) == "Material_ID")
 		{
 			LineData.erase(LineData.begin());
-			auto mat = new Material();
-
 			for (auto it = LineData.begin(); it != LineData.end(); ++it)
 			{
-                mat = GetMaterialType(mat, std::stoi(*it));
-				LoadMaterial(mat, std::stoi(*it));
-				film->Materials.push_back(mat);
-				mat = nullptr;
+				if(LoadProjectMaterial(std::stoi(*it)) != nullptr)
+				{
+					film->Materials.push_back(LoadProjectMaterial(std::stoi(*it)));
+				}
 			}
 			browser->insert_tail(film);
             film = nullptr;
@@ -103,77 +99,57 @@ void FileHandler::LoadFilmProjects()
 		LineData.clear();
 	}
 
-    insertionSort(&browser->current);
+    browser->insertionSort();
 
 	delete film;
 	film = nullptr;
 }
 
-std::vector<Crew> FileHandler::LoadEntireCrew()
+void FileHandler::LoadEntireCrew()
 {
 	std::ifstream infile;
 	infile.open(CrewData);
 	std::string str;
-	std::vector<Crew> crewVec;
 
 	while (std::getline(infile, str))
 	{
 		std::vector<std::string> LineData = SeparateCommasIntoData(str);
-		Crew new_crew;
-		new_crew.ID = std::stoi(LineData.at(0));
-		new_crew.Name = LineData.at(1);
-		new_crew.Job = LineData.at(2);
-		crewVec.push_back(new_crew);
+		Crew* new_crew = new Crew();
+		new_crew->ID = std::stoi(LineData.at(0));
+		new_crew->Name = LineData.at(1);
+		new_crew->Job = LineData.at(2);
+		crewVector->push_back(new_crew);
 	}
-	std::sort(crewVec.begin(), crewVec.end());
-	return crewVec;
+    std::sort(crewVector->begin(), crewVector->end());
 }
 
-std::vector<Material*> FileHandler::LoadAllMaterials()
+void FileHandler::LoadAllMaterials()
 {
 	std::ifstream materialFile;
 	materialFile.open(MaterialData);
 	std::string str;
-	std::vector<Material*> matVec;
 
 	while (std::getline(materialFile, str))
 	{
-        Material* new_mat = new Material();
 		std::vector<std::string> LineData = SeparateCommasIntoData(str);
 		if (LineData.at(0) == "ID")
 		{
-			new_mat->ID = std::stoi(LineData.at(1));
+			if (LoadProjectMaterial(std::stoi(LineData.at(1))) == nullptr)
+			{
+				Material* new_mat = new Material();
+				new_mat->ID = std::stoi(LineData.at(1));
+				new_mat = GetMaterialType(new_mat, new_mat->ID);
+				LoadMaterial(new_mat, new_mat->ID);
+				matVector->push_back(new_mat);
+			}
 		}
-		new_mat = GetMaterialType(new_mat, new_mat->ID);
-		LoadMaterial(new_mat, new_mat->ID);
-		matVec.push_back(new_mat);
 	}
-	return matVec;
 }
 
-Crew FileHandler::LoadCrew(Crew CrewMember)
+Crew* FileHandler::LoadCrew(int idToFind)
 {
-	std::ifstream infile;
-    infile.open(CrewData);
-	std::string str;
-
-	while (std::getline(infile, str))
-	{
-		std::vector<std::string> LineData = SeparateCommasIntoData(str);
-		if (std::stoi(LineData.at(0)) == CrewMember.ID)
-		{
-			CrewMember.Name = LineData.at(1);
-			CrewMember.Job = LineData.at(2);
-            return CrewMember;
-		}
-		else if (std::stoi(LineData.at(0)) > CrewMember.ID)
-		{
-            CrewMember.ID = 0;
-			return CrewMember;
-		}
-		LineData.clear();
-	}
-	return CrewMember;
+	for (auto it = crewVector->begin(); it != crewVector->end(); ++it) { if ((*it)->ID == idToFind) { return (*it); } }	
+	return nullptr;
 }
 
 template <typename T>
@@ -304,11 +280,19 @@ T FileHandler::LoadMaterial(T mat, int idToLoad)
 				{
 					for (auto it = LineData.begin(); it != LineData.end(); ++it)
 					{
-						auto new_mat = new Material();
-						new_mat = GetMaterialType(new_mat, std::stoi(*it));
-						LoadMaterial(new_mat, std::stoi(*it));
-						mat->SetDVDVector(new_mat);
-						new_mat = nullptr;
+						if (LoadProjectMaterial(std::stoi(*it)) == nullptr)
+						{
+							auto new_mat = new Material();
+							new_mat = GetMaterialType(new_mat, std::stoi(*it));
+							LoadMaterial(new_mat, std::stoi(*it));
+							mat->SetDVDVector(new_mat);
+							matVector->push_back(new_mat);
+							new_mat = nullptr;
+						}
+						else
+						{
+							mat->SetDVDVector(LoadProjectMaterial(std::stoi(*it)));
+						}
 					}
 				}
 				else if (mat->Type == "doublesideddvd")
@@ -332,8 +316,13 @@ T FileHandler::LoadMaterial(T mat, int idToLoad)
 		}
 		LineData.clear();
 	}
-
 	return mat;
+}
+
+Material* FileHandler::LoadProjectMaterial(int idToFind)
+{
+	for (auto it = matVector->begin(); it != matVector->end(); ++it) {if ((*it)->ID == idToFind) {return (*it);}}
+	return nullptr;
 }
 
 Film FileHandler::LoadFilm(int idToLoad)
@@ -459,7 +448,7 @@ void FileHandler::WriteProjectToFile(std::ofstream &file)
 	file << "Crew_Members,";
 	for (auto it = browser->current->data->CrewMembers.begin(); it != browser->current->data->CrewMembers.end(); ++it)
 	{
-		file << (*it).ID << ",";
+		file << (*it)->ID << ",";
 	}
 	file << std::endl;
 	file << "Material_ID,";
@@ -470,13 +459,13 @@ void FileHandler::WriteProjectToFile(std::ofstream &file)
 	file << std::endl;
 }
 
-void FileHandler::WriteCrewToFile(std::vector<Crew> crewVec)
+void FileHandler::WriteCrewToFile()
 {
 	std::ofstream writeToCrewFile(CrewData);
 
-	for (auto it = crewVec.begin(); it != crewVec.end(); ++it)
+	for (auto it = crewVector->begin(); it != crewVector->end(); ++it)
 	{
-		writeToCrewFile << (*it).ID << "," << (*it).Name << "," << (*it).Job << std::endl;
+		writeToCrewFile << (*it)->ID << "," << (*it)->Name << "," << (*it)->Job << std::endl;
 	}
 }
 
@@ -497,49 +486,22 @@ std::vector<std::string> FileHandler::SeparateCommasIntoData(std::string input)
 	return LineData;
 }
 
-void FileHandler::sortedInsert(struct Node** head_ref, struct Node* newNode)
+void FileHandler::Tracking(int change)
 {
-	struct Node* current;
+	time_t now = time(0);
+	char* dt = ctime(&now);
 
-	if (*head_ref == NULL)
-		*head_ref = newNode;
+	std::ofstream logFile;
+	logFile.open("../data/logFile.txt", std::ios_base::app);
 
-	else if ((*head_ref)->data->ID >= newNode->data->ID) {
-		newNode->next = *head_ref;
-		newNode->next->back = newNode;
-        *head_ref = newNode;
+	if(change == 1)
+	{
+		logFile << "\n" << dt << " Project Created" << std::endl;
+		logFile.close();
 	}
-
-	else {
-
-		current = *head_ref;
-        while (current->next != NULL && current->next->data->ID < newNode->data->ID)
-
-		current = current->next;
-		newNode->next = current->next;
-
-		if (current->next != NULL)
-			newNode->next->back = newNode;
-
-		current->next = newNode;
-		newNode->back = current;
+	if(change == 2)
+	{
+		logFile << "\n" << dt << " Material Created" << std::endl;
+		logFile.close();
 	}
-}
-
-
-void FileHandler::insertionSort(struct Node** head_ref)
-{
-	struct Node* sorted = NULL;
-	struct Node* current = *head_ref;
-
-	while (current != NULL) {
-
-		struct Node* next = current->next;
-        current->back = current->next = NULL;
-
-		sortedInsert(&sorted, current);
-		current = next;
-	}
-
-	*head_ref = sorted;
 }

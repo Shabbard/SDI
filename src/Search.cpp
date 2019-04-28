@@ -82,7 +82,7 @@ std::vector<std::string> Search::SearchActor(Browser* browser, std::string searc
         std::vector<std::string> CurrentFilmCrewNames;
         for (auto it = browser->current->data->CrewMembers.begin(); it != browser->current->data->CrewMembers.end(); ++it)
         {
-            CurrentFilmCrewNames.push_back((*it).Name);
+            CurrentFilmCrewNames.push_back((*it)->Name);
         }
         if(std::find(CurrentFilmCrewNames.begin(), CurrentFilmCrewNames.end(), search) != CurrentFilmCrewNames.end())
         {

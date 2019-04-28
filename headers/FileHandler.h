@@ -13,6 +13,8 @@ class FileHandler
 {
 private:
     Browser* browser;
+    std::vector<Crew*>* crewVector;
+    std::vector<Material*>* matVector;
     std::string dataPrefix = "../data/";
     std::string FilmDataRead = dataPrefix + "Film_Info_backup.txt";
     std::string FilmDataWrite = dataPrefix + "Film_Info.txt";
@@ -20,23 +22,23 @@ private:
     std::string CrewData = dataPrefix + "Crew_Member_Info.txt";
 
 public:
-    FileHandler(Browser* browser);
+    FileHandler(Browser*, std::vector<Crew*>*, std::vector<Material*>*);
     FileHandler() {};
     void LoadFilmProjects();
     void UpdateProjectFile();
     void WriteProjectToFile(std::ofstream& file);
-    void WriteCrewToFile(std::vector<Crew> crewVec);
-    Crew LoadCrew(Crew CrewMember);
-    std::vector<Crew> LoadEntireCrew();
+    void WriteCrewToFile();
+    Crew* LoadCrew(int);
+    void LoadEntireCrew();
     template<typename T>
     T GetMaterialType(T mat, int currentID);
     template<typename T>
     T LoadMaterial(T mat, int currentID);
+    Material* LoadProjectMaterial(int);
     Film LoadFilm(int currentID);
     std::vector<std::string> SeparateCommasIntoData(std::string input);
-    std::vector<Material*> LoadAllMaterials();
-    void insertionSort(struct Node** head_ref);
-    void sortedInsert(struct Node** head_ref, struct Node* newNode);
+    void LoadAllMaterials();
+    void Tracking(int change);
 };
 
 #endif

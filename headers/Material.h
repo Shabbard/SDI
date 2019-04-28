@@ -84,22 +84,8 @@ class DoubleSidedDVD : public Material
 
 class BluRay : public DVD
 {
-  private:
-    Film film;
-    std::vector<std::string> Languages, Subtitles, BonusFeatures;
-
   public:
     BluRay();
-    void SetFilm(Film in) override { film = in; }
-    void SetLanguages(std::vector<std::string> input) override { Languages = input; }
-    void SetSubtitles(std::vector<std::string> input) override { Subtitles = input; }
-    void SetBonusFeatures(std::vector<std::string> input) override { BonusFeatures = input; }
-    std::string GetLanguage(size_t index) override { return Languages.at(index); }
-    std::string GetSubtitle(size_t index) override { return Subtitles.at(index); }
-    std::string GetBonusFeature(size_t index) override { return BonusFeatures.at(index); }
-    size_t GetNumLanguages() override { return Languages.size(); };
-    size_t GetNumSubtitles() override { return Subtitles.size(); };
-    size_t GetNumBonusFeatures() override { return BonusFeatures.size(); };
 };
 
 class ComboBox : public Material

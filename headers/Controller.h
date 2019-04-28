@@ -18,8 +18,8 @@ private:
     View view;
     InputHandler inputHandler;
 
-    std::vector<Crew> crewVector;
-    std::vector<Material*> matVector;
+    std::vector<Crew*>* crewVector = new std::vector<Crew*>();
+    std::vector<Material*>* matVector = new std::vector<Material*>();
 public:
     Controller();
     ~Controller();
@@ -33,12 +33,20 @@ public:
     void Edit_Menu();
     void Create_New_Project_Menu();
 
+    void Tracking(int change, std::string);
+    void Reports();
+
+    void searchEngine();
+    std::vector<std::string> SearchActor(Browser* browser, std::string search);
+    Node* SearchProjectTitle(Browser* browser, std::string search);
+
     bool BasicUserInput(std::string, std::string);
 
     void DisplayMaterials(std::vector<Material*> matVec);
  
     void CreateNewCrew();
     Material* CreateNewMaterial();
+
     void SaveAllFiles();
 
     void project_edit();

@@ -1,4 +1,5 @@
 #include "Controller.h"
+#include <fstream>
 
 Controller::Controller()
 {
@@ -9,32 +10,42 @@ Controller::Controller()
 Controller::~Controller()
 {
     delete browser;
+	for (auto it = crewVector->begin(); it != crewVector->end(); ++it)
+	{
+		delete (*it);
+	}
+	delete crewVector;
+	for (auto it = matVector->begin(); it != matVector->end(); ++it)
+	{
+		delete (*it);
+	}
+	delete matVector;
 }
 
 void Controller::Init()
 {
-	fileHandler = FileHandler(browser);
-    fileHandler.LoadFilmProjects();
+	fileHandler = FileHandler(browser, crewVector, matVector);
 	LoadCrew();
-	//LoadMaterials();
+	LoadMaterials();
+    fileHandler.LoadFilmProjects();
 	Main_Menu();
 }
 
 void Controller::LoadCrew()
 {
-	crewVector = fileHandler.LoadEntireCrew();
+	fileHandler.LoadEntireCrew();
 }
 
 void Controller::LoadMaterials()
 
 {
-	matVector = fileHandler.LoadAllMaterials();
+	fileHandler.LoadAllMaterials();
 }
 
 void Controller::SaveAllFiles()
 {
 	fileHandler.UpdateProjectFile();
-	fileHandler.WriteCrewToFile(crewVector);
+	fileHandler.WriteCrewToFile();
 	browser->setHead();
 }
 
@@ -94,11 +105,11 @@ int Controller::unique_id_check_crew()
 {
 	int new_id = 0;
 
-	for (auto it = crewVector.begin(); it != crewVector.end(); ++it)
+	for (auto it = crewVector->begin(); it != crewVector->end(); ++it)
 	{
-		if ((*it).ID > new_id)
+		if ((*it)->ID > new_id)
 		{
-			new_id = (*it).ID;
+			new_id = (*it)->ID;
 		}
 	}
 	return ++new_id;
@@ -130,7 +141,7 @@ void Controller::Main_Menu()
 	while(running)
 	{
 		view.Main_Menu_Templates();
-		std::string input = inputHandler.Basic_User_Input("string");
+		std::string input = inputHandler.Basic_User_Input("casestring");
 
 		if (input == "bm")
 		{
@@ -157,10 +168,15 @@ void Controller::Browser_Menu()
 	bool running = true;
 	while(running)
 	{
-        std::string input = inputHandler.Basic_User_Input("string");
+        std::string input = inputHandler.Basic_User_Input("casestring");
 		view.BM_Templates();
 		view.DisplayCurrentFilmProject(browser->current->data);
         running = BasicUserInput(input, "bm");
+		
+		if (input == "search")
+		{
+			searchEngine();	
+		}
 	}
 }
 
@@ -215,15 +231,17 @@ void Controller::Maintenance_Menu()
 	bool running = true;
 	while(running)
 	{
-		std::string input = inputHandler.Basic_User_Input("string");
+		std::string input = inputHandler.Basic_User_Input("casestring");
 		running = BasicUserInput(input, "mm");
-		if (input == "edit")
+        if (input == "edit")
 		{
-			//Edit_Menu();
+			Edit_Menu();
 		}
 		if (input == "cnp")
 		{
-			//Create_New_Project_Menu();
+			Create_New_Project_Menu();
+			view.MM_Templates();
+			view.DisplayCurrentFilmProject(browser->current->data);
 		}
 		if (input == "dp")
 		{
@@ -232,877 +250,729 @@ void Controller::Maintenance_Menu()
 		}
 		if (input == "cnc")
 		{
-			//CreateNewCrew();
+			CreateNewCrew();
+			view.MM_Templates();
+			view.DisplayCurrentFilmProject(browser->current->data);
 		}
 		if (input == "cnm")
 		{
 			//SaveAllFiles();
-			//matVector.push_back(CreateNewMaterial());
+			matVector->push_back(CreateNewMaterial());
+			view.MM_Templates();
+			view.DisplayCurrentFilmProject(browser->current->data);
+		}
+		if (input == "reports")
+		{
+			Reports();
 		}
 	}
 }
 
-// void Controller::Edit_Menu()
-// {
-
-// 	std::string user_input = "";
-
-// 	do
-// 	{
-// 		system("clear");
-// 		view.Edit_Templates();
-
-// 		std::cout << "Please enter the section you would like to edit " << std::endl;
-// 		std::cout << "          (project,crew or material)            \n"
-// 				  << std::endl;
-// 		std::cout << "- ";
-
-// 		std::getline(std::cin, user_input);
-// 		std::transform(user_input.begin(), user_input.end(), user_input.begin(), ::tolower);
-
-// 		if (user_input == "project")
-// 		{
-// 			project_edit();
-// 		}
-
-// 		if (user_input == "crew")
-// 		{
-// 			crew_edit();
-// 		}
-
-// 		if (user_input == "material" || user_input == "materials")
-// 		{
-// 			material_edit();
-// 		}
-
-// 	} while (user_input != "rtm");
-// }
-
-// void Controller::project_edit()
-// {
-// 	std::string edit_input = "";
-
-// 	do
-// 	{
-// 		system("clear");
-// 		view.Edit_Templates();
-
-// 		view.Next_Back_Instructions();
-
-// 		view.DisplayCurrentFilmProject();
-
-// 		std::cout << "Please enter in the datatype you want to edit\n"
-// 				  << std::endl;
-
-// 		std::getline(std::cin, edit_input);
-
-// 		std::transform(edit_input.begin(), edit_input.end(), edit_input.begin(), ::tolower);
-
-// 		if (edit_input == "next" || edit_input == "back" || edit_input == "rtm")
-// 		{
-// 			Basic_User_Input(edit_input);
-// 		}
-// 		else
-// 		{
-// 			if (edit_input == "status")
-// 			{
-// 				std::cout << "\nUnreleased 1, Now_Playing 2, Released 3";
-// 				std::cout << "\nPlease insert a Status Number : ";
-// 				std::string strStatus;
-// 				std::getline(std::cin, strStatus);
-// 				int status = std::stoi(strStatus);
-
-// 				browser->current->data->Status = status;
-// 			}
-// 			if (edit_input == "title")
-// 			{
-// 				std::cout << "\nPlease Insert a project title : ";
-// 				std::string title = "";
-// 				std::getline(std::cin, title);
-
-// 				browser->current->data->Title = title;
-// 			}
-// 			if (edit_input == "keywords")
-// 			{
-// 				std::cout << "\n";
-// 				int counter = 0;
-
-// 				for (auto it = browser->current->data->KeyWords.begin(); it != browser->current->data->KeyWords.end(); ++it)
-// 				{
-// 					std::cout << counter << " - " << *it << "\n";
-// 					counter++;
-// 				}
-
-// 				std::cout << "\n"
-// 						  << counter << " - "
-// 						  << "Enter in this number to add a new value " << std::endl;
-// 				std::cout << "000"
-// 						  << " - "
-// 						  << "Enter in this number to delete a value " << std::endl;
-
-// 				std::cout << "\nPlease Enter in a keywords number you want to edit\n";
-
-// 				std::string strKeywords;
-// 				std::getline(std::cin, strKeywords);
-// 				int keywords = std::stoi(strKeywords);
-
-// 				if (keywords == counter)
-// 				{
-// 					std::cout << "\nPlease enter in the new keyword\n";
-
-// 					std::string new_val;
-// 					std::getline(std::cin, new_val);
-
-// 					browser->current->data->KeyWords.push_back(new_val);
-// 				}
-// 				if (counter == 000)
-// 				{
-
-// 					std::cout << "\nPlease enter in the keyword number you want to delete\n";
-
-// 					std::string strNew_val;
-// 					std::getline(std::cin, strNew_val);
-// 					int new_val = std::stoi(strNew_val);
-
-// 					browser->current->data->KeyWords.erase(browser->current->data->KeyWords.begin() + new_val);
-// 				}
-// 				else
-// 				{
-// 					std::cout << "\nPlease enter in the edited keyword\n";
-
-// 					std::string replace;
-// 					std::getline(std::cin, replace);
-
-// 					browser->current->data->KeyWords.at(keywords) = replace;
-// 				}
-// 			}
-
-// 			if (edit_input == "summary")
-// 			{
-// 				std::cout << "\nPlease Insert a project summary : ";
-// 				std::string summary = "";
-// 				std::getline(std::cin, summary);
-
-// 				browser->current->data->Summary = summary;
-// 			}
-
-// 			if (edit_input == "genres")
-// 			{
-// 				std::cout << "\n";
-// 				int counter = 0;
-
-// 				for (auto it = browser->current->data->Genre.begin(); it != browser->current->data->Genre.end(); ++it)
-// 				{
-// 					std::cout << counter << " - " << *it << "\n";
-// 					counter++;
-// 				}
-
-// 				std::cout << "\n"
-// 						  << counter << " - "
-// 						  << "Enter in this number to add a new value " << std::endl;
-// 				std::cout << "000"
-// 						  << " - "
-// 						  << "Enter in this number to delete a value " << std::endl;
-
-// 				std::cout << "\nPlease Enter in a Genre number you want to edit\n";
-
-// 				std::string strGenre;
-// 				std::getline(std::cin, strGenre);
-// 				int Genre = std::stoi(strGenre);
-
-// 				if (Genre == counter)
-// 				{
-// 					std::cout << "\nPlease enter in the new Genre\n";
-
-// 					std::string new_val;
-// 					std::getline(std::cin, new_val);
-
-// 					browser->current->data->Genre.push_back(new_val);
-// 				}
-// 				if (Genre == 000)
-// 				{
-
-// 					std::cout << "\nPlease enter in the Genre number you want to delete\n";
-
-// 					std::string strNew_val;
-// 					std::getline(std::cin, strNew_val);
-// 					int new_val = std::stoi(strNew_val);
-
-// 					browser->current->data->Genre.erase(browser->current->data->Genre.begin() + new_val);
-// 				}
-// 				else
-// 				{
-// 					std::cout << "\nPlease enter in the edited Genre\n";
-// 					std::string replace;
-// 					std::getline(std::cin, replace);
-
-// 					browser->current->data->Genre.at(Genre) = replace;
-// 				}
-// 			}
-// 			if (edit_input == "release date")
-// 			{
-// 				std::cout << "\nPlease Insert a project release date : ";
-// 				std::string title = "";
-// 				std::getline(std::cin, title);
-
-// 				browser->current->data->ReleaseDate = title;
-// 			}
-// 			if (edit_input == "filming locations")
-// 			{
-// 				std::cout << "\n";
-// 				int counter = 0;
-
-// 				for (auto it = browser->current->data->Filming_Locations.begin(); it != browser->current->data->Filming_Locations.end(); ++it)
-// 				{
-// 					std::cout << counter << " - " << *it << "\n";
-// 					counter++;
-// 				}
-
-// 				std::cout << "\n"
-// 						  << counter << " - "
-// 						  << "Enter in this number to add a new value " << std::endl;
-// 				std::cout << "000"
-// 						  << " - "
-// 						  << "Enter in this number to delete a value " << std::endl;
-
-// 				std::cout << "\nPlease Enter in a Location number you want to edit\n";
-
-// 				std::string strLocation;
-// 				std::getline(std::cin, strLocation);
-// 				int Location = std::stoi(strLocation);
-
-// 				if (Location == counter)
-// 				{
-// 					std::cout << "\nPlease enter in the new keyword\n";
-
-// 					std::string new_val;
-// 					std::getline(std::cin, new_val);
-
-// 					browser->current->data->Filming_Locations.push_back(new_val);
-// 				}
-// 				if (Location == 000)
-// 				{
-
-// 					std::cout << "\nPlease enter in the keyword number you want to delete\n";
-
-// 					std::string strNew_val;
-// 					std::getline(std::cin, strNew_val);
-// 					int new_val = std::stoi(strNew_val);
-
-// 					browser->current->data->Filming_Locations.erase(browser->current->data->Filming_Locations.begin() + new_val);
-// 				}
-// 				else
-// 				{
-// 					std::cout << "\nPlease enter in the edited keyword\n";
-
-// 					std::string replace;
-// 					std::getline(std::cin, replace);
-
-// 					browser->current->data->Filming_Locations.at(Location) = replace;
-// 				}
-// 			}
-
-// 			if (edit_input == "runtime")
-// 			{
-// 				std::cout << "\nPlease insert a runtime : ";
-// 				std::string strRuntime;
-// 				std::getline(std::cin, strRuntime);
-// 				int Runtime = std::stoi(strRuntime);
-// 				browser->current->data->Runtime = Runtime;
-// 			}
-
-// 			if (edit_input == "languages")
-// 			{
-
-// 				std::cout << "\n";
-// 				int counter = 0;
-
-// 				for (auto it = browser->current->data->Languages.begin(); it != browser->current->data->Languages.end(); ++it)
-// 				{
-// 					std::cout << counter << " - " << *it << "\n";
-// 					counter++;
-// 				}
-
-// 				std::cout << "\n"
-// 						  << counter << " - "
-// 						  << "Enter in this number to add a new value " << std::endl;
-// 				std::cout << "000"
-// 						  << " - "
-// 						  << "Enter in this number to delete a value " << std::endl;
-
-// 				std::cout << "\nPlease Enter in a Location number you want to edit\n";
-
-// 				std::string strLanguages;
-// 				std::getline(std::cin, strLanguages);
-// 				int Languages = std::stoi(strLanguages);
-
-// 				if (Languages == counter)
-// 				{
-// 					std::cout << "\nPlease enter in the new keyword\n";
-
-// 					std::string new_val;
-// 					std::getline(std::cin, new_val);
-
-// 					browser->current->data->Languages.push_back(new_val);
-// 				}
-// 				if (Languages == 000)
-// 				{
-
-// 					std::cout << "\nPlease enter in the keyword number you want to delete\n";
-
-// 					std::string strNew_val;
-// 					std::getline(std::cin, strNew_val);
-// 					int new_val = std::stoi(strNew_val);
-
-// 					browser->current->data->Languages.erase(browser->current->data->Languages.begin() + new_val);
-// 				}
-// 				else
-// 				{
-// 					std::cout << "\nPlease enter in the edited keyword\n";
-
-// 					std::string replace;
-// 					std::getline(std::cin, replace);
-
-// 					browser->current->data->Languages.at(Languages) = replace;
-// 				}
-// 			}
-
-// 			if (edit_input == "weekly box office")
-// 			{
-// 				std::cout << "\nPlease insert a runtime : ";
-// 				std::string strWeeklyTicketSales;
-// 				std::getline(std::cin, strWeeklyTicketSales);
-// 				int WeeklyTicketSales = std::stoi(strWeeklyTicketSales);
-
-// 				browser->current->data->WeeklyTicketSales.push_back(WeeklyTicketSales);
-// 			}
-
-// 			if (edit_input == "crew member id")
-// 			{
-				
-// 				DisplayCrew();
-				
-				
-				
-// 				std::cout << "\nPlease insert a crew member ID: ";
-				
-				
-				
-// 				// display crew members
-// 				// request ID
-// 				// Link ID and data
-// 			}
-
-// 			if (edit_input == "material id" && browser->current->data->Status == 2)
-// 			{
-// 				std::cout << "\nPlease insert a material ID : ";
-// 				DisplayMaterials();
-// 				std::string strMaterialID;
-// 				std::getline(std::cin, strMaterialID);
-// 				//Material* new_mat
-// 				std::stoi(strMaterialID);
-
-// 				//browser->current->data->Materials.push_back();
-
-// 			}
-// 		}
-
-// 	} while (edit_input != "rtm");
-// }
-
-
-// void Controller::crew_edit()
-// {
-// 	std::string edit_input = "";
-
-// 	do
-// 	{
-
-// 		system("clear");
-// 		Edit_Templates();
-		
-// 		Next_Back_Instructions();
-		
-// 		//browser->display_all_crew();
-
-// 		std::cin >> edit_input;
-
-// 	}while(edit_input != "rtm");
-
-// 	// Display all crew maybe in increments?? With Scrubbing 
-// 	// Request ID for change
-// 	// Request Datatype to change
-// 	// Offer Delete, Edit
-// 	// Return to edit menu
-
-// 	// Crew Member ID , Name , Job 
-
-// }
-
-// void Controller::material_edit()
-// {
-
-// 	system("clear");
-
-// 	std::string edit_input = "";
-
-// 	do
-// 	{
-// 		system("clear");
-// 		Edit_Templates();
-		
-// 		std::cout << "\nNext                                Enter Next" << std::endl;
-// 		std::cout << "Back                                Enter Back\n" << std::endl;
-// 		std::cout << "Return to Menu                       Enter RTM\n" << std::endl;
-		
-// 		DisplayMaterials();
-
-// 		std::cout << "Please enter in the ID of the material\n" << std::endl;	
-// 		std::getline(std::cin, edit_input);
-
-// 		std::pair<bool, bool> string_int_vals = string_int_check(edit_input);
-
-// 		if(string_int_vals.second == true && string_int_vals.first == false)
-// 		{
-// 			int material_ID = std::stoi(edit_input);
-// 			material_edit_management(material_ID);
-// 		}
-// 		else if(string_int_vals.second == false  && string_int_vals.first == true)
-// 		{
-// 			std::transform(edit_input.begin(), edit_input.end(), edit_input.begin(), ::tolower);
-// 			if( edit_input == "next" ||  edit_input == "back" ||  edit_input == "rtm" )
-// 			{
-// 				Basic_User_Input(edit_input);
-// 			}
-// 		}
-
-// 	}while(edit_input != "rtm");
-// }
-
-// void Controller::material_edit_management(int material_ID)
-// {
-
-// 	system("clear");
-
-// 	std::string edit_input = "";
-
-// 	do
-// 	{
-// 		std::cout << "________________________________________________" << std::endl;
-// 		std::cout << "\n         Please Enter in the value " << std::endl;
-// 		std::cout << "           you would like to change  " << std::endl;
-
-// 		int id;
-
-// 		for (auto it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); ++it)
-// 		{
-// 			//id = (*it).ID;
-
-// 			std::cout << id;
-// 		}
-
-		
-// 	} while (edit_input != "rtm");
+void Controller::Create_New_Project_Menu()
+{
+	view.CNP_Templates();
+
+	FilmProject* new_film = new FilmProject();
+	std::string user_input;
+	bool running = true;
+
+	new_film->ID = unique_id_check_project();
+
+	view.ShowStatusMeaning();
+	view.ShowInsertStatus();
+	user_input = inputHandler.Basic_User_Input("number");
+	new_film->Status = std::stoi(user_input);
+
+	view.ShowInsertTitle();
+	new_film->Title = inputHandler.Basic_User_Input("string");
 	
-// }
+	view.ShowInsertKeywords();
+	view.Vector_Instructions();
+	while (user_input != "Q")
+	{
+		user_input = inputHandler.Basic_User_Input("string");
+		if (user_input != "Q") { new_film->KeyWords.push_back(user_input); }
+	}
+	user_input = "";
 
-// void Controller::CreateNewCrew()
-// {
-// 	std::cout << "________________________________________________\n\n" << std::endl;
-// 	std::cout << "           Create New Crew Member                 " << "\n" << std::endl;
-
-// 	Crew new_crew;
-// 	new_crew.ID = unique_id_check_crew();
-
-// 	std::string user_input;
-// 	std::cout << "\nPlease insert the Crew Members Name: ";
-// 	user_input = inputHandler.Basic_User_Input("string");
-// 	if (user_input == "")
-// 	{
-
-// 	}
-// 	std::cout << "\nPlease insert the Crew Members Job: ";
-// 	std::getline(std::cin, new_crew.Job);
-// 	crewVector.push_back(new_crew);
-
-// 	system("clear");
-// 	MM_Templates();
-// }
-
-// Material* Controller::CreateNewMaterial()
-// {
-// 	Material* new_mat = new Material();
-
-// 	new_mat->ID = unique_id_check_material();
-
-// 	std::string user_input;
+	view.ShowInsertSummary();
+	new_film->Summary = inputHandler.Basic_User_Input("string");
 	
-// 	bool isCorrectType = false;
-// 	do
-// 	{
-// 		system("clear");
-// 		std::cout << "________________________________________________\n\n" << std::endl;
-// 		std::cout << "              Create New Material                 " << "\n" << std::endl;
-// 		std::cout << "\nPlease insert the type of Material:";
-// 		std::cout << "\nTypes are: VHS, DVD(SingleSided), BluRay, ComboBox, DoubleSidedDVD\n";
-// 		std::getline(std::cin, user_input);
-// 		std::transform(user_input.begin(), user_input.end(), user_input.begin(), ::tolower);
+	view.ShowInsertGenre();
+	view.Vector_Instructions();
+	while (user_input != "Q")
+	{
+		std::getline(std::cin, user_input);
+		if (user_input != "Q") { new_film->Genre.push_back(user_input); }
+	}
+	user_input = "";
+	
+	view.ShowInsertReleaseDate();
+	new_film->ReleaseDate = inputHandler.Basic_User_Input("string");
+	
+	view.ShowInsertFilmingLocations();
+	view.Vector_Instructions();
+	while (user_input != "Q")
+	{
+		user_input = inputHandler.Basic_User_Input("string");
+		if (user_input != "Q") { new_film->Filming_Locations.push_back(user_input); }
+	}
+
+	view.ShowInsertRuntime();
+	user_input = inputHandler.Basic_User_Input("number");
+	new_film->Runtime = std::stoi(user_input);
+	
+	view.ShowInsertLanguages();
+	view.Vector_Instructions();
+	while (user_input != "Q")
+	{
+		user_input = inputHandler.Basic_User_Input("string");
+		if (user_input != "Q") { new_film->Languages.push_back(user_input); }
+	}
+	
+	if (new_film->Status == 1)
+	{
+		view.ShowInsertWeeklyTicketSale();
+		user_input = inputHandler.Basic_User_Input("number");
+		new_film->WeeklyTicketSales.push_back(std::stoi(user_input));
+	}
+	browser->insert_tail(new_film);
+
+	view.DisplayCrew(*crewVector);
+	
+	system("clear");
+	int crew_id_input;
+
+	while (crew_id_input != 00)
+	{
+		Crew* new_crew = fileHandler.LoadCrew(stoi(inputHandler.Basic_User_Input("number")));
+		if (crew_id_input != 00) { new_film->CrewMembers.push_back(new_crew); }
+	}
+
+	fileHandler.Tracking(1);
+}
+
+void Controller::CreateNewCrew()
+{
+	view.DisplayCreateNewCrew();
+
+	Crew* new_crew = new Crew();
+
+	new_crew->ID = unique_id_check_crew();
+
+	view.ShowInsertCrewName();
+	new_crew->Name = inputHandler.Basic_User_Input("string");
+
+	view.ShowInsertCrewJob();
+	new_crew->Job = inputHandler.Basic_User_Input("string");
+	
+	crewVector->push_back(new_crew);
+}
+
+void Controller::Edit_Menu()
+{
+	view.Edit_Templates();
+	
+	bool running = true;
+	while(running)
+	{
+        std::string user_input = inputHandler.Basic_User_Input("casestring");
+        if (user_input == "project")
+		{
+			project_edit();
+		}
+        else if (user_input == "crew")
+		{
+			crew_edit();
+		}
+        else if (user_input == "material" || user_input == "materials")
+		{
+			material_edit();
+		}
+	}
+}
+
+void Controller::project_edit()
+{
+	bool running = true;
+	while(running)
+	{
+		view.Edit_Templates();
+		view.Next_Back_Instructions();
+		view.DisplayCurrentFilmProject(browser->current->data);
+		view.ShowInsertDataType();
+
+		std::string user_input =  inputHandler.Basic_User_Input("casestring");
+
+		if (user_input == "status")
+		{
+			view.ShowStatusMeaning();
+			view.ShowInsertStatus();
+			browser->current->data->Status = std::stoi(inputHandler.Basic_User_Input("number"));
+		}
+		if (user_input == "title")
+		{
+			view.ShowInsertTitle();
+			browser->current->data->Title = inputHandler.Basic_User_Input("string");
+		}
+		if (user_input == "keywords")
+		{
+			view.ShowVectorEdit(browser->current->data->KeyWords);
+			size_t selectedItem = std::stoi(inputHandler.Basic_User_Input("number"));
+
+			if (selectedItem == selectedItem == browser->current->data->KeyWords.size())
+			{
+				view.ShowInsertKeywords();
+				browser->current->data->KeyWords.push_back(inputHandler.Basic_User_Input("string"));
+			}
+			if (selectedItem == 000)
+			{
+				view.ShowDeleteKeywords();
+				browser->current->data->KeyWords.erase(browser->current->data->KeyWords.begin() + std::stoi(inputHandler.Basic_User_Input("number")));
+			}
+			else
+			{
+				view.ShowInsertKeywords();
+				browser->current->data->KeyWords.at(selectedItem) = inputHandler.Basic_User_Input("string");
+			}
+		}
+		if (user_input == "summary")
+		{
+			view.ShowInsertSummary();
+			browser->current->data->Summary = inputHandler.Basic_User_Input("string");
+		}
+		if (user_input == "genres")
+		{
+			view.ShowVectorEdit(browser->current->data->Genre);
+			size_t selectedItem = std::stoi(inputHandler.Basic_User_Input("number"));
+
+			if (selectedItem == browser->current->data->Genre.size())
+			{
+				view.ShowInsertGenre();
+				browser->current->data->Genre.push_back(inputHandler.Basic_User_Input("string"));
+			}
+			if (selectedItem == 000)
+			{
+				view.ShowDeleteGenre();
+				browser->current->data->Genre.erase(browser->current->data->Genre.begin() + std::stoi(inputHandler.Basic_User_Input("number")));
+			}
+			else
+			{
+				view.ShowInsertGenre();
+				browser->current->data->Genre.at(selectedItem) = inputHandler.Basic_User_Input("string");
+			}
+		}
+		if (user_input == "release date")
+		{
+			view.ShowInsertReleaseDate();
+			browser->current->data->ReleaseDate = inputHandler.Basic_User_Input("string");
+		}
+		if (user_input == "filming locations")
+		{
+			view.ShowVectorEdit(browser->current->data->Filming_Locations);
+			size_t selectedItem = std::stoi(inputHandler.Basic_User_Input("number"));
+
+			if (selectedItem == browser->current->data->Filming_Locations.size())
+			{
+				view.ShowInsertFilmingLocations();
+				browser->current->data->Filming_Locations.push_back(inputHandler.Basic_User_Input("string"));
+			}
+			if (selectedItem == 000)
+			{
+				view.ShowDeleteFilmingLocations();
+				browser->current->data->Filming_Locations.erase(browser->current->data->Filming_Locations.begin() + std::stoi(inputHandler.Basic_User_Input("number")));
+			}
+			else
+			{
+				view.ShowInsertFilmingLocations();
+				browser->current->data->Filming_Locations.at(selectedItem) = inputHandler.Basic_User_Input("string");
+			}
+		}
+		if (user_input == "runtime")
+		{
+			view.ShowInsertRuntime();
+			browser->current->data->Runtime = std::stoi(inputHandler.Basic_User_Input("number"));
+		}
+		if (user_input == "languages")
+		{
+			view.ShowVectorEdit(browser->current->data->Languages);
+			size_t selectedItem = std::stoi(inputHandler.Basic_User_Input("number"));
+
+			if (selectedItem == browser->current->data->Languages.size())
+			{
+				view.ShowInsertLanguages();
+				browser->current->data->Languages.push_back(inputHandler.Basic_User_Input("string"));
+			}
+			if (selectedItem == 000)
+			{
+				view.ShowDeleteLanguages();
+				browser->current->data->Languages.erase(browser->current->data->Languages.begin() + std::stoi(inputHandler.Basic_User_Input("number")));
+			}
+			else
+			{
+				view.ShowInsertLanguages();
+				browser->current->data->Languages.at(selectedItem) = inputHandler.Basic_User_Input("string");
+			}
+		}
+		if (user_input == "weekly box office" && browser->current->data->Status == 1)
+		{
+			view.ShowInsertWeeklyTicketSale();
+			browser->current->data->WeeklyTicketSales.push_back(std::stod(inputHandler.Basic_User_Input("number")));		
+		}
+		// if (user_input == "crew member id")
+		// {
+			
+		// 	DisplayCrew();
+			
+			
+			
+		// 	std::cout << "\nPlease insert a crew member ID: ";
+			
+			
+			
+		// 	// display crew members
+		// 	// request ID
+		// 	// Link ID and data
+		// }
+		// if (user_input == "material id" && browser->current->data->Status == 2)
+		// {
+		// 	std::cout << "\nPlease insert a material ID : ";
+		// 	DisplayMaterials();
+		// 	std::string strMaterialID;
+		// 	std::getline(std::cin, strMaterialID);
+		// 	//Material* new_mat
+		// 	std::stoi(strMaterialID);
+
+		// 	//browser->current->data->Materials.push_back();
+
+		// }
+		if (user_input == "next") { browser->nextNode(); }
+		if (user_input == "back") { browser->previousNode(); }
+		if (user_input == "rtm") { running = false; }
+	} 
+}
+
+Material* Controller::CreateNewMaterial()
+{
+	Material* new_mat = new Material();
+	new_mat->ID = unique_id_check_material();
+
+	bool isCorrectType = false;
+	do
+	{
+		view.DisplayCreateNewMaterial();
+		std::string user_input = inputHandler.Basic_User_Input("string");
+
+		if(user_input == "vhs")
+		{
+			new_mat->Type = "vhs";
+			isCorrectType = true;
+			new_mat = new VHS();
+		}
+		else if(user_input == "dvd")
+		{
+			new_mat->Type = "dvd";
+			isCorrectType = true;
+			new_mat = new DVD();
+		}
+		else if(user_input == "bluray")
+		{
+			new_mat->Type = "bluray";
+			isCorrectType = true;
+			new_mat = new BluRay();
+		}
+		else if(user_input == "combobox")
+		{
+			new_mat->Type = "combobox";
+			isCorrectType = true;
+			new_mat = new ComboBox();
+		}
+		else if(user_input == "doublesideddvd")
+		{
+			new_mat->Type = "doublesideddvd";
+			isCorrectType = true;
+			new_mat = new DoubleSidedDVD();
+		}
 		
-// 		if(user_input == "vhs")
-// 		{
-// 			new_mat->Type = "vhs";
-// 			isCorrectType = true;
-// 			new_mat = new VHS();
-// 		}
-// 		else if(user_input == "dvd")
-// 		{
-// 			new_mat->Type = "dvd";
-// 			isCorrectType = true;
-// 			new_mat = new DVD();
-// 		}
-// 		else if(user_input == "bluray")
-// 		{
-// 			new_mat->Type = "bluray";
-// 			isCorrectType = true;
-// 			new_mat = new BluRay();
-// 		}
-// 		else if(user_input == "combobox")
-// 		{
-// 			new_mat->Type = "combobox";
-// 			isCorrectType = true;
-// 			new_mat = new ComboBox();
-// 		}
-// 		else if(user_input == "doublesideddvd")
-// 		{
-// 			new_mat->Type = "doublesideddvd";
-// 			isCorrectType = true;
-// 			new_mat = new DoubleSidedDVD();
-// 		}
-// 		else
-// 		{
-// 			std::cout << "\n Please enter a valid material type \n";
-// 		}
-		
-// 	} while (isCorrectType == false);
+	} while (isCorrectType == false);
 
-// 		// Type,ComboBox
-// 		// Title,Avatar - The complete collection.
-// 		// DVD_Description,The complete Avatar film collection.
-// 		// Video_Format,1080p
-// 		// Audio_Format,WAV
-// 		// Run_Time,438
-// 		// Languages,English,French,Spanish
-// 		// Retail_Price,25
-// 		// Subtitles,English,French,Spanish
-// 		// Frame_Aspect,16:9
-// 		// Packaging,Cardboard
-// 		// Stored,2,5
+	view.ShowInsertTitle();
+	new_mat->Title = inputHandler.Basic_User_Input("string");
 
-// 	std::cout << "\nPlease insert the Title:\n"<< std::endl;
-// 	std::getline(std::cin, new_mat->Title);
+	view.ShowInsertDescription();
+	new_mat->Description = inputHandler.Basic_User_Input("string");
+
+	view.ShowInsertVideoFormat();
+	new_mat->VideoFormat = inputHandler.Basic_User_Input("string");
+
+	view.ShowInsertAudioFormat();
+	new_mat->AudioFormat = inputHandler.Basic_User_Input("string");
 	
-// 	std::cout << "\nPlease insert the Description:\n"<< std::endl;
-// 	std::getline(std::cin, new_mat->Description);
-
-// 	std::cout << "\nPlease insert the Video Format:\n"<< std::endl; 
-// 	std::getline(std::cin, new_mat->Description);
-
-// 	std::cout << "\nPlease insert the Audio Format:\n"<< std::endl; 
-// 	std::getline(std::cin, new_mat->Description);
+	view.ShowInsertRuntime();
+	new_mat->Runtime = std::stoi(inputHandler.Basic_User_Input("number"));
 	
-// 	bool isNum = false;
-// 	while (isNum == false)
-// 	{
-// 		std::cout << "\nPlease insert the Runtime:\n";
-// 		std::getline(std::cin, user_input);
-// 		try
-// 		{
-// 			new_mat->Runtime = std::stoi(user_input);
-// 			isNum = true;
-// 		}
-// 		catch(const std::exception& e)
-// 		{
-// 			std::cout << "Please enter a number" << '\n';
-// 			isNum = false;
-// 		}
-// 	}
-// 	if (new_mat->Type == "vhs")
-// 	{
-// 		std::cout << "\nPlease insert the Language:\n"<< std::endl;
-// 		std::getline(std::cin, user_input);
-// 		std::vector<std::string> language;
-// 		language.push_back(user_input);
-// 		new_mat->SetLanguages(language);
-// 	}
-// 	else
-// 	{
-// 		std::vector<std::string> languages;
-// 		std::cout << "\nPlease insert the Languages:\n"<< std::endl;
-// 		Vector_Instructions();
-// 		do
-// 		{
-// 			std::getline(std::cin, user_input);
-// 			languages.push_back(user_input);
-// 		} while (user_input != "Q");
-// 		new_mat->SetLanguages(languages);
-// 	}
+	if (new_mat->Type == "vhs")
+	{
+		view.ShowInsertLanguages();
+		std::vector<std::string> language;
+		language.push_back(inputHandler.Basic_User_Input("string"));
+		new_mat->SetLanguages(language);
+	}
+	else
+	{
+		std::vector<std::string> languages;
+		view.ShowInsertLanguages();
+		std::string user_input;
+		while (user_input != "Q")
+		{
+			user_input = inputHandler.Basic_User_Input("string");
+			if (user_input != "Q") { languages.push_back(user_input); }
+		}
+		new_mat->SetLanguages(languages);
+	}
 	
-// 	isNum = false;
-// 	while (isNum == false)
-// 	{
-// 		std::cout << "\nPlease insert the Retail Price:\n";
-// 		std::getline(std::cin, user_input);
-// 		try
-// 		{
-// 			new_mat->RetailPrice = std::stod(user_input);
-// 			isNum = true;
-// 		}
-// 		catch(const std::exception& e)
-// 		{
-// 			std::cout << "Please enter a number" << '\n';
-// 			isNum = false;
-// 		}
-// 	}
+	view.ShowInsertRetailPrice();
+	new_mat->RetailPrice = std::stoi(inputHandler.Basic_User_Input("number"));
 
-// 	if (new_mat->Type == "vhs")
-// 	{
-// 		std::cout << "\nPlease insert the Subtitle Language:\n"<< std::endl;
-// 		std::getline(std::cin, user_input);
-// 		std::vector<std::string> subtitle;
-// 		subtitle.push_back(user_input);
-// 		new_mat->SetLanguages(subtitle);
-// 	}
-// 	else
-// 	{
-// 		std::vector<std::string> subtitles;
-// 		std::cout << "\nPlease insert the Subtitle Languages:\n"<< std::endl;
-// 		Vector_Instructions();
-// 		do
-// 		{
-// 			std::getline(std::cin, user_input);
-// 			subtitles.push_back(user_input);
-// 		} while (user_input != "Q");
-// 		new_mat->SetLanguages(subtitles);
-// 	}
+	if (new_mat->Type == "vhs")
+	{
+		view.ShowInsertSubtitles();
+		std::vector<std::string> subtitle;
+		subtitle.push_back(inputHandler.Basic_User_Input("string"));
+		new_mat->SetLanguages(subtitle);
+	}
+	else
+	{
+		std::vector<std::string> subtitles;
+		view.ShowInsertSubtitles();
+		view.Vector_Instructions();
+		std::string user_input;
+		while (user_input != "Q")
+		{
+			user_input = inputHandler.Basic_User_Input("string");
+			if (user_input != "Q") { subtitles.push_back(user_input); }
+		}
+		new_mat->SetLanguages(subtitles);
+	}
 
-// 	std::cout << "\nPlease insert the Frame Aspect\n"<< std::endl;
-// 	std::getline(std::cin, new_mat->FrameAspect);
+	std::cout << "\nPlease insert the Frame Aspect\n"<< std::endl;
+	new_mat->FrameAspect = inputHandler.Basic_User_Input("string");
 
-// 	if (new_mat->Type == "combobox")
-// 	{
-// 		int numOfStoredMats = 0;
-// 		isNum = false;
-// 		while (isNum == false)
-// 		{
-// 			std::cout << "\nEnter the number of materials stored in the combo box\n"<< std::endl;
-// 			std::getline(std::cin, user_input);
-// 			try
-// 			{
-// 				numOfStoredMats = std::stoi(user_input);
-// 				isNum = true;
-// 			}
-// 			catch(const std::exception& e)
-// 			{
-// 				std::cout << "Please enter a number" << '\n';
-// 				isNum = false;
-// 			}
-// 		}
+	if (new_mat->Type == "combobox")
+	{
+		for (auto i = 0; i != std::stoi(inputHandler.Basic_User_Input("number")); ++i)
+		{
+			new_mat->SetDVDVector(CreateNewMaterial());
+		}
+	}
+	else
+	{
+		browser->setHead();
+		bool running = true;
+		while(running)
+		{
+			system("clear");
+			view.Next_Back_Instructions();
+			view.DisplayCurrentFilmProject(browser->current->data);
 
-// 		for (auto i = 0; i != numOfStoredMats; ++i)
-// 		{
-// 			new_mat->SetDVDVector(CreateNewMaterial());
-// 		}
-// 	}
-// 	else
-// 	{
-//         browser->setHead();
-// 		isNum = false;
-// 		int film_ID = 0;
-// 		while (isNum == false)
-// 		{
-// 			Next_Back_Instructions();
+			std::string user_input = inputHandler.Basic_User_Input("casestring");
 
-// 			DisplayCurrentFilmProject();
-// 			user_input = "";
-// 			std::cout << "\nEnter the ID's of the films to store on this material\n"<< std::endl;
-// 			std::getline(std::cin, user_input);
+			if (user_input == "next" || user_input == "back")
+			{
+				BasicUserInput(user_input, "");
+			}
+			else if (user_input == "id")
+			{
+				view.ShowInsertFilmIDs(); 
+				Film new_film;
+				new_film.ID = std::stoi(inputHandler.Basic_User_Input("number"));
+				new_film = fileHandler.LoadFilm(new_film.ID);
+				if (new_film.Title == "") { running = true; }
+				else
+				{	
+					new_mat->SetFilm(new_film);
+					running = false;
+				}
+			}
+		}	 
+	}
 
-// 			std::pair<bool, bool> string_int_vals = string_int_check(user_input);
+	fileHandler.Tracking(2);
 
-// 			if(string_int_vals.first == false && string_int_vals.second == true)
-// 			{
-// 				film_ID = std::stoi(user_input);
-//                 Film new_film;
-//                 new_film.ID = film_ID;
-//                 new_film = fileHandler.LoadFilm(new_film.ID);
-// 				if (new_film.Title == "")
-// 				{
-// 					isNum = false;
-// 				}
-// 				else
-// 				{	
-//                 	new_mat->SetFilm(new_film);
-//                 	isNum = true;
-// 				}
-// 			}
-// 			else if(string_int_vals.first == true  && string_int_vals.second == false)
-// 			{
-// 				std::transform(user_input.begin(), user_input.end(), user_input.begin(), ::tolower);
+	return new_mat;
+}
 
-// 				if( user_input == "next" ||  user_input == "back")
-// 				{
-// 					Basic_User_Input(user_input);
-// 				}
-// 			}
-// 		}
-// 	}
-// 	return new_mat;
-// }
+void Controller::crew_edit()
+{
+	bool running = true;
+	while (running)
+	{
+		view.Edit_Templates();
+		view.DisplayCrew(*crewVector);
+		view.ShowEditDeleteCrew();
 
-// void Controller::Create_New_Project_Menu()
-// {
-// 	system("clear");
-// 	CNP_Templates();
+		std::string user_input = inputHandler.Basic_User_Input("casestring");
 
-// 	//std::string values[12] = {"Status", "Title", "Keywords", "Summary", "Genre", "Release Date", "Filming Locations", "Runtime", "Language", "Weekly Ticket Sales", "Crew Members"};
+		if (user_input == "edit")
+		{
+			view.ShowRequestCrewID();
+			int currentCrew = std::stoi(inputHandler.Basic_User_Input("number"));
 
-// 	FilmProject new_film;
+			for (auto it = crewVector->begin(); it != crewVector->end(); ++it)
+			{
+				if ((*it)->ID == currentCrew)
+				{
+					view.ShowInsertCrewName();
+					(*it)->Name = inputHandler.Basic_User_Input("string");
 
-// 	new_film.ID = unique_id_check_project();
+					view.ShowInsertCrewJob();
+					(*it)->Job = inputHandler.Basic_User_Input("string");
+				}
+			}
+		}
+		if (user_input == "delete")
+		{
+			view.ShowDeleteCrew();
+			int currentCrew = std::stoi(inputHandler.Basic_User_Input("number"));
+		}
+		if (user_input == "rtm") { running = false; }
+	}
+}
 
-// 	std::string user_input;
-// 	bool isNum;
-// 	std::cout << "\nUnreleased 1, Now_Playing 2, Released 3\n";
-// 	isNum = false;
-// 	while (isNum == false)
-// 	{
-// 		std::cout << "\nPlease insert a Status Number: ";
-// 		std::getline(std::cin, user_input);
-// 		try
-// 		{
-// 			new_film.Status = std::stoi(user_input);
-// 			if (new_film.Status > 3 || new_film.Status < 0)
-// 			{
-// 				throw std::invalid_argument("Wrong value entered");
-// 			}
-// 			else
-// 			{
-// 				isNum = true;
-// 			}
-// 		}
-// 		catch(const std::exception& e)
-// 		{
-// 			std::cout << "Please enter a correct number" << '\n';
-// 			isNum = false;
-// 		}
-// 	}
-// 	std::cout << "\nPlease insert a Title: ";
-// 	std::getline(std::cin, new_film.Title);
-// 	std::cout << "\nPlease insert the Keywords: " << std::endl;
-// 	Vector_Instructions();
-// 	do
-// 	{
-// 		std::getline(std::cin, user_input);
-// 		new_film.KeyWords.push_back(user_input);
-// 	} while (user_input != "Q");
-// 	std::cout << "\nPlease insert a Summary: ";
-// 	std::getline(std::cin, new_film.Summary);
-// 	std::cout << "\nPlease insert the Genres: " << std::endl;
-// 	Vector_Instructions();
-// 	do
-// 	{
-// 		std::getline(std::cin, user_input);
-// 		new_film.Genre.push_back(user_input);
-// 	} while (user_input != "Q");
-// 	std::cout << "\nPlease insert a Release Date: ";
-// 	std::getline(std::cin, new_film.ReleaseDate);
-// 	std::cout << "\nPlease insert the Filming Locations: " << std::endl;
-// 	Vector_Instructions();
-// 	do
-// 	{
-// 		std::getline(std::cin, user_input);
-// 		new_film.Filming_Locations.push_back(user_input);
-// 	} while (user_input != "Q");
-// 	isNum = false;
-// 	while (isNum == false)
-// 	{
-// 		std::cout << "\nPlease insert the Runtime: ";
-// 		std::getline(std::cin, user_input);
-// 		try
-// 		{
-// 			new_film.Runtime = std::stoi(user_input);
-// 			isNum = true;
-// 		}
-// 		catch(const std::exception& e)
-// 		{
-// 			std::cout << "Please enter a number" << '\n';
-// 			isNum = false;
-// 		}
-// 	}	
-// 	std::cout << "\nPlease insert the Languages: " << std::endl;
-// 	Vector_Instructions();
-// 	do
-// 	{
-// 		std::getline(std::cin, user_input);
-// 		new_film.Languages.push_back(user_input);
-// 	} while (user_input != "Q");
-// 	if (new_film.Status == 1)
-// 	{
-// 		isNum = false;
-// 		while (isNum == false)
-// 		{
-// 			std::cout << "\nPlease insert the Weekly Ticket Sale: ";
-// 			std::getline(std::cin, user_input);
-// 			try
-// 			{
-// 				new_film.WeeklyTicketSales.push_back(std::stod(user_input));
-// 				isNum = true;
-// 			}
-// 			catch(const std::exception& e)
-// 			{
-// 				std::cout << "Please enter a number" << '\n';
-// 				isNum = false;
-// 			}
-// 		}
-// 	}
+void Controller::material_edit()
+{
+	bool running = true;
+	while (running)
+	{
+		DisplayMaterials(*matVector);
+		std::string input;
+		view.ShowRequestMaterialID();
+		int currentMaterial = std::stoi(inputHandler.Basic_User_Input("number"));
 
-// 	DisplayAllCrew();
+		for (auto it = matVector->begin(); it != matVector->end(); ++it)
+		{
+			if ((*it)->ID == currentMaterial)
+			{
+				view.ShowInsertDataType();
+				input = inputHandler.Basic_User_Input("casestring");
+				
+				if (input == "title")
+				{
+					view.ShowInsertTitle();
+					(*it)->Title = inputHandler.Basic_User_Input("string");
+				}
+				if (input == "description")
+				{
+					view.ShowInsertDescription();
+					(*it)->Description = inputHandler.Basic_User_Input("string");
+				}
+				if (input == "video format")
+				{
+					view.ShowInsertVideoFormat();
+					(*it)->VideoFormat = inputHandler.Basic_User_Input("string");
+				}
+				if (input == "audio format")
+				{
+					view.ShowInsertAudioFormat();
+					(*it)->AudioFormat = inputHandler.Basic_User_Input("string");
+				}
+				if (input == "runtime")
+				{
+					view.ShowInsertRuntime();
+					(*it)->Runtime = std::stoi(inputHandler.Basic_User_Input("number"));
+				}
+				if (input == "language" || input == "languages")
+				{
+					if ((*it)->Type == "VHS")
+					{
+						view.ShowInsertLanguages();
+						std::vector<std::string> language;
+						language.push_back(inputHandler.Basic_User_Input("string"));
+						(*it)->SetLanguages(language);
+					}
+					else
+					{
+						std::vector<std::string> languages;
+						for (auto i = 0; i != (*it)->GetNumLanguages(); ++i)
+						{
+							languages.push_back((*it)->GetLanguage(i));
+						}
+						view.ShowVectorEdit(languages);
+						size_t selectedItem = std::stoi(inputHandler.Basic_User_Input("number"));
 
-// 	std::cout << "\nPlease insert Crew Memeber IDs" << std::endl;
-// 	Vector_Instructions();
-// 	std::string tempStr;
-// 	do
-// 	{
-// 		Crew new_crew;
-// 		std::getline(std::cin, tempStr);
-// 		if (tempStr != "Q")
-// 		{
-// 			new_crew.ID = std::stoi(tempStr);
-// 			new_crew = fileHandler.LoadCrew(new_crew);
-// 			new_film.CrewMembers.push_back(new_crew);
-// 		}
-// 	} while (tempStr != "Q");
-// 	// if (new_film.Status == 2)
-// 	// {	
-// 	// 	std::cout << "\nPlease insert the Material IDs" << std::endl;
-// 	// 	std::cout << "Type in the value then press enter to add another value" << std::endl;
-// 	// 	std::cout << "When you have finihed enter in - Q" << std::endl;
-// 	// 	tempStr = "";
-// 	// 	do
-// 	// 	{
-// 	// 		Material* new_mat = new Material();
-// 	// 		//std::getline(std::cin, )>> tempStr;
-// 	// 		if (tempStr != "Q")
-// 	// 		{
-// 	// 			new_mat = fileHandler.GetMaterialType(new_mat, std::stoi(tempStr));
-// 	// 			new_mat = fileHandler.LoadMaterial(new_mat, new_mat->ID);
-// 	// 			new_film.Materials.push_back(new_mat);
-// 	// 		}
-// 	// 	} while (tempStr != "Q");
-// 	// }
+						if (selectedItem == languages.size())
+						{
+							view.ShowInsertLanguages();
+							languages.push_back(inputHandler.Basic_User_Input("string"));
+						}
+						if (selectedItem == 000)
+						{
+							view.ShowDeleteLanguages();
+							languages.erase(languages.begin() + std::stoi(inputHandler.Basic_User_Input("number")));
+						}
+						else
+						{
+							view.ShowInsertLanguages();
+							languages.at(selectedItem) = inputHandler.Basic_User_Input("string");
+						}
+					}
+				}
+				if (input == "retail price")
+				{
+					view.ShowInsertRetailPrice();
+					(*it)->RetailPrice = std::stoi(inputHandler.Basic_User_Input("number"));
+				}
+				if (input == "subtitle" || input == "subtitles")
+				{
+					if ((*it)->Type == "vhs")
+					{
+						view.ShowInsertLanguages();
+						std::vector<std::string> subtitle;
+						subtitle.push_back(inputHandler.Basic_User_Input("string"));
+						(*it)->SetLanguages(subtitle);
+					}
+					else
+					{
+						std::vector<std::string> subtitles;
+						for (auto i = 0; i != (*it)->GetNumLanguages(); ++i)
+						{
+							subtitles.push_back((*it)->GetLanguage(i));
+						}
+						view.ShowVectorEdit(subtitles);
+						size_t selectedItem = std::stoi(inputHandler.Basic_User_Input("number"));
+
+						if (selectedItem == subtitles.size())
+						{
+							view.ShowInsertSubtitles();
+							subtitles.push_back(inputHandler.Basic_User_Input("string"));
+						}
+						if (selectedItem == 000)
+						{
+							view.ShowDeleteSubtitles();
+							subtitles.erase(subtitles.begin() + std::stoi(inputHandler.Basic_User_Input("number")));
+						}
+						else
+						{
+							view.ShowInsertSubtitles();
+							subtitles.at(selectedItem) = inputHandler.Basic_User_Input("string");
+						}
+					}
+				}
+				if (input == "frame aspect")
+				{
+					view.ShowInsertFrameAspect();
+					(*it)->FrameAspect = inputHandler.Basic_User_Input("string");
+				}
+				if ((*it)->Type == "vhs")
+				{
+					if (input == "packaging")
+					{
+						view.ShowInsertPackaging();
+						(*it)->Packaging = inputHandler.Basic_User_Input("packaging");
+					}
+				}
+				if (input == "rtm") { running = false; }
+				// maybe stored
+				view.DisplayMaterial();
+				DisplayMaterials(*matVector);				
+			}
+		}
+	}	
+}
+
+void Controller::searchEngine()
+{
+	std::string search = "";
+	bool run = true;
+
+	while (run == true)
+	{
+        view.ShowSearchRequest();
+		std::string search = inputHandler.Basic_User_Input("casestring");
+
+		if (search == "actor") {
+			view.ShowEnterActorName();
+			std::string search = inputHandler.Basic_User_Input("string");
+            view.DisplayFilmTitles(SearchActor(browser, search), search);
+			run = false;
+		}
+		else if (search == "title")
+		{
+			view.ShowEnterProjectTitle();
+			std::string search = inputHandler.Basic_User_Input("string");
+            SearchProjectTitle(browser, search);
+			run = false;
+		}
+	}
+}
+
+Node* Controller::SearchProjectTitle(Browser* browser, std::string search)
+{
+	browser->setHead();
+    while (browser->current->next != nullptr)
+	{
+        if (browser->current->data->Title == search)
+        {
+            return browser->current;
+        }
+		browser->nextNode();
+	}
+    if (browser->current->data->Title == search)
+    {
+        return browser->current;
+    }
+    return nullptr;
+}
+
+std::vector<std::string> Controller::SearchActor(Browser* browser, std::string search)
+{
+	browser->setHead();
+    std::vector<std::string> FilmTitles;
+
+    auto CheckIfFilmContainsActor = [browser, &FilmTitles, search]()
+    {
+        std::vector<std::string> CurrentFilmCrewNames;
+        for (auto it = browser->current->data->CrewMembers.begin(); it != browser->current->data->CrewMembers.end(); ++it)
+        {
+            CurrentFilmCrewNames.push_back((*it)->Name);
+        }
+        if(std::find(CurrentFilmCrewNames.begin(), CurrentFilmCrewNames.end(), search) != CurrentFilmCrewNames.end())
+        {
+            FilmTitles.push_back(browser->current->data->Title);
+        }
+        browser->nextNode();
+    };
+	while (browser->current->next != nullptr)
+	{
+        CheckIfFilmContainsActor();
+	}
+    CheckIfFilmContainsActor();
+    return FilmTitles;
+}
+
+void Controller::Reports()
+{
+	int user_option = 0;
 	
-// 	FilmProject *filmToPass = &new_film;
-// 	browser->insert_tail(filmToPass);
-// 	system("clear");
-// 	MM_Templates();
-// }
+	while (user_option != 3)
+	{
+		system("clear");
+		view.ReportsOptions();
+		user_option = std::stoi(inputHandler.Basic_User_Input("number"));
+		if (user_option == 1)
+		{
+			view.New_data_report();			
+			inputHandler.Basic_User_Input("");
+		}
+
+		if (user_option == 2)
+		{			
+			user_option = std::stoi(inputHandler.Basic_User_Input("number"));
+			std::cout << "Please Enter in a total box office earnings - ";
+			std::stoi(inputHandler.Basic_User_Input("number"));
+			
+			view.Total_Earnings_report(user_option);
+			inputHandler.Basic_User_Input("");
+		}
+	}
+}

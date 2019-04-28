@@ -3,7 +3,7 @@
 DVD::DVD()
 {
     Type = "dvd";
-    Packaging = "Plastic Box";
+    Packaging = "plastic";
 }
 
 void DoubleSidedDVD::SetDoubleDVD(Material* a, Material* b)
@@ -15,13 +15,13 @@ void DoubleSidedDVD::SetDoubleDVD(Material* a, Material* b)
 BluRay::BluRay()
 {
     Type = "bluray";
-    Packaging = "Small Plastic Box";
+    Packaging = "small plastic box";
 }
 
 ComboBox::ComboBox()
 {
     Type = "combobox";
-    Packaging = "Cardboard Box";
+    Packaging = "cardboard";
 }
 ComboBox::~ComboBox()
 {

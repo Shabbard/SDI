@@ -28,7 +28,8 @@ class Browser
     void insert_tail(FilmProject* new_data);
     void insert_head(FilmProject* new_data);
     void delete_current();
-
+    void sortedInsert(struct Node** head_ref, struct Node* new_node);
+    void insertionSort();
 };
 
 #endif

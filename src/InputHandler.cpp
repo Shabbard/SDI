@@ -37,19 +37,42 @@ std::string InputHandler::Basic_User_Input(std::string datatype)
     {
         std::getline(std::cin, user_input);
 
-        if (string_int_check(user_input).first && datatype == "string")
+        if (string_int_check(user_input).first && !string_int_check(user_input).second && datatype == "casestring")
         {
             std::transform(user_input.begin(), user_input.end(), user_input.begin(), ::tolower);
 			return user_input;
         }
-        else if(!string_int_check(user_input).second && datatype == "number")
+        else if((!string_int_check(user_input).second || string_int_check(user_input).first ) && datatype == "number")
         {
             std::cout << "Please enter a number" << std::endl;
         }
-        // else if(string_int_check(user_input).second && !string_int_check(user_input).first && datatype == "number")
-		// {
-		// 	return user_input;
-		// }
+		else if (datatype == "status")
+		{
+			if (!string_int_check(user_input).second || string_int_check(user_input).first)
+			{
+				std::cout << "Please enter a number" << std::endl;
+			}
+			if (string_int_check(user_input).second)
+			{
+				if (std::stoi(user_input) == 0 || std::stoi(user_input) == 1 || std::stoi(user_input) == 2)
+				{
+					return user_input;
+				}
+			}
+			std::cout << "Please enter a vaild input" << std::endl;
+		}  
+		else if (datatype == "packaging")
+		{
+			if (string_int_check(user_input).first && !string_int_check(user_input).second)
+			{
+				std::transform(user_input.begin(), user_input.end(), user_input.begin(), ::tolower);
+				if (user_input == "cardboard" || user_input == "plastic")
+				{
+					return user_input;
+				}
+			}
+			std::cout << "Please enter a vaild input" << std::endl;
+		}    
 		else
 		{
 			return user_input;

@@ -1,5 +1,6 @@
 #include "Browser.h"
 #include <iostream>
+#include <fstream>
 
 Browser::~Browser()
 {
@@ -168,4 +169,55 @@ void Browser::delete_current()
    {
       current = current->next;
    }
+   time_t now = time(0);
+	char* dt = ctime(&now);
+
+	std::ofstream logFile2;
+	logFile2.open("../data/logFile.txt", std::ios_base::app);
+	logFile2 << dt << " - Project Deleted! \r\n ";
+   logFile2.close();
 }
+
+void Browser::insertionSort() 
+{ 
+   struct Node* sorted = NULL;
+
+	while (current != NULL) {
+
+		struct Node* next = current->next;
+      current->back = current->next = NULL;
+
+		sortedInsert(&sorted, current);
+		current = next;
+	}
+
+	head = sorted;
+    current = head;
+} 
+
+void Browser::sortedInsert(struct Node** head_ref, struct Node* newNode) 
+{ 
+  if (*head_ref == NULL)
+		*head_ref = newNode;
+
+	else if ((*head_ref)->data->ID >= newNode->data->ID) 
+   {
+		newNode->next = *head_ref;
+		newNode->next->back = newNode;
+      *head_ref = newNode;
+	}
+	else 
+   {
+		current = *head_ref;
+      while (current->next != NULL && current->next->data->ID < newNode->data->ID)
+
+		current = current->next;
+		newNode->next = current->next;
+
+		if (current->next != NULL)
+			newNode->next->back = newNode;
+
+		current->next = newNode;
+		newNode->back = current;
+	}
+} 
