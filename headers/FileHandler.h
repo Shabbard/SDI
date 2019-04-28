@@ -21,6 +21,7 @@ private:
 
 public:
     FileHandler(Browser* browser);
+    FileHandler() {};
     void LoadFilmProjects();
     void UpdateProjectFile();
     void WriteProjectToFile(std::ofstream& file);

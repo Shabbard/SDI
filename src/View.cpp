@@ -91,12 +91,12 @@ void View::DisplayCrew(std::vector<Crew> crewVec)
 }
 
 
-void View::DisplayCurrentFilmProject(FilmProject film)
+void View::DisplayCurrentFilmProject(FilmProject* film)
 {
 	std::cout << "        Project Data " << std::endl;
    std::cout << "Datatype"<< "\t\t" << "Data\n" << std::endl;
-   std::cout << "ID" << "\t\t\t"<< film.ID << std::endl;
-   switch (film.Status)
+   std::cout << "ID" << "\t\t\t"<< film->ID << std::endl;
+   switch (film->Status)
    {
       case FilmProject::Status::Unreleased:
          std::cout << "Status" << "\t\t\t"<< "Unreleased" << std::endl;
@@ -111,53 +111,53 @@ void View::DisplayCurrentFilmProject(FilmProject film)
       default:
          break;
    }
-	std::cout << "Title" << "\t\t\t"<< film.Title << std::endl;
+	std::cout << "Title" << "\t\t\t"<< film->Title << std::endl;
 	std::cout << "Keywords"<< "\t\t";
-	for(auto it = film.KeyWords.begin(); it != film.KeyWords.end(); ++it)
+	for(auto it = film->KeyWords.begin(); it != film->KeyWords.end(); ++it)
 	{
 		std::cout << *it << ",";
 	}
 	std::cout << std::endl;
-	std::cout << "Summary" << "\t\t\t"<< film.Summary << std::endl;
+	std::cout << "Summary" << "\t\t\t"<< film->Summary << std::endl;
 	std::cout << "Genre"<< "\t\t\t";
-	for(auto it = film.Genre.begin(); it != film.Genre.end(); ++it)
+	for(auto it = film->Genre.begin(); it != film->Genre.end(); ++it)
 	{
 		std::cout << *it << ",";
 	}
 	std::cout << std::endl;
-	std::cout << "Release_Date" << "\t\t"<< film.ReleaseDate << std::endl;
+	std::cout << "Release_Date" << "\t\t"<< film->ReleaseDate << std::endl;
 	std::cout << "Filming_Loc"<< "\t\t";
-	for(auto it = film.Filming_Locations.begin(); it != film.Filming_Locations.end(); ++it)
+	for(auto it = film->Filming_Locations.begin(); it != film->Filming_Locations.end(); ++it)
 	{
 		std::cout << *it << ",";
 	}
 	std::cout << std::endl;
-	std::cout << "Runtime" << "\t\t\t"<< film.Runtime << " Minutes "<< std::endl;
+	std::cout << "Runtime" << "\t\t\t"<< film->Runtime << " Minutes "<< std::endl;
 	std::cout << "Language"<< "\t\t";
-	for(auto it = film.Languages.begin(); it != film.Languages.end(); ++it)
+	for(auto it = film->Languages.begin(); it != film->Languages.end(); ++it)
 	{
 		std::cout << *it << ",";
 	}
 	std::cout << std::endl;
-	if (film.Status == 1)
+	if (film->Status == 1)
 	{
 		std::cout << "Weekly Ticket Sales," << "\t" << "£";
-		for (auto it = film.WeeklyTicketSales.begin(); it != film.WeeklyTicketSales.end(); ++it)
+		for (auto it = film->WeeklyTicketSales.begin(); it != film->WeeklyTicketSales.end(); ++it)
 		{
 			std::cout << *it << ",";
 		}
 		std::cout << std::endl;
 	}
    	std::cout << "Crew Member ID's" << "\t";
-	for(auto it = film.CrewMembers.begin(); it != film.CrewMembers.end(); ++it)
+	for(auto it = film->CrewMembers.begin(); it != film->CrewMembers.end(); ++it)
 	{
 		std::cout << (*it).ID << ",";
 	}
    	std::cout << std::endl;
-	if (film.Status == 2)
+	if (film->Status == 2)
 	{
 		std::cout << "Material ID's" << "\t\t";
-		for(auto it = film.Materials.begin(); it != film.Materials.end(); ++it)
+		for(auto it = film->Materials.begin(); it != film->Materials.end(); ++it)
 		{
 			std::cout << (*it)->ID << ",";
 		}

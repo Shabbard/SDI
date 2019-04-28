@@ -138,7 +138,7 @@ std::vector<Material*> FileHandler::LoadAllMaterials()
 
 	while (std::getline(materialFile, str))
 	{
-		Material* new_mat;
+        Material* new_mat = new Material();
 		std::vector<std::string> LineData = SeparateCommasIntoData(str);
 		if (LineData.at(0) == "ID")
 		{

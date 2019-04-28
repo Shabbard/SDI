@@ -40,26 +40,20 @@ std::string InputHandler::Basic_User_Input(std::string datatype)
         if (string_int_check(user_input).first && datatype == "string")
         {
             std::transform(user_input.begin(), user_input.end(), user_input.begin(), ::tolower);
+			return user_input;
         }
         else if(!string_int_check(user_input).second && datatype == "number")
         {
-            return "value_error";
+            std::cout << "Please enter a number" << std::endl;
         }
-        
-        return user_input;
+        // else if(string_int_check(user_input).second && !string_int_check(user_input).first && datatype == "number")
+		// {
+		// 	return user_input;
+		// }
+		else
+		{
+			return user_input;
+		}
+      
     } while(true);
-
-
-    
-
-	// if (user_input == "next")
-	// if (user_input == "next")
-	// {
-	// 	browser->nextNode();
-	// }
-
-	// if (user_input == "back")
-	// {
-	// 	browser->previousNode();
-	// }
 }

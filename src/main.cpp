@@ -1,10 +1,6 @@
-#include "GUI.h"
+#include "Controller.h"
 
 int main()
 {    
-    Controller controller();
-    cli.LoadCrew();
-    cli.Main_Menu();
-    delete fileHandler;
-    delete browser;
+    Controller controller;
 }

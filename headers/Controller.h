@@ -6,16 +6,9 @@
 #include "View.h"
 #include "InputHandler.h"
 #include <stdlib.h>
-
 #include <string>
 #include <stdexcept>
-//#include <conio.h>
 #pragma once
-
-#define KEY_UP 72
-#define KEY_DOWN 80
-#define KEY_LEFT 75
-#define KEY_RIGHT 77
 
 class Controller
 {
@@ -32,12 +25,15 @@ public:
     ~Controller();
     void LoadCrew();
     void LoadMaterials();
+    void Init();
 
     void Main_Menu();
     void Browser_Menu();
     void Maintenance_Menu();
     void Edit_Menu();
     void Create_New_Project_Menu();
+
+    bool BasicUserInput(std::string, std::string);
 
     void DisplayMaterials(std::vector<Material*> matVec);
  
