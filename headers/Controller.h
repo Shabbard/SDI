@@ -1,10 +1,12 @@
-#ifndef GUI_H
-#define GUI_H
+#ifndef CONTROLLER_H
+#define CONTROLLER_H
 #include "FileHandler.h"
 #include "FilmProject.h"
 #include "Browser.h"
+#include "View.h"
+#include "InputHandler.h"
 #include <stdlib.h>
-#include <algorithm>
+
 #include <string>
 #include <stdexcept>
 //#include <conio.h>
@@ -15,21 +17,19 @@
 #define KEY_LEFT 75
 #define KEY_RIGHT 77
 
-class GUI
+class Controller
 {
 private:
     Browser* browser;
-    FileHandler* fileHandler;
+    FileHandler fileHandler;
+    View view;
+    InputHandler inputHandler;
+
     std::vector<Crew> crewVector;
     std::vector<Material*> matVector;
 public:
-    GUI(Browser* browser, FileHandler* file);
-    ~GUI();
-    void Main_Menu_Templates();
-    void BM_Templates();
-    void MM_Templates();
-    void Edit_Templates();
-    void CNP_Templates();
+    Controller();
+    ~Controller();
     void LoadCrew();
     void LoadMaterials();
 
@@ -38,11 +38,9 @@ public:
     void Maintenance_Menu();
     void Edit_Menu();
     void Create_New_Project_Menu();
-    void DisplayMaterials();
-    void LoadMatData(Material* mat, std::string strvar);
-    void DisplayCurrentFilmProject();
-    void DisplayCrew();
-    void DisplayAllCrew();
+
+    void DisplayMaterials(std::vector<Material*> matVec);
+ 
     void CreateNewCrew();
     Material* CreateNewMaterial();
     void SaveAllFiles();
@@ -57,8 +55,6 @@ public:
     int unique_id_check_crew();
 
     std::pair <bool,bool> string_int_check(std::string string_check);
-
-    void Basic_User_Input(std::string user_input);
 };
 
 #endif

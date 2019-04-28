@@ -1,99 +1,130 @@
-#include "GUI.h"
+#include "Controller.h"
 
-GUI::GUI(Browser *input, FileHandler *file)
+Controller::Controller()
 {
-	browser = input;
-	fileHandler = file;
+	browser = new Browser();
+    fileHandler = FileHandler(browser);
+    fileHandler.LoadFilmProjects();
+	LoadCrew();
+	LoadMaterials();
 }
 
-GUI::~GUI()
+Controller::~Controller()
 {
 }
 
-void GUI::LoadCrew()
+void Controller::LoadCrew()
 {
-	crewVector = fileHandler->LoadEntireCrew();
+	crewVector = fileHandler.LoadEntireCrew();
 }
 
-void GUI::LoadMaterials()
+void Controller::LoadMaterials()
+
 {
-	matVector = fileHandler->LoadAllMaterials();
+	matVector = fileHandler.LoadAllMaterials();
 }
 
-void GUI::Main_Menu_Templates()
+void Controller::SaveAllFiles()
 {
-
-	std::cout << "\n           TrekStar Production Log" << std::endl;
-	std::cout << "______________________________________________" << std::endl;
-	std::cout << "\n            Please Enter in a Value" << std::endl;
-	std::cout << "\nBrowser Mode                        Enter BM" << std::endl;
-	std::cout << "Maintenance Mode                    Enter MM\n" << std::endl;
-	std::cout << "Save                                Enter Save\n" << std::endl;
-	std::cout << "Exit                                Enter Exit\n" << std::endl;
-	std::cout << "______________________________________________\n" << std::endl;
-}
-void GUI::BM_Templates()
-{
-	std::cout << "\n          Welcome to Browser Mode" << std::endl;
-	std::cout << "______________________________________________" << std::endl;
-	std::cout << "\n    Please Enter in a Value" << std::endl;
-	std::cout << "\nNext                                Enter Next" << std::endl;
-	std::cout << "Back                                Enter Back" << std::endl;
-	std::cout << "View Crew                           Enter Crew" << std::endl;
-	std::cout << "View Material Info                  Enter MI" << std::endl;
-	std::cout << "Search                              Enter Search\n" << std::endl;
-	std::cout << "Return to Menu                      Enter RTM\n" << std::endl;
-	std::cout << "______________________________________________\n" << std::endl;
-	DisplayCurrentFilmProject();
-}
-void GUI::MM_Templates()
-{
-	std::cout << "\n     Welcome to Maintenace Mode" << std::endl;
-	std::cout << "______________________________________________" << std::endl;
-	std::cout << "\nPlease Enter in a Value" << std::endl;
-	std::cout << "\nNext                               Enter Next" << std::endl;
-	std::cout << "Back                                 Enter Back" << std::endl;
-	std::cout << "View Crew                            Enter Crew" << std::endl;
-	std::cout << "View Material Info                   Enter MI\n" << std::endl;
-	std::cout << "Create New Project                   Enter CNP" << std::endl;
-	std::cout << "Create New Crew                      Enter CNC" << std::endl;
-	std::cout << "Create New Material                  Enter CNM" << std::endl;
-	std::cout << "Edit                                 Enter EDIT" << std::endl;
-	std::cout << "Delete Project                       Enter DP\n" << std::endl;
-	std::cout << "Reports Mode                         Enter R\n" << std::endl;
-	std::cout << "Return to Menu                       Enter RTM\n" << std::endl;
-	std::cout << "______________________________________________\n" << std::endl;
-	DisplayCurrentFilmProject();
+	fileHandler.UpdateProjectFile();
+	fileHandler.WriteCrewToFile(crewVector);
+	browser->setHead();
 }
 
-void GUI::CNP_Templates()
+int Controller::unique_id_check_project()
 {
-	std::cout << "\n              Add New Project" << std::endl;
-	std::cout << "______________________________________________" << std::endl;
-	std::cout << "\n   Please follow the instructions below" << std::endl;
-	std::cout << "\n  Enter in the values as they are listed" << std::endl;
-	std::cout << "\n        You may edit this later on" << std::endl;
-	std::cout << "______________________________________________\n" << std::endl;
+	int new_id = 0;
+
+	browser->setHead();
+
+	while (browser->current->next != nullptr)
+	{
+		if (new_id < browser->current->data->ID)
+		{
+			new_id = browser->current->data->ID;
+		}
+		browser->nextNode();
+	}
+
+	if (new_id < browser->current->data->ID)
+	{
+		new_id = browser->current->data->ID;
+	}
+
+	return ++new_id;
 }
 
-void GUI::Edit_Templates()
+int Controller::unique_id_check_material()
 {
-	std::cout << "\n           Welcome to Edit Mode" << std::endl;
-	std::cout << "______________________________________________\n" << std::endl;
-	std::cout << "Step 1: Enter in the database you want to edit\n" << std::endl;
-	std::cout << "Step 2: Enter in the datatype you want ot edit\n " << std::endl;
-	std::cout << "Step 3: Make your changes\n " << std::endl;
-	std::cout << "______________________________________________\n" << std::endl;
+	int new_id = 0;
+
+	browser->setHead();
+
+	while (browser->current->next != nullptr)
+	{
+
+		for (auto it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); ++it)
+		{
+			if (new_id < (*it)->ID)
+			{
+				new_id = (*it)->ID;
+			}
+		}
+		browser->nextNode();
+	}
+	for (auto it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); ++it)
+	{
+		if (new_id < (*it)->ID)
+		{
+			new_id = (*it)->ID;
+		}
+	}
+	
+	return ++new_id;
 }
 
-void GUI::Main_Menu()
+int Controller::unique_id_check_crew()
+{
+	int new_id = 0;
+
+	for (auto it = crewVector.begin(); it != crewVector.end(); ++it)
+	{
+		if ((*it).ID > new_id)
+		{
+			new_id = (*it).ID;
+		}
+	}
+	return ++new_id;
+}
+
+void Controller::DisplayMaterials(std::vector<Material*> matVec)
+{
+	view.DisplayMaterial();
+
+	for (std::vector<Material *>::iterator it = matVec.begin(); it != matVec.end(); ++it)
+	{
+		view.LoadMatData(*it, "");
+		Material *mat = *it;
+		if (mat->Type == "ComboBox")
+		{
+			for (auto iter = mat->GetDVDs().begin(); iter != mat->GetDVDs().end(); ++iter)
+			{
+				view.LoadMatData((*iter), "\t\t");
+			}
+		}
+	}
+
+	std::cout << "\n";
+}
+
+void Controller::Main_Menu()
 {
 	std::string user_input = "";
 
 	do
 	{
 		system("clear");
-		Main_Menu_Templates();
+		view.Main_Menu_Templates();
 
 		std::getline(std::cin, user_input);
 		std::transform(user_input.begin(), user_input.end(), user_input.begin(), ::tolower);
@@ -101,20 +132,20 @@ void GUI::Main_Menu()
 		if (user_input == "save")
 		{
 			system("clear");
-			Main_Menu_Templates();
+			view.Main_Menu_Templates();
 			SaveAllFiles();
 			std::cout << " Projects Saved   " << std::endl;
 		}
 		if (user_input == "bm")
 		{
 			system("clear");
-			BM_Templates();
+			view.BM_Templates();
 			Browser_Menu();
 		}
 		if (user_input == "mm")
 		{
 			system("clear");
-			MM_Templates();
+			view.MM_Templates();
 			Maintenance_Menu();
 		}
 
@@ -123,14 +154,7 @@ void GUI::Main_Menu()
 
 }
 
-void GUI::SaveAllFiles()
-{
-	fileHandler->UpdateProjectFile();
-	fileHandler->WriteCrewToFile(crewVector);
-	browser->setHead();
-}
-
-void GUI::Browser_Menu()
+void Controller::Browser_Menu()
 {
 	std::string user_input = "";
 
@@ -140,14 +164,14 @@ void GUI::Browser_Menu()
 
 		std::transform(user_input.begin(), user_input.end(), user_input.begin(), ::tolower);
 
-		Basic_User_Input(user_input);
+		inputHandler.Basic_User_Input(user_input);
 
 		system("clear");
-		BM_Templates();
+		view.BM_Templates();
 
 		if (user_input == "crew")
 		{
-			DisplayCrew();
+			view.DisplayCrew();
 		}
 		else if (user_input == "mi")
 		{
@@ -157,20 +181,16 @@ void GUI::Browser_Menu()
 	} while (user_input != "rtm");
 }
 
-void GUI::Maintenance_Menu()
+void Controller::Maintenance_Menu()
 {
-	std::string user_input;
 
 	do
 	{
-		std::getline(std::cin, user_input);
+		
 
-		std::transform(user_input.begin(), user_input.end(), user_input.begin(), ::tolower);
+		inputHandler.Basic_User_Input();
 
-		Basic_User_Input(user_input);
-
-		system("clear");
-		MM_Templates();
+		view.MM_Templates();
 
 		if (user_input == "crew")
 		{
@@ -217,7 +237,7 @@ void GUI::Maintenance_Menu()
 	user_input = "";
 }
 
-void GUI::Edit_Menu()
+void Controller::Edit_Menu()
 {
 
 	std::string user_input = "";
@@ -253,7 +273,7 @@ void GUI::Edit_Menu()
 	} while (user_input != "rtm");
 }
 
-void GUI::project_edit()
+void Controller::project_edit()
 {
 	std::string edit_input = "";
 
@@ -262,12 +282,7 @@ void GUI::project_edit()
 		system("clear");
 		Edit_Templates();
 
-		std::cout << "\nNext                                Enter Next" << std::endl;
-		std::cout << "Back                                Enter Back\n"
-				  << std::endl;
-		std::cout << "Return to Menu                       Enter RTM\n"
-				  << std::endl;
-		std::cout << "________________________________________________" << std::endl;
+		Next_Back_Instructions();
 
 		DisplayCurrentFilmProject();
 
@@ -591,7 +606,7 @@ void GUI::project_edit()
 }
 
 
-void GUI::crew_edit()
+void Controller::crew_edit()
 {
 	std::string edit_input = "";
 
@@ -601,10 +616,7 @@ void GUI::crew_edit()
 		system("clear");
 		Edit_Templates();
 		
-		std::cout << "\nNext                                Enter Next" << std::endl;
-		std::cout << "Back                                Enter Back\n" << std::endl;
-		std::cout << "Return to Menu                       Enter RTM\n" << std::endl;
-		std::cout << "________________________________________________" << std::endl;
+		Next_Back_Instructions();
 		
 		//browser->display_all_crew();
 
@@ -622,7 +634,7 @@ void GUI::crew_edit()
 
 }
 
-void GUI::material_edit()
+void Controller::material_edit()
 {
 
 	system("clear");
@@ -662,7 +674,7 @@ void GUI::material_edit()
 	}while(edit_input != "rtm");
 }
 
-void GUI::material_edit_management(int material_ID)
+void Controller::material_edit_management(int material_ID)
 {
 
 	system("clear");
@@ -689,95 +701,7 @@ void GUI::material_edit_management(int material_ID)
 	
 }
 
-// ID,3
-// Type,DVD
-// Title,Avatar - End Game.
-// DVD_Description,Dead Avatar.
-// Video_Format,1080p
-// Audio_Format,WAV
-// Run_Time,160
-// Languages,English,French,Spanish
-// Retail_Price,30
-// Subtitles,English,French,Spanish
-// Frame_Aspect,16:9
-// Bonus_Features,Directors Cut
-// Packaging,Plastic
-// Stored,4
-
-void GUI::LoadMatData(Material* mat, std::string strvar)
-{
-	std::cout << strvar << "________________________________________________\n"
-			  << std::endl;
-	std::cout << strvar << "ID"
-			  << "\t\t\t" << mat->ID << "\n"
-			  << std::endl;
-	std::cout << strvar << "Title"
-			  << "\t\t\t" << mat->Title << std::endl;
-	std::cout << strvar << "Type"
-			  << "\t\t\t" << mat->Type << std::endl;
-	std::cout << strvar << "DVD Description"
-			  << "\t\t" << mat->Description << std::endl;
-	std::cout << strvar << "Video Format"
-			  << "\t\t" << mat->VideoFormat << std::endl;
-	std::cout << strvar << "Audio Format"
-			  << "\t\t" << mat->AudioFormat << std::endl;
-	std::cout << strvar << "Runtime"
-			  << "\t\t\t" << mat->Runtime << std::endl;
-	std::cout << strvar << "Languages"
-			  << "\t\t";
-	if (mat->Type == "VHS")
-	{
-		std::cout << strvar << mat->GetLanguage(0);
-	}
-	else
-	{
-		for (size_t i = 0; i != mat->GetNumLanguages(); i++)
-		{
-			std::cout << mat->GetLanguage(i) << ",";
-		}
-		std::cout << std::endl;
-	}
-	std::cout << strvar << "Retail Price"
-			  << "\t\t" << mat->RetailPrice << std::endl;
-	std::cout << strvar << "Subtitles"
-			  << "\t\t";
-	if (mat->Type == "VHS")
-	{
-		std::cout << strvar << mat->GetSubtitle(0);
-	}
-	else
-	{
-		for (size_t i = 0; i != mat->GetNumSubtitles(); i++)
-		{
-			std::cout << mat->GetSubtitle(i) << ",";
-		}
-		std::cout << std::endl;
-	}
-	std::cout << strvar << "Frame Aspect"
-			  << "\t\t" << mat->FrameAspect << std::endl;
-	if (mat->Type == "DVD" || mat->Type == "BluRay")
-	{
-		std::cout << strvar << "Bonus Features"
-				  << "\t\t";
-		for (size_t i = 0; i != mat->GetNumBonusFeatures(); i++)
-		{
-			std::cout << mat->GetBonusFeature(i) << ",";
-		}
-		std::cout << std::endl;
-	}
-	std::cout << strvar << "Packaging"
-			  << "\t\t" << mat->Packaging << std::endl;
-	std::cout << std::endl;
-
-	if (mat->Type == "DoubleSidedDVD")
-	{
-		std::pair<Material *, Material *> DoubleDVD = mat->GetDVDPair();
-		LoadMatData(DoubleDVD.first, "\t\t\t\t");
-		LoadMatData(DoubleDVD.second, "\t\t\t\t");
-	}
-}
-
-void GUI::CreateNewCrew()
+void Controller::CreateNewCrew()
 {
 	std::cout << "________________________________________________\n\n" << std::endl;
 	std::cout << "           Create New Crew Member                 " << "\n" << std::endl;
@@ -787,7 +711,11 @@ void GUI::CreateNewCrew()
 
 	std::string user_input;
 	std::cout << "\nPlease insert the Crew Members Name: ";
-	std::getline(std::cin, new_crew.Name);
+	user_input = inputHandler.Basic_User_Input("string");
+	if (user_input == "")
+	{
+
+	}
 	std::cout << "\nPlease insert the Crew Members Job: ";
 	std::getline(std::cin, new_crew.Job);
 	crewVector.push_back(new_crew);
@@ -796,7 +724,7 @@ void GUI::CreateNewCrew()
 	MM_Templates();
 }
 
-Material* GUI::CreateNewMaterial()
+Material* Controller::CreateNewMaterial()
 {
 	Material* new_mat = new Material();
 
@@ -905,8 +833,7 @@ Material* GUI::CreateNewMaterial()
 	{
 		std::vector<std::string> languages;
 		std::cout << "\nPlease insert the Languages:\n"<< std::endl;
-		std::cout << "Type in the value then press enter to add another value" << std::endl;
-		std::cout << "When you have finished enter in (case sensitive) - Q" << std::endl;
+		Vector_Instructions();
 		do
 		{
 			std::getline(std::cin, user_input);
@@ -944,8 +871,7 @@ Material* GUI::CreateNewMaterial()
 	{
 		std::vector<std::string> subtitles;
 		std::cout << "\nPlease insert the Subtitle Languages:\n"<< std::endl;
-		std::cout << "Type in the value then press enter to add another value" << std::endl;
-		std::cout << "When you have finished enter in (case sensitive) - Q" << std::endl;
+		Vector_Instructions();
 		do
 		{
 			std::getline(std::cin, user_input);
@@ -989,10 +915,7 @@ Material* GUI::CreateNewMaterial()
 		int film_ID = 0;
 		while (isNum == false)
 		{
-			system("clear");
-			std::cout << "\nNext                                Enter Next" << std::endl;
-			std::cout << "Back                                Enter Back\n" << std::endl;
-			std::cout << "________________________________________________\n" << std::endl;
+			Next_Back_Instructions();
 
 			DisplayCurrentFilmProject();
 			user_input = "";
@@ -1006,7 +929,7 @@ Material* GUI::CreateNewMaterial()
 				film_ID = std::stoi(user_input);
                 Film new_film;
                 new_film.ID = film_ID;
-                new_film = fileHandler->LoadFilm(new_film.ID);
+                new_film = fileHandler.LoadFilm(new_film.ID);
 				if (new_film.Title == "")
 				{
 					isNum = false;
@@ -1031,209 +954,7 @@ Material* GUI::CreateNewMaterial()
 	return new_mat;
 }
 
-void GUI::DisplayMaterials()
-{
-	std::cout << "________________________________________________\n\n"
-			  << std::endl;
-	std::cout << "                     Materials                 "
-			  << "\n"
-			  << std::endl;
-
-	for (std::vector<Material *>::iterator it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); ++it)
-	{
-		LoadMatData(*it, "");
-		Material *mat = *it;
-		if (mat->Type == "ComboBox")
-		{
-			for (auto iter = mat->GetDVDs().begin(); iter != mat->GetDVDs().end(); ++iter)
-			{
-				LoadMatData((*iter), "\t\t");
-			}
-		}
-	}
-
-	std::cout << "\n";
-}
-
-void GUI::Basic_User_Input(std::string user_input)
-{
-	if (user_input == "next")
-	{
-		browser->nextNode();
-	}
-
-	if (user_input == "back")
-	{
-		browser->previousNode();
-	}
-}
-
-int GUI::unique_id_check_project()
-{
-	int new_id = 0;
-
-	browser->setHead();
-
-	while (browser->current->next != nullptr)
-	{
-		if (new_id < browser->current->data->ID)
-		{
-			new_id = browser->current->data->ID;
-		}
-		browser->nextNode();
-	}
-
-	if (new_id < browser->current->data->ID)
-	{
-		new_id = browser->current->data->ID;
-	}
-
-	return ++new_id;
-}
-
-int GUI::unique_id_check_material()
-{
-	int new_id = 0;
-
-	browser->setHead();
-
-	while (browser->current->next != nullptr)
-	{
-
-		for (auto it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); ++it)
-		{
-			if (new_id < (*it)->ID)
-			{
-				new_id = (*it)->ID;
-			}
-		}
-		browser->nextNode();
-	}
-	for (auto it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); ++it)
-	{
-		if (new_id < (*it)->ID)
-		{
-			new_id = (*it)->ID;
-		}
-	}
-	
-	return ++new_id;
-}
-
-int GUI::unique_id_check_crew()
-{
-	int new_id = 0;
-
-	for (auto it = crewVector.begin(); it != crewVector.end(); ++it)
-	{
-		if ((*it).ID > new_id)
-		{
-			new_id = (*it).ID;
-		}
-	}
-	return ++new_id;
-}
-
-void GUI::DisplayCrew()
-{
-	std::cout << "___________________________________\n" << std::endl;
-   	std::cout << "            Crew Members             " << "\n"<< std::endl;
-   	std::cout << " ID             Name            Job\n" << std::endl;
-   	for(auto it = browser->current->data->CrewMembers.begin(); it != browser->current->data->CrewMembers.end(); ++it)
-	{   
-      	std::cout << "- " << (*it).ID<< "\t"<< (*it).Name << "\t\t" << (*it).Job << std::endl;
-	}
-   	std::cout << "\n";
-}
-
-void GUI::DisplayAllCrew()
-{
-	std::cout << "___________________________________\n" << std::endl;
-   	std::cout << "            Crew Members             " << "\n"<< std::endl;
-   	std::cout << " ID             Name            Job\n" << std::endl;
-   	for(auto it = crewVector.begin(); it != crewVector.end(); ++it)
-	{   
-      	std::cout << "- " << (*it).ID<< "\t"<< (*it).Name << "\t\t" << (*it).Job << std::endl;
-	}
-   	std::cout << "\n";
-}
-
-void GUI::DisplayCurrentFilmProject()
-{
-	std::cout << "        Project Data " << std::endl;
-   std::cout << "Datatype"<< "\t\t" << "Data\n" << std::endl;
-   std::cout << "ID" << "\t\t\t"<< browser->current->data->ID << std::endl;
-   switch (browser->current->data->Status)
-   {
-      case FilmProject::Status::Unreleased:
-         std::cout << "Status" << "\t\t\t"<< "Unreleased" << std::endl;
-         break;
-      case FilmProject::Status::Now_Playing:
-         std::cout << "Status" << "\t\t\t"<< "Now Playing" << std::endl;
-         break;
-      case FilmProject::Status::Released:
-         std::cout << "Status" << "\t\t\t"<< "Released" << std::endl;
-         break;
-   
-      default:
-         break;
-   }
-	std::cout << "Title" << "\t\t\t"<< browser->current->data->Title << std::endl;
-	std::cout << "Keywords"<< "\t\t";
-	for(auto it = browser->current->data->KeyWords.begin(); it != browser->current->data->KeyWords.end(); ++it)
-	{
-		std::cout << *it << ",";
-	}
-	std::cout << std::endl;
-	std::cout << "Summary" << "\t\t\t"<< browser->current->data->Summary << std::endl;
-	std::cout << "Genre"<< "\t\t\t";
-	for(auto it = browser->current->data->Genre.begin(); it != browser->current->data->Genre.end(); ++it)
-	{
-		std::cout << *it << ",";
-	}
-	std::cout << std::endl;
-	std::cout << "Release_Date" << "\t\t"<< browser->current->data->ReleaseDate << std::endl;
-	std::cout << "Filming_Loc"<< "\t\t";
-	for(auto it = browser->current->data->Filming_Locations.begin(); it != browser->current->data->Filming_Locations.end(); ++it)
-	{
-		std::cout << *it << ",";
-	}
-	std::cout << std::endl;
-	std::cout << "Runtime" << "\t\t\t"<< browser->current->data->Runtime << " Minutes "<< std::endl;
-	std::cout << "Language"<< "\t\t";
-	for(auto it = browser->current->data->Languages.begin(); it != browser->current->data->Languages.end(); ++it)
-	{
-		std::cout << *it << ",";
-	}
-	std::cout << std::endl;
-	if (browser->current->data->Status == 1)
-	{
-		std::cout << "Weekly Ticket Sales," << "\t" << "£";
-		for (auto it = browser->current->data->WeeklyTicketSales.begin(); it != browser->current->data->WeeklyTicketSales.end(); ++it)
-		{
-			std::cout << *it << ",";
-		}
-		std::cout << std::endl;
-	}
-   	std::cout << "Crew Member ID's" << "\t";
-	for(auto it = browser->current->data->CrewMembers.begin(); it != browser->current->data->CrewMembers.end(); ++it)
-	{
-		std::cout << (*it).ID << ",";
-	}
-   	std::cout << std::endl;
-	if (browser->current->data->Status == 2)
-	{
-		std::cout << "Material ID's" << "\t\t";
-		for(auto it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); ++it)
-		{
-			std::cout << (*it)->ID << ",";
-		}
-		std::cout << std::endl;
-	}
-   	std::cout << std::endl;
-}
-
-void GUI::Create_New_Project_Menu()
+void Controller::Create_New_Project_Menu()
 {
 	system("clear");
 	CNP_Templates();
@@ -1273,8 +994,7 @@ void GUI::Create_New_Project_Menu()
 	std::cout << "\nPlease insert a Title: ";
 	std::getline(std::cin, new_film.Title);
 	std::cout << "\nPlease insert the Keywords: " << std::endl;
-	std::cout << "Type in the value then press enter to add another value" << std::endl;
-	std::cout << "When you have finished enter in (case sensitive) - Q" << std::endl;
+	Vector_Instructions();
 	do
 	{
 		std::getline(std::cin, user_input);
@@ -1283,8 +1003,7 @@ void GUI::Create_New_Project_Menu()
 	std::cout << "\nPlease insert a Summary: ";
 	std::getline(std::cin, new_film.Summary);
 	std::cout << "\nPlease insert the Genres: " << std::endl;
-	std::cout << "Type in the value then press enter to add another value" << std::endl;
-	std::cout << "When you have finished enter in (case sensitive) - Q" << std::endl;
+	Vector_Instructions();
 	do
 	{
 		std::getline(std::cin, user_input);
@@ -1293,8 +1012,7 @@ void GUI::Create_New_Project_Menu()
 	std::cout << "\nPlease insert a Release Date: ";
 	std::getline(std::cin, new_film.ReleaseDate);
 	std::cout << "\nPlease insert the Filming Locations: " << std::endl;
-	std::cout << "Type in the value then press enter to add another value" << std::endl;
-	std::cout << "When you have finished enter in (case sensitive) - Q" << std::endl;
+	Vector_Instructions();
 	do
 	{
 		std::getline(std::cin, user_input);
@@ -1317,8 +1035,7 @@ void GUI::Create_New_Project_Menu()
 		}
 	}	
 	std::cout << "\nPlease insert the Languages: " << std::endl;
-	std::cout << "Type in the value then press enter to add another value" << std::endl;
-	std::cout << "When you have finished enter in (case sensitive) - Q" << std::endl;
+	Vector_Instructions();
 	do
 	{
 		std::getline(std::cin, user_input);
@@ -1347,8 +1064,7 @@ void GUI::Create_New_Project_Menu()
 	DisplayAllCrew();
 
 	std::cout << "\nPlease insert Crew Memeber IDs" << std::endl;
-	std::cout << "Type in the value then press enter to add another value" << std::endl;
-	std::cout << "When you have finihed enter in - Q" << std::endl;
+	Vector_Instructions();
 	std::string tempStr;
 	do
 	{
@@ -1357,7 +1073,7 @@ void GUI::Create_New_Project_Menu()
 		if (tempStr != "Q")
 		{
 			new_crew.ID = std::stoi(tempStr);
-			new_crew = fileHandler->LoadCrew(new_crew);
+			new_crew = fileHandler.LoadCrew(new_crew);
 			new_film.CrewMembers.push_back(new_crew);
 		}
 	} while (tempStr != "Q");
@@ -1373,8 +1089,8 @@ void GUI::Create_New_Project_Menu()
 	// 		//std::getline(std::cin, )>> tempStr;
 	// 		if (tempStr != "Q")
 	// 		{
-	// 			new_mat = fileHandler->GetMaterialType(new_mat, std::stoi(tempStr));
-	// 			new_mat = fileHandler->LoadMaterial(new_mat, new_mat->ID);
+	// 			new_mat = fileHandler.GetMaterialType(new_mat, std::stoi(tempStr));
+	// 			new_mat = fileHandler.LoadMaterial(new_mat, new_mat->ID);
 	// 			new_film.Materials.push_back(new_mat);
 	// 		}
 	// 	} while (tempStr != "Q");
@@ -1384,26 +1100,4 @@ void GUI::Create_New_Project_Menu()
 	browser->insert_tail(filmToPass);
 	system("clear");
 	MM_Templates();
-}
-
-std::pair <bool,bool> GUI::string_int_check(std::string string_check)
-{
-	bool integer_val = false, string_val = false;
-
-		for(auto it = string_check.begin(); it != string_check.end(); ++it)
-		{
-			if (isalpha(*it))
-			{
-				string_val = true;
-			}
-			else if (isdigit(*it))
-			{
-				integer_val = true;
-			}
-		}
-
-	std::pair<bool, bool> output = {string_val, integer_val};
-		
-	return output;
-	
 }

@@ -5,24 +5,28 @@ CONFIG -= qt
 
 SOURCES += \
     src/Browser.cpp \
+    src/Controller.cpp \
+    src/InputHandler.cpp \
     src/SDI-tests.cpp \
     src/FileHandler.cpp \
-    src/GUI.cpp \
     src/FIlm.cpp \
     src/FilmProject.cpp \
     src/Material.cpp \
     src/SDI-tests.cpp \
+    src/View.cpp \
     src/main.cpp
 
 
     
 HEADERS += \
     headers/Browser.h \
+    headers/Controller.h \
     headers/Film.h \
     headers/FileHandler.h \
-    headers/GUI.h \
+    headers/InputHandler.h \
     headers/Material.h \
-    headers/FilmProject.h
+    headers/FilmProject.h \
+    headers/View.h
 
 INCLUDEPATH += headers/
 
