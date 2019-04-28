@@ -21,5 +21,7 @@ public:
     void LoadMatData(Material* mat, std::string strvar);
     void Vector_Instructions();
     void Next_Back_Instructions();
+    void interror();
+
 };
 
