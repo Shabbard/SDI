@@ -203,7 +203,9 @@ bool Controller::BasicUserInput(std::string input, std::string currMenu)
 	else if (input == "mi")
 	{
 		DisplayMaterials(browser->current->data->Materials);
-	}
+    }
+
+    return true;
 }
 
 void Controller::Maintenance_Menu()
