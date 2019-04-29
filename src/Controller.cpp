@@ -46,6 +46,7 @@ void Controller::SaveAllFiles()
 {
 	fileHandler.UpdateProjectFile();
 	fileHandler.WriteCrewToFile();
+	fileHandler.WriteMaterialToFile();
 	browser->setHead();
 }
 
@@ -216,11 +217,10 @@ bool Controller::BasicUserInput(std::string input, std::string currMenu)
 	{
 		view.DisplayCrew(browser->current->data->CrewMembers);
 	}
-	else if (input == "mi")
+	else if (input == "mi" && browser->current->data->Status == 2)
 	{
 		DisplayMaterials(browser->current->data->Materials);
     }
-
     return true;
 }
 
@@ -240,8 +240,6 @@ void Controller::Maintenance_Menu()
 		if (input == "cnp")
 		{
 			Create_New_Project_Menu();
-			view.MM_Templates();
-			view.DisplayCurrentFilmProject(browser->current->data);
 		}
 		if (input == "dp")
 		{
@@ -251,20 +249,18 @@ void Controller::Maintenance_Menu()
 		if (input == "cnc")
 		{
 			CreateNewCrew();
-			view.MM_Templates();
-			view.DisplayCurrentFilmProject(browser->current->data);
 		}
 		if (input == "cnm")
 		{
 			//SaveAllFiles();
 			matVector->push_back(CreateNewMaterial());
-			view.MM_Templates();
-			view.DisplayCurrentFilmProject(browser->current->data);
 		}
 		if (input == "reports")
 		{
 			Reports();
 		}
+		view.MM_Templates();
+		view.DisplayCurrentFilmProject(browser->current->data);
 	}
 }
 
@@ -348,7 +344,6 @@ void Controller::Create_New_Project_Menu()
 		Crew* new_crew = fileHandler.LoadCrew(stoi(inputHandler.Basic_User_Input("number")));
 		if (crew_id_input != 00) { new_film->CrewMembers.push_back(new_crew); }
 	}
-
 	fileHandler.Tracking(1);
 }
 
@@ -380,14 +375,21 @@ void Controller::Edit_Menu()
         if (user_input == "project")
 		{
 			project_edit();
+			running = false;
 		}
         else if (user_input == "crew")
 		{
 			crew_edit();
+			running = false;
 		}
         else if (user_input == "material" || user_input == "materials")
 		{
 			material_edit();
+			running = false;
+		}
+		else if (user_input == "rtm")
+		{
+			running = false;
 		}
 	}
 }
@@ -519,33 +521,74 @@ void Controller::project_edit()
 			view.ShowInsertWeeklyTicketSale();
 			browser->current->data->WeeklyTicketSales.push_back(std::stod(inputHandler.Basic_User_Input("number")));		
 		}
-		// if (user_input == "crew member id")
-		// {
-			
-		// 	DisplayCrew();
-			
-			
-			
-		// 	std::cout << "\nPlease insert a crew member ID: ";
-			
-			
-			
-		// 	// display crew members
-		// 	// request ID
-		// 	// Link ID and data
-		// }
-		// if (user_input == "material id" && browser->current->data->Status == 2)
-		// {
-		// 	std::cout << "\nPlease insert a material ID : ";
-		// 	DisplayMaterials();
-		// 	std::string strMaterialID;
-		// 	std::getline(std::cin, strMaterialID);
-		// 	//Material* new_mat
-		// 	std::stoi(strMaterialID);
+		if (user_input == "crew")
+		{
+            view.ShowAddDeleteCrew();
+			std::string user_input = inputHandler.Basic_User_Input("string");
+			if (user_input == "delete")
+			{
+				view.DisplayCrew(browser->current->data->CrewMembers);
+				view.ShowDeleteCrew();
+				int currentCrew = std::stoi(inputHandler.Basic_User_Input("number"));
+				
+				for (auto it = browser->current->data->CrewMembers.begin(); it != browser->current->data->CrewMembers.end(); ++it)
+				{
+                    if ((*it)->ID == currentCrew)
+					{
+						browser->current->data->CrewMembers.erase(it);
+					}
+				}
+			}
+			if (user_input == "add")
+			{
+				view.DisplayCrew(*crewVector);
+				view.ShowAddCrew();
+				int currentCrew = std::stoi(inputHandler.Basic_User_Input("number"));
 
-		// 	//browser->current->data->Materials.push_back();
+				for (auto it = crewVector->begin(); it != crewVector->end(); ++it)
+				{
+                    if ((*it)->ID == currentCrew)
+					{
+						browser->current->data->CrewMembers.push_back(*it);
+					}
+				}
+			}
 
-		// }
+		}
+		if (user_input == "material" && browser->current->data->Status == 2)
+		{
+			view.ShowAddDeleteMaterial();
+			std::string user_input = inputHandler.Basic_User_Input("string");
+			if (user_input == "delete")
+			{
+				view.DisplayCrew(browser->current->data->CrewMembers);
+				view.ShowDeleteMaterial();
+				int currentCrew = std::stoi(inputHandler.Basic_User_Input("number"));
+				
+				for (auto it = browser->current->data->Materials.begin(); it != browser->current->data->Materials.end(); ++it)
+				{
+                    if ((*it)->ID == currentCrew)
+					{
+						//delete *it;
+						browser->current->data->Materials.erase(it);
+					}
+				}
+			}
+			if (user_input == "add")
+			{
+				DisplayMaterials(*matVector);
+				view.ShowAddMaterial();
+				int currentMaterial = std::stoi(inputHandler.Basic_User_Input("number"));
+
+				for (auto it = matVector->begin(); it != matVector->end(); ++it)
+				{
+                    if ((*it)->ID == currentMaterial)
+					{
+						browser->current->data->Materials.push_back(*it);
+					}
+				}
+			}
+		}
 		if (user_input == "next") { browser->nextNode(); }
 		if (user_input == "back") { browser->previousNode(); }
 		if (user_input == "rtm") { running = false; }
@@ -749,6 +792,8 @@ void Controller::material_edit()
 		view.ShowRequestMaterialID();
 		int currentMaterial = std::stoi(inputHandler.Basic_User_Input("number"));
 
+		if (currentMaterial == 000) { running = false; }
+
 		for (auto it = matVector->begin(); it != matVector->end(); ++it)
 		{
 			if ((*it)->ID == currentMaterial)
@@ -866,12 +911,12 @@ void Controller::material_edit()
 				if ((*it)->Type == "vhs")
 				{
 					if (input == "packaging")
-					{
+                    {			view.DisplayEarningsReport();
+
 						view.ShowInsertPackaging();
 						(*it)->Packaging = inputHandler.Basic_User_Input("packaging");
 					}
 				}
-				if (input == "rtm") { running = false; }
 				// maybe stored
 				view.DisplayMaterial();
 				DisplayMaterials(*matVector);				
@@ -893,20 +938,20 @@ void Controller::searchEngine()
 		if (search == "actor") {
 			view.ShowEnterActorName();
 			std::string search = inputHandler.Basic_User_Input("string");
-            view.DisplayFilmTitles(SearchActor(browser, search), search);
+            view.DisplayFilmTitles(SearchActor(search), search);
 			run = false;
 		}
 		else if (search == "title")
 		{
 			view.ShowEnterProjectTitle();
 			std::string search = inputHandler.Basic_User_Input("string");
-            SearchProjectTitle(browser, search);
+            SearchProjectTitle(search);
 			run = false;
 		}
 	}
 }
 
-Node* Controller::SearchProjectTitle(Browser* browser, std::string search)
+Node* Controller::SearchProjectTitle(std::string search)
 {
 	browser->setHead();
     while (browser->current->next != nullptr)
@@ -924,12 +969,12 @@ Node* Controller::SearchProjectTitle(Browser* browser, std::string search)
     return nullptr;
 }
 
-std::vector<std::string> Controller::SearchActor(Browser* browser, std::string search)
+std::vector<std::string> Controller::SearchActor(std::string search)
 {
 	browser->setHead();
     std::vector<std::string> FilmTitles;
 
-    auto CheckIfFilmContainsActor = [browser, &FilmTitles, search]()
+    auto CheckIfFilmContainsActor = [&FilmTitles, search](Browser* browser)
     {
         std::vector<std::string> CurrentFilmCrewNames;
         for (auto it = browser->current->data->CrewMembers.begin(); it != browser->current->data->CrewMembers.end(); ++it)
@@ -944,35 +989,48 @@ std::vector<std::string> Controller::SearchActor(Browser* browser, std::string s
     };
 	while (browser->current->next != nullptr)
 	{
-        CheckIfFilmContainsActor();
+        CheckIfFilmContainsActor(browser);
 	}
-    CheckIfFilmContainsActor();
+    CheckIfFilmContainsActor(browser);
     return FilmTitles;
 }
 
 void Controller::Reports()
 {
-	int user_option = 0;
-	
-	while (user_option != 3)
+	bool running = true;
+	while (running)
 	{
 		system("clear");
 		view.ReportsOptions();
-		user_option = std::stoi(inputHandler.Basic_User_Input("number"));
-		if (user_option == 1)
+		std::string user_option = inputHandler.Basic_User_Input("casestring");
+		if (user_option == "data report")
 		{
 			view.New_data_report();			
 			inputHandler.Basic_User_Input("");
 		}
+        if (user_option == "earnings report")
+		{		
+			view.DisplayEarningsReport();	
+            int thresholdValue = std::stoi(inputHandler.Basic_User_Input("number"));
 
-		if (user_option == 2)
-		{			
-			user_option = std::stoi(inputHandler.Basic_User_Input("number"));
-			std::cout << "Please Enter in a total box office earnings - ";
-			std::stoi(inputHandler.Basic_User_Input("number"));
-			
-			view.Total_Earnings_report(user_option);
-			inputHandler.Basic_User_Input("");
+			while (browser->current->next != nullptr)
+			{
+				double totalEarnings = std::accumulate(browser->current->data->WeeklyTicketSales.begin(), browser->current->data->WeeklyTicketSales.end(), 0);
+                if (totalEarnings > thresholdValue)
+				{
+					view.Total_Earnings_report(browser->current->data);
+				}
+                browser->nextNode();
+			}
+            double totalEarnings = std::accumulate(browser->current->data->WeeklyTicketSales.begin(), browser->current->data->WeeklyTicketSales.end(), 0);
+            if (totalEarnings > thresholdValue)
+            {
+                view.Total_Earnings_report(browser->current->data);
+            }
+		}
+		if (user_option == "rtm")
+		{
+			running = false;
 		}
 	}
 }

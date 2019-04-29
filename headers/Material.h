@@ -19,6 +19,7 @@ class Material
     virtual void SetDVDVector(Material*){};
     virtual void SetDoubleDVD(Material*, Material*){};
     virtual void SetFilm(Film){};
+    virtual Film GetFilm() {};
     virtual std::string GetLanguage(size_t index) {};
     virtual std::string GetBonusFeature(size_t index) {};
     virtual std::string GetSubtitle(size_t index) {};
@@ -40,6 +41,7 @@ class VHS : public Material
     void SetLanguages(std::vector<std::string> input) override { Language = input.at(0); }
     void SetSubtitles(std::vector<std::string> input) override { Subtitle = input.at(0); }
     void SetFilm(Film in) override { film = in; }
+    Film GetFilm() {return film;};
     std::string GetLanguage(size_t index) override { return Language; }
     std::string GetSubtitle(size_t index) override { return Subtitle; }
 };
@@ -56,6 +58,7 @@ class DVD : public Material
     void SetLanguages(std::vector<std::string> input) override { Languages = input; }
     void SetSubtitles(std::vector<std::string> input) override { Subtitles = input; }
     void SetBonusFeatures(std::vector<std::string> input) override { BonusFeatures = input; }
+    Film GetFilm() {return film;};
     std::string GetLanguage(size_t index) override { return Languages.at(index); }
     std::string GetSubtitle(size_t index) override { return Subtitles.at(index); }
     std::string GetBonusFeature(size_t index) override { return BonusFeatures.at(index); }

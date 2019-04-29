@@ -468,6 +468,57 @@ void FileHandler::WriteCrewToFile()
 		writeToCrewFile << (*it)->ID << "," << (*it)->Name << "," << (*it)->Job << std::endl;
 	}
 }
+void FileHandler::WriteMaterialToFile()
+{
+	std::ofstream writeToMaterialFile(MaterialData);
+
+	for (auto it = matVector->begin(); it != matVector->end(); ++it)
+	{
+		writeToMaterialFile << "ID," <<  (*it)->ID << std::endl;
+		writeToMaterialFile << "Type," << (*it)->Type << std::endl;
+		writeToMaterialFile << "Title," << (*it)->Title << std::endl;
+		writeToMaterialFile << "DVD_Description," << (*it)->Description << std::endl;
+		writeToMaterialFile << "Video_Format," << (*it)->VideoFormat << std::endl;
+		writeToMaterialFile << "Audio_Format," << (*it)->AudioFormat << std::endl;
+		writeToMaterialFile << "Run_Time," << (*it)->Runtime << std::endl;
+		writeToMaterialFile << "Languages,";
+		for (auto i = 0; i != (*it)->GetNumLanguages(); ++i)
+		{
+			writeToMaterialFile << ((*it)->GetLanguage(i)) << ",";
+		}
+		writeToMaterialFile << std::endl;
+		writeToMaterialFile << "Retail_Price," << (*it)->RetailPrice << std::endl;
+		writeToMaterialFile << "Subtitles,";
+		for (auto i = 0; i != (*it)->GetNumSubtitles(); ++i)
+		{
+			writeToMaterialFile << ((*it)->GetSubtitle(i)) << ",";
+		}
+		writeToMaterialFile << std::endl;
+		writeToMaterialFile << "Frame_Aspect," << (*it)->FrameAspect << std::endl;
+		writeToMaterialFile << "Packaging," << (*it)->Packaging << std::endl;
+		writeToMaterialFile << "Stored,";
+		if ((*it)->Type == "combobox")
+		{	
+			auto temp =(*it)->GetDVDs();
+			for (auto i = temp.begin(); i != temp.end(); ++i)
+			{
+				writeToMaterialFile << (*it)->ID << ",";
+			}
+		}
+		else if ((*it)->Type == "doublesideddvd")
+		{
+			auto temp = (*it)-> GetDVDPair();
+			writeToMaterialFile << temp.first->ID << ",";
+			writeToMaterialFile << temp.second->ID << ",";			
+		}
+		else
+		{
+			auto temp = (*it)->GetFilm();
+			writeToMaterialFile << temp.ID;
+		}
+		writeToMaterialFile << std::endl;
+	}
+}
 
 std::vector<std::string> FileHandler::SeparateCommasIntoData(std::string input)
 {

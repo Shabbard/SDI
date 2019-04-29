@@ -39,6 +39,7 @@ public:
     std::vector<std::string> SeparateCommasIntoData(std::string input);
     void LoadAllMaterials();
     void Tracking(int change);
+    void WriteMaterialToFile();
 };
 
 #endif

@@ -1,6 +1,7 @@
 #include <iostream>
 #include "FilmProject.h"
 #include "Material.h"
+#include <numeric>
 
 class View
 {
@@ -60,13 +61,18 @@ public:
     void ShowEnterActorName();
     void ShowEditDeleteMaterials();
     void ShowRequestMaterialID();
-    void ShowDeleteMaterials();
+    void ShowDeleteMaterial();
     void ShowDeleteSubtitles();
+    void ShowAddDeleteCrew();
     void DisplayFilmTitles(std::vector<std::string> films, std::string actorName);
     void New_data_report();
-    void Total_Earnings_report(int figure);
+    void Total_Earnings_report(FilmProject*);
     void ReportsOptions();
     void ShowInsertFrameAspect();
     void ShowInsertPackaging();
+    void ShowAddCrew();
+    void ShowAddDeleteMaterial();
+    void ShowAddMaterial();
+    void DisplayEarningsReport();
 };
 

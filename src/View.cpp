@@ -427,15 +427,31 @@ void View::ShowRequestCrewID()
 }
 void View::ShowRequestMaterialID()
 {
-	std::cout << "\nPlease choose the ID of the material you wish to edit\n";
+	std::cout << "\nPlease choose the ID of the material you wish to edit (000 to exit)\n";
 }
 void View::ShowDeleteCrew()
 {
 	std::cout << "\nPlease enter in the ID of the crew member you want to delete\n";
 }
-void View::ShowDeleteMaterials()
+void View::ShowAddCrew()
+{
+	std::cout << "\nPlease enter in the ID of the crew member you want to add\n";
+}
+void View::ShowAddMaterial()
+{
+	std::cout << "\nPlease enter in the ID of the material you want to add\n";
+}
+void View::ShowDeleteMaterial()
 {
 	std::cout << "\nPlease enter in the ID of the material you want to delete\n";
+}
+void View::ShowAddDeleteCrew()
+{
+	std::cout << "\nPlease enter 'delete' to delete crew members from this project or 'add' to add crew members to this project\n";
+}
+void View::ShowAddDeleteMaterial()
+{
+	std::cout << "\nPlease enter 'delete' to delete materials from this project or 'add' to add materials to this project\n";
 }
 void View::ShowSearchRequest()
 {	
@@ -461,18 +477,25 @@ void View::DisplayFilmTitles(std::vector<std::string> films, std::string actorNa
 }
 void View::ReportsOptions()
 {
-	std::cout << "\n    Please select a report option       \n";
-	std::cout << "   1. New Projects and Materials Made today   " << std::endl;
-	std::cout << "   2. Projects with a certain Box Office Earning"<< std::endl;
-	std::cout << "   3. Return to Menu        \n"<< std::endl;
+	std::cout << "\n         Please select a report option            \n";
+	std::cout << "Data Report:     New Projects and Materials Made today" << std::endl;
+	std::cout << "Earnings Report: Projects with a certain Box Office Earning"<< std::endl;
+	std::cout << "rtm:             Return to Menu        \n"<< std::endl;
 }
 
 void View::New_data_report()
 {
 	std::cout <<"\n Time          Change Type";
+
 }
 
-void View::Total_Earnings_report(int figure)
+void View::Total_Earnings_report(FilmProject* filmProject)
 {
-	std::cout <<"\n Project Title";
+	std::cout << "\nProject Title: " << filmProject->Title;
+	std::cout << "\nProject ID: " << filmProject->ID;
+	std::cout << "\nProjects Total Weekly Earnings:" << std::accumulate(filmProject->WeeklyTicketSales.begin(), filmProject->WeeklyTicketSales.end(), 0);
+}
+void View::DisplayEarningsReport()
+{
+	std::cout << "\nPlease enter a threshold value for the earnings report; ";
 }

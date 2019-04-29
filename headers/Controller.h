@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string>
 #include <stdexcept>
+#include <numeric>
 #pragma once
 
 class Controller
@@ -37,8 +38,8 @@ public:
     void Reports();
 
     void searchEngine();
-    std::vector<std::string> SearchActor(Browser* browser, std::string search);
-    Node* SearchProjectTitle(Browser* browser, std::string search);
+    std::vector<std::string> SearchActor(std::string search);
+    Node* SearchProjectTitle(std::string search);
 
     bool BasicUserInput(std::string, std::string);
 
