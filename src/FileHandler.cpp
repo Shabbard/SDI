@@ -126,7 +126,7 @@ void FileHandler::LoadEntireCrew()
 void FileHandler::LoadAllMaterials()
 {
 	std::ifstream materialFile;
-	materialFile.open(MaterialData);
+    materialFile.open("../data/test.txt");
 	std::string str;
 
 	while (std::getline(materialFile, str))
@@ -470,7 +470,7 @@ void FileHandler::WriteCrewToFile()
 }
 void FileHandler::WriteMaterialToFile()
 {
-	std::ofstream writeToMaterialFile(MaterialData);
+    std::ofstream writeToMaterialFile("../data/test.txt");
 
 	for (auto it = matVector->begin(); it != matVector->end(); ++it)
 	{
@@ -509,14 +509,17 @@ void FileHandler::WriteMaterialToFile()
 		{
 			auto temp = (*it)-> GetDVDPair();
 			writeToMaterialFile << temp.first->ID << ",";
-			writeToMaterialFile << temp.second->ID << ",";			
+            writeToMaterialFile << temp.second->ID << ",";
 		}
 		else
 		{
 			auto temp = (*it)->GetFilm();
-			writeToMaterialFile << temp.ID;
+            writeToMaterialFile << temp.ID;
 		}
-		writeToMaterialFile << std::endl;
+        if (!(it == matVector->end()))
+        {
+            writeToMaterialFile << std::endl;
+        }
 	}
 }
 

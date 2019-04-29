@@ -236,31 +236,42 @@ void Controller::Maintenance_Menu()
         if (input == "edit")
 		{
 			Edit_Menu();
+            view.MM_Templates();
+            view.DisplayCurrentFilmProject(browser->current->data);
 		}
 		if (input == "cnp")
 		{
 			Create_New_Project_Menu();
+            view.MM_Templates();
+            view.DisplayCurrentFilmProject(browser->current->data);
 		}
 		if (input == "dp")
 		{
 			std::cout << "\nProject Deleted" << std::endl;
 			browser->delete_current();
+            view.MM_Templates();
+            view.DisplayCurrentFilmProject(browser->current->data);
 		}
 		if (input == "cnc")
 		{
 			CreateNewCrew();
+            view.MM_Templates();
+            view.DisplayCurrentFilmProject(browser->current->data);
 		}
 		if (input == "cnm")
 		{
 			//SaveAllFiles();
 			matVector->push_back(CreateNewMaterial());
+            view.MM_Templates();
+            view.DisplayCurrentFilmProject(browser->current->data);
 		}
 		if (input == "reports")
 		{
 			Reports();
+            view.MM_Templates();
+            view.DisplayCurrentFilmProject(browser->current->data);
 		}
-		view.MM_Templates();
-		view.DisplayCurrentFilmProject(browser->current->data);
+
 	}
 }
 

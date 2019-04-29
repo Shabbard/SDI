@@ -25,9 +25,9 @@ ComboBox::ComboBox()
 }
 ComboBox::~ComboBox()
 {
-    for (std::vector<Material *>::iterator it = DVDs.begin(); it != DVDs.end(); ++it)
-    {
-        delete *it;
-    }
+//    for (std::vector<Material *>::iterator it = DVDs.begin(); it != DVDs.end(); ++it)
+//    {
+//        delete *it;
+//    }
     DVDs.clear();
 }
