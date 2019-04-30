@@ -9,7 +9,7 @@ Filming_Loc,Location 1,Location 2,Location 3,
 Runtime,128
 Language,English,
 Weekly Ticket Sales,1000,
-Crew_Members,2,3,4,5,9,6,7,8,11,12,
+Crew_Members,2,3,4,5,7,8,9,6,11,12,
 Material_ID,1,
 ID,2
 Status,0
@@ -22,7 +22,7 @@ Filming_Loc,Location 1,Location 2,Location 3,
 Runtime,160
 Language,English,
 Weekly Ticket Sales,0,
-Crew_Members,2,3,4,5,9,6,7,8,11,12,17,20,29,
+Crew_Members,2,3,4,5,7,8,9,6,11,12,17,20,29,
 Material_ID,5,
 ID,3
 Status,2

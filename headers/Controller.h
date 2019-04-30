@@ -18,9 +18,9 @@ private:
     FileHandler fileHandler;
     View view;
     InputHandler inputHandler;
-
     std::vector<Crew*>* crewVector = new std::vector<Crew*>();
     std::vector<Material*>* matVector = new std::vector<Material*>();
+    
 public:
     Controller();
     ~Controller();
